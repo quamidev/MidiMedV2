@@ -20,7 +20,7 @@ import { generatePatientSummary } from '@/lib/ai/patient-summary'
  * Request body validation schema.
  */
 const requestSchema = z.object({
-  patientId: z.string().uuid('ID de paciente invalido'),
+  patientId: z.string().uuid('ID de paciente inválido'),
 })
 
 /**
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { error: validation.error.issues[0]?.message || 'Datos invalidos' },
+        { error: validation.error.issues[0]?.message || 'Datos inválidos' },
         { status: 400 }
       )
     }
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     if (recordsError) {
       console.error('Error fetching medical records:', recordsError)
       return NextResponse.json(
-        { error: 'Error al obtener expedientes medicos' },
+        { error: 'Error al obtener expedientes médicos' },
         { status: 500 }
       )
     }

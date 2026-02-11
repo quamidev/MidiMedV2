@@ -315,7 +315,7 @@ function MedicalRecordDocument({
               React.createElement(
                 Text,
                 { style: styles.value },
-                `${soap.paciente.edad} anos`
+                `${soap.paciente.edad} años`
               )
             ),
           React.createElement(
@@ -447,7 +447,7 @@ function MedicalRecordDocument({
           React.createElement(
             Text,
             { style: styles.soapContent },
-            soap.visita.evaluacion
+            soap.visita.evaluación
           ),
           // Plan
           React.createElement(Text, { style: styles.soapLabel }, 'P - Plan'),

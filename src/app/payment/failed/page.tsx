@@ -91,7 +91,7 @@ export default function PaymentFailedPage() {
             transition={{ delay: 0.4 }}
             className="mt-4 text-lg text-muted-foreground"
           >
-            No pudimos procesar tu pago. Por favor, intenta de nuevo o usa otro metodo de pago.
+            No pudimos procesar tu pago. Por favor, intenta de nuevo o usa otro método de pago.
           </motion.p>
 
           {/* Troubleshooting Tips */}
@@ -116,7 +116,7 @@ export default function PaymentFailedPage() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                Intenta con otro metodo de pago
+                Intenta con otro método de pago
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
@@ -141,7 +141,7 @@ export default function PaymentFailedPage() {
             <Button variant="outline" size="lg" asChild>
               <Link href="/settings?tab=billing">
                 <CreditCard className="mr-2 h-4 w-4" />
-                Cambiar metodo de pago
+                Cambiar método de pago
               </Link>
             </Button>
           </motion.div>

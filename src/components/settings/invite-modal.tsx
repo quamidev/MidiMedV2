@@ -54,7 +54,7 @@ import {
 // =============================================================================
 
 const inviteSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
+  email: z.string().email('Correo electrónico inválido'),
   displayName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   role: z.enum(['admin', 'provider', 'staff'], { message: 'Selecciona un rol' }),
 })
@@ -82,7 +82,7 @@ const ROLE_OPTIONS: RoleOption[] = [
   {
     value: 'admin',
     label: 'Administrador',
-    description: 'Acceso completo a configuracion y equipo',
+    description: 'Acceso completo a configuración y equipo',
     icon: Shield,
   },
   {
@@ -140,7 +140,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
     try {
       await navigator.clipboard.writeText(inviteResult.tempPassword)
       setCopied(true)
-      toast.success('Contrasena copiada')
+      toast.success('Contraseña copiada')
       setTimeout(() => setCopied(false), 2000)
     } catch {
       toast.error('Error al copiar')
@@ -159,7 +159,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
         })
 
         if (result.success) {
-          toast.success('Invitacion enviada', {
+          toast.success('Invitación enviada', {
             description: `Se ha invitado a ${data.displayName}`,
           })
           setInviteResult({
@@ -192,7 +192,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
             </div>
             <div>
               <DialogTitle className="text-xl">
-                {inviteResult ? 'Invitacion creada' : 'Invitar miembro'}
+                {inviteResult ? 'Invitación creada' : 'Invitar miembro'}
               </DialogTitle>
               <DialogDescription>
                 {inviteResult
@@ -216,10 +216,10 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
               <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                 <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
                   <Check className="h-5 w-5" />
-                  <span className="font-medium">Invitacion enviada</span>
+                  <span className="font-medium">Invitación enviada</span>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  El usuario puede iniciar sesion con:
+                  El usuario puede iniciar sesión con:
                 </p>
               </div>
 
@@ -235,7 +235,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
                 <div className="space-y-1.5">
                   <Label className="text-xs text-muted-foreground flex items-center gap-1.5">
                     <Key className="h-3 w-3" />
-                    Contrasena temporal
+                    Contraseña temporal
                   </Label>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 p-3 rounded-lg bg-muted border border-border font-mono text-sm">
@@ -258,7 +258,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
               </div>
 
               <p className="text-xs text-muted-foreground">
-                El usuario debera cambiar su contrasena al iniciar sesion por primera vez.
+                El usuario deberá cambiar su contraseña al iniciar sesión por primera vez.
               </p>
 
               <div className="flex justify-end pt-2">
@@ -278,7 +278,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
               <div className="space-y-2">
                 <Label htmlFor="invite-email" className="flex items-center gap-2">
                   <Mail className="h-3.5 w-3.5 text-muted-foreground" />
-                  Correo electronico *
+                  Correo electrónico *
                 </Label>
                 <Input
                   id="invite-email"
@@ -379,7 +379,7 @@ export function InviteModal({ open, onClose, onInvited }: InviteModalProps) {
                   disabled={isSubmitting}
                   className="flex-1 sm:flex-none sm:min-w-[140px]"
                 >
-                  {isSubmitting ? 'Invitando...' : 'Enviar invitacion'}
+                  {isSubmitting ? 'Invitando...' : 'Enviar invitación'}
                 </Button>
               </div>
             </motion.form>

@@ -23,7 +23,7 @@ export const dynamic = 'force-dynamic'
 const contactMethods = [
   {
     icon: Phone,
-    title: 'Telefono',
+    title: 'Teléfono',
     description: 'Lunes a Viernes, 9am - 6pm',
     value: '+502 2234-5678',
     href: 'tel:+50222345678',
@@ -31,14 +31,14 @@ const contactMethods = [
   {
     icon: MessageCircle,
     title: 'WhatsApp',
-    description: 'Respuesta rapida',
+    description: 'Respuesta rápida',
     value: '+502 5555-1234',
     href: 'https://wa.me/50255551234?text=Hola%2C%20me%20interesa%20MidiMed',
   },
   {
     icon: Mail,
-    title: 'Correo electronico',
-    description: 'Soporte tecnico',
+    title: 'Correo electrónico',
+    description: 'Soporte técnico',
     value: 'soporte@midimed.io',
     href: 'mailto:soporte@midimed.io',
   },
@@ -84,10 +84,10 @@ export default function ContactPage() {
           className="mb-16 text-center"
         >
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            Contactanos
+            Contáctanos
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            Estamos aqui para ayudarte. Completa el formulario o contactanos
+            Estamos aquí para ayudarte. Completa el formulario o contáctanos
             directamente por el medio que prefieras.
           </p>
         </motion.div>
@@ -115,7 +115,7 @@ export default function ContactPage() {
               Otras formas de contacto
             </h2>
             <p className="text-muted-foreground">
-              Tambien puedes comunicarte con nosotros directamente.
+              También puedes comunicarte con nosotros directamente.
             </p>
 
             <div className="space-y-4">
@@ -145,10 +145,10 @@ export default function ContactPage() {
 
             {/* Office Hours */}
             <div className="rounded-xl border border-border/50 bg-muted/30 p-6">
-              <h3 className="font-medium text-foreground">Horario de atencion</h3>
+              <h3 className="font-medium text-foreground">Horario de atención</h3>
               <div className="mt-3 space-y-1.5 text-sm text-muted-foreground">
                 <p>Lunes a Viernes: 9:00 AM - 6:00 PM (GMT-6)</p>
-                <p>Sabado: 9:00 AM - 1:00 PM</p>
+                <p>Sábado: 9:00 AM - 1:00 PM</p>
                 <p>Domingo: Cerrado</p>
               </div>
             </div>

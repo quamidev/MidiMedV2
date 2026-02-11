@@ -12,10 +12,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Stethoscope, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { MidimedLogo } from '@/components/ui/midimed-logo'
 
 const navLinks = [
   { href: '#funciones', label: 'Funciones' },
@@ -69,10 +70,8 @@ export function LandingNav() {
               <motion.div
                 whileHover={{ scale: 1.05, rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25"
               >
-                <Stethoscope className="h-5 w-5" />
-                <div className="absolute inset-0 rounded-xl bg-white/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                <MidimedLogo variant="primary" size={40} />
               </motion.div>
               <span className="text-xl font-semibold tracking-tight text-foreground">
                 MidiMed
@@ -104,7 +103,7 @@ export function LandingNav() {
             {/* Desktop Auth Buttons */}
             <div className="hidden items-center gap-3 md:flex">
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Iniciar sesion</Link>
+                <Link href="/login">Iniciar sesión</Link>
               </Button>
               <Button size="sm" asChild className="shadow-lg shadow-primary/25">
                 <Link href="/signup">Registrarse</Link>
@@ -154,9 +153,7 @@ export function LandingNav() {
                     className="flex items-center gap-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                      <Stethoscope className="h-4 w-4" />
-                    </div>
+                    <MidimedLogo variant="primary" size={32} />
                     <span className="text-lg font-semibold text-foreground">MidiMed</span>
                   </Link>
                   <motion.button
@@ -196,7 +193,7 @@ export function LandingNav() {
                     asChild
                   >
                     <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                      Iniciar sesion
+                      Iniciar sesión
                     </Link>
                   </Button>
                   <Button

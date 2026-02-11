@@ -1,7 +1,7 @@
 /**
  * Patient List Component
  *
- * Displays paginated list of patients in a table format with:
+ * Displays páginated list of patients in a table format with:
  * - Search filtering with debounce
  * - Row click navigation to patient detail
  * - Loading skeleton states
@@ -122,7 +122,7 @@ function EmptyState({ onCreatePatient }: { onCreatePatient?: () => void }) {
         transition={{ delay: 0.3 }}
         className="text-muted-foreground text-center max-w-sm mb-6"
       >
-        Comienza agregando tu primer paciente para gestionar sus citas y expedientes medicos.
+        Comienza agregando tu primer paciente para gestionar sus citas y expedientes médicos.
       </motion.p>
 
       {onCreatePatient && (
@@ -394,16 +394,16 @@ export function PatientList({ onCreatePatient }: PatientListProps) {
       {/* Header section */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          <h1 className="text-2xl font-semibold text-foreground">
             Pacientes
           </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="mt-1 text-sm text-muted-foreground">
             {total > 0 ? (
               <>
                 {total} paciente{total !== 1 ? 's' : ''} registrado{total !== 1 ? 's' : ''}
               </>
             ) : (
-              'Gestiona los pacientes de tu clinica'
+              'Gestiona los pacientes de tu clínica'
             )}
           </p>
         </div>
@@ -470,7 +470,7 @@ export function PatientList({ onCreatePatient }: PatientListProps) {
                   <TableRow className="hover:bg-transparent border-border/50">
                     <TableHead className="w-[40%]">Nombre</TableHead>
                     <TableHead className="hidden md:table-cell">Correo</TableHead>
-                    <TableHead className="hidden md:table-cell">Telefono</TableHead>
+                    <TableHead className="hidden md:table-cell">Teléfono</TableHead>
                     <TableHead className="w-8"></TableHead>
                   </TableRow>
                 </TableHeader>

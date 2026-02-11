@@ -7,6 +7,7 @@
  *
  * Created: 2026-02-10 - MV2-018 Patient Detail Page
  * Updated: 2026-02-10 - MV2-033/034 Timeline and AI summary integration
+ * Updated: 2026-02-10 - QA-009 Unified page layout with consistent padding/max-width
  */
 
 'use client'
@@ -105,8 +106,7 @@ export default function PatientDetailPage() {
   }, [authLoading, user, patientId, loadData])
 
   const handleEditClick = useCallback(() => {
-    // TODO: Implement edit modal in future ticket
-    toast.info('Edicion de paciente disponible proximamente')
+    toast.info('Edición de paciente disponible próximamente')
   }, [])
 
   const handlePhotoUpdated = useCallback((newUrl: string) => {
@@ -171,7 +171,7 @@ export default function PatientDetailPage() {
   // Loading state
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen pb-24 md:pb-6">
+      <div className="mx-auto max-w-6xl">
         {/* Back button */}
         <div className="mb-4 md:mb-6">
           <Button variant="ghost" size="sm" disabled>
@@ -210,7 +210,7 @@ export default function PatientDetailPage() {
   // Error state
   if (error || !patient) {
     return (
-      <div className="min-h-screen pb-24 md:pb-6">
+      <div className="mx-auto max-w-6xl">
         <div className="mb-4 md:mb-6">
           <Button variant="ghost" size="sm" onClick={handleBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -226,7 +226,7 @@ export default function PatientDetailPage() {
             {error || 'Paciente no encontrado'}
           </h2>
           <p className="mb-6 text-muted-foreground">
-            No pudimos cargar la informacion del paciente.
+            No pudimos cargar la información del paciente.
           </p>
           <div className="flex gap-3">
             <Button variant="outline" onClick={handleBack}>
@@ -240,7 +240,7 @@ export default function PatientDetailPage() {
   }
 
   return (
-    <div className="min-h-screen pb-24 md:pb-6">
+    <div className="mx-auto max-w-6xl">
       {/* Back button */}
       <div className="mb-4 md:mb-6">
         <Button variant="ghost" size="sm" onClick={handleBack}>

@@ -107,7 +107,7 @@ export function FileUploadZone({
       // Check total file count
       const totalFiles = files.length + newFiles.length
       if (totalFiles > maxFiles) {
-        toast.error(`Maximo ${maxFiles} archivos permitidos`)
+        toast.error(`Máximo ${maxFiles} archivos permitidos`)
         return
       }
 
@@ -319,7 +319,7 @@ export function FileUploadZone({
                 exit={{ opacity: 0, y: -10 }}
               >
                 <p className="text-lg font-medium text-primary">
-                  Suelta los archivos aqui
+                  Suelta los archivos aquí
                 </p>
               </motion.div>
             ) : (
@@ -330,10 +330,10 @@ export function FileUploadZone({
                 exit={{ opacity: 0, y: -10 }}
               >
                 <p className="text-base font-medium text-foreground mb-1">
-                  Arrastra archivos aqui o haz clic para seleccionar
+                  Arrastra archivos aquí o haz clic para seleccionar
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Maximo {maxSizePerFile}MB por archivo, hasta {maxFiles} archivos
+                  Máximo {maxSizePerFile}MB por archivo, hasta {maxFiles} archivos
                 </p>
               </motion.div>
             )}

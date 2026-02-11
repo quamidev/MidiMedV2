@@ -63,11 +63,11 @@ const editPatientSchema = z.object({
   last_name: z.string().optional(),
   birth_date: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Formato de fecha invalido (YYYY-MM-DD)'),
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Formato de fecha inválido (YYYY-MM-DD)'),
   sex: z.enum(['M', 'F', 'O'], { message: 'Seleccione el sexo' }),
   email: z
     .string()
-    .email('Correo electronico invalido')
+    .email('Correo electrónico inválido')
     .optional()
     .or(z.literal('')),
   phone: z.string().optional().or(z.literal('')),
@@ -232,7 +232,7 @@ export function EditPatientModal({
             Editar paciente
           </DialogTitle>
           <DialogDescription>
-            Actualiza la informacion del paciente. Los campos marcados con * son
+            Actualiza la información del paciente. Los campos marcados con * son
             obligatorios.
           </DialogDescription>
         </DialogHeader>
@@ -255,7 +255,7 @@ export function EditPatientModal({
           <div className="space-y-4">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <User className="h-4 w-4" />
-              Informacion personal
+              Información personal
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -382,14 +382,14 @@ export function EditPatientModal({
           <div className="space-y-4">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <Phone className="h-4 w-4" />
-              Informacion de contacto
+              Información de contacto
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-foreground/80">
-                  Correo electronico
+                  Correo electrónico
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -417,7 +417,7 @@ export function EditPatientModal({
               {/* Phone */}
               <div className="space-y-2">
                 <Label htmlFor="phone" className="text-foreground/80">
-                  Telefono
+                  Teléfono
                 </Label>
                 <div className="relative">
                   <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -445,13 +445,13 @@ export function EditPatientModal({
               {/* Address - Full Width */}
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="address" className="text-foreground/80">
-                  Direccion
+                  Dirección
                 </Label>
                 <div className="relative">
                   <MapPin className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
                   <Textarea
                     id="address"
-                    placeholder="Direccion completa"
+                    placeholder="Dirección completa"
                     className="pl-11 min-h-[80px]"
                     error={!!errors.address}
                     {...form.register('address')}
@@ -477,7 +477,7 @@ export function EditPatientModal({
           <div className="space-y-4">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <Heart className="h-4 w-4" />
-              Informacion medica
+              Información médica
             </h3>
 
             <div className="space-y-4">

@@ -288,7 +288,7 @@ export function OnboardingCard({ className, onDismiss }: OnboardingCardProps) {
                 Excelente trabajo
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Estas listo para usar MidiMed al maximo
+                Estás listo para usar MidiMed al máximo
               </p>
             </motion.div>
           )}

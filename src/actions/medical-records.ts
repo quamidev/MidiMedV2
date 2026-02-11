@@ -23,12 +23,7 @@ import type {
   DocumentInfo,
 } from '@/types/app'
 
-// Re-export types for convenience
-export type {
-  MedicalRecordWithRelations,
-  CreateMedicalRecordInput,
-  UpdateMedicalRecordInput,
-}
+// Note: Types should be imported directly from '@/types/app', not re-exported from server action files
 
 // =============================================================================
 // Validation Schemas
@@ -42,8 +37,8 @@ const vitalsSchema = z.object({
 })
 
 const createMedicalRecordSchema = z.object({
-  patientId: z.string().uuid('ID de paciente invalido'),
-  appointmentId: z.string().uuid('ID de cita invalido').optional(),
+  patientId: z.string().uuid('ID de paciente inválido'),
+  appointmentId: z.string().uuid('ID de cita inválido').optional(),
   summary: z.string().min(1, 'El resumen es requerido'),
   vitals: vitalsSchema.optional(),
   diagnosis: z.string().optional(),
@@ -187,7 +182,7 @@ export async function getMedicalRecords(
 
     if (error) {
       console.error('getMedicalRecords error:', error)
-      return { success: false, error: 'Error al obtener expedientes medicos' }
+      return { success: false, error: 'Error al obtener expedientes médicos' }
     }
 
     return {
@@ -233,7 +228,7 @@ export async function getMedicalRecordById(
 
     if (recordError || !record) {
       console.error('getMedicalRecordById error:', recordError)
-      return { success: false, error: 'Expediente medico no encontrado' }
+      return { success: false, error: 'Expediente médico no encontrado' }
     }
 
     // Fetch associated document if exists
@@ -375,7 +370,7 @@ export async function createMedicalRecord(
 
     if (error || !record) {
       console.error('createMedicalRecord error:', error)
-      return { success: false, error: 'Error al crear el expediente medico' }
+      return { success: false, error: 'Error al crear el expediente médico' }
     }
 
     // Fire-and-forget: Trigger async AI summary regeneration and PDF generation
@@ -393,7 +388,7 @@ export async function createMedicalRecord(
     console.error('createMedicalRecord error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -431,7 +426,7 @@ export async function updateMedicalRecord(
       .single()
 
     if (fetchError || !existingRecord) {
-      return { success: false, error: 'Expediente medico no encontrado' }
+      return { success: false, error: 'Expediente médico no encontrado' }
     }
 
     const now = new Date().toISOString()
@@ -465,7 +460,7 @@ export async function updateMedicalRecord(
 
     if (error || !record) {
       console.error('updateMedicalRecord error:', error)
-      return { success: false, error: 'Error al actualizar el expediente medico' }
+      return { success: false, error: 'Error al actualizar el expediente médico' }
     }
 
     // Fire-and-forget: Trigger async AI summary regeneration
@@ -482,7 +477,7 @@ export async function updateMedicalRecord(
     console.error('updateMedicalRecord error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -517,7 +512,7 @@ export async function deleteMedicalRecord(
       .single()
 
     if (fetchError || !existingRecord) {
-      return { success: false, error: 'Expediente medico no encontrado' }
+      return { success: false, error: 'Expediente médico no encontrado' }
     }
 
     // If there's an associated appointment, unlink the medical record
@@ -558,7 +553,7 @@ export async function deleteMedicalRecord(
 
     if (deleteError) {
       console.error('deleteMedicalRecord error:', deleteError)
-      return { success: false, error: 'Error al eliminar el expediente medico' }
+      return { success: false, error: 'Error al eliminar el expediente médico' }
     }
 
     // Trigger AI summary regeneration since a record was removed

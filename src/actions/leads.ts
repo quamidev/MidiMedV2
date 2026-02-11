@@ -20,7 +20,7 @@ import type { ActionResult } from '@/types/app'
 
 const createLeadSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  email: z.string().email('Correo electronico invalido'),
+  email: z.string().email('Correo electrónico inválido'),
   message: z.string().optional(),
 })
 
@@ -90,7 +90,7 @@ export async function createLead(
     console.error('createLead error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado. Por favor intenta de nuevo.' }
   }

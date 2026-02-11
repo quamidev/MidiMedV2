@@ -90,7 +90,7 @@ async function getCurrentUserContext() {
 // =============================================================================
 
 /**
- * Gets a paginated list of notifications for the current user.
+ * Gets a páginated list of notifications for the current user.
  * Supports filtering by archived status.
  *
  * @param params - Pagination and filter parameters
@@ -117,7 +117,7 @@ export async function getNotifications(
       query = query.eq('archived', archived)
     }
 
-    // Apply ordering and pagination
+    // Apply ordering and págination
     query = query.order('created_at', { ascending: false }).range(offset, offset + limit - 1)
 
     const { data: notifications, error, count } = await query
@@ -151,7 +151,7 @@ export async function getNotifications(
   } catch (error) {
     console.error('getNotifications error:', error)
     if (error instanceof z.ZodError) {
-      return { success: false, error: 'Parametros invalidos' }
+      return { success: false, error: 'Parámetros inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -519,7 +519,7 @@ export async function createTenantNotification(
     console.error('createTenantNotification error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado' }
   }
@@ -581,7 +581,7 @@ export async function createUserNotification(
     console.error('createUserNotification error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado' }
   }

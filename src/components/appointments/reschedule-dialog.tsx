@@ -142,11 +142,11 @@ export function RescheduleDialog({
             ) : (
               <CalendarClock className="h-5 w-5 text-primary" />
             )}
-            {isResize ? 'Cambiar duracion' : 'Reprogramar cita'}
+            {isResize ? 'Cambiar duración' : 'Reprogramar cita'}
           </DialogTitle>
           <DialogDescription>
             {isResize
-              ? 'Confirma el cambio de duracion para esta cita.'
+              ? 'Confirma el cambio de duración para esta cita.'
               : 'Confirma el nuevo horario para esta cita.'}
           </DialogDescription>
         </DialogHeader>

@@ -21,7 +21,7 @@ import {
  * Request body validation schema.
  */
 const requestSchema = z.object({
-  recordId: z.string().uuid('ID de expediente invalido'),
+  recordId: z.string().uuid('ID de expediente inválido'),
 })
 
 /**
@@ -84,7 +84,7 @@ export async function POST(
       return NextResponse.json(
         {
           success: false,
-          error: validation.error.issues[0]?.message || 'Datos invalidos',
+          error: validation.error.issues[0]?.message || 'Datos inválidos',
         },
         { status: 400 }
       )
@@ -119,7 +119,7 @@ export async function POST(
     if (recordError || !record) {
       console.error('Record not found for SOAP generation:', recordId)
       return NextResponse.json(
-        { success: false, error: 'Expediente medico no encontrado' },
+        { success: false, error: 'Expediente médico no encontrado' },
         { status: 404 }
       )
     }
@@ -164,7 +164,7 @@ export async function POST(
     if (tenantError || !tenant) {
       console.error('Tenant not found:', record.tenant_id)
       return NextResponse.json(
-        { success: false, error: 'Clinica no encontrada' },
+        { success: false, error: 'Clínica no encontrada' },
         { status: 404 }
       )
     }

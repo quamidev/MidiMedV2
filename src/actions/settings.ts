@@ -28,7 +28,7 @@ import type {
 
 const updateOrganizationSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').optional(),
-  email: z.string().email('Correo electronico invalido').nullable().optional(),
+  email: z.string().email('Correo electrónico inválido').nullable().optional(),
   phone: z.string().nullable().optional(),
   address: z.string().nullable().optional(),
 })
@@ -46,7 +46,7 @@ const updateWorkingHoursSchema = z.object({
 })
 
 const updateAppointmentDurationSchema = z.object({
-  minutes: z.number().min(5, 'La duracion minima es 5 minutos').max(480, 'La duracion maxima es 8 horas'),
+  minutes: z.number().min(5, 'La duración mínima es 5 minutos').max(480, 'La duración máxima es 8 horas'),
 })
 
 const customFieldSchema = z.object({
@@ -66,8 +66,8 @@ const updateUserProfileSchema = z.object({
 })
 
 const updateProviderColorSchema = z.object({
-  userId: z.string().uuid('ID de usuario invalido'),
-  color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Color invalido. Debe ser formato hexadecimal (#RRGGBB)'),
+  userId: z.string().uuid('ID de usuario inválido'),
+  color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Color inválido. Debe ser formato hexadecimal (#RRGGBB)'),
 })
 
 const onboardingStepSchema = z.enum([
@@ -144,7 +144,7 @@ export async function getTenantSettings(): Promise<ActionResult<Tenant>> {
 
     if (error || !tenant) {
       console.error('getTenantSettings error:', error)
-      return { success: false, error: 'Organizacion no encontrada' }
+      return { success: false, error: 'Organización no encontrada' }
     }
 
     return {
@@ -194,7 +194,7 @@ export async function updateOrganization(
 
     if (error) {
       console.error('updateOrganization error:', error)
-      return { success: false, error: 'Error al actualizar la organizacion' }
+      return { success: false, error: 'Error al actualizar la organización' }
     }
 
     revalidatePath('/settings')
@@ -207,14 +207,14 @@ export async function updateOrganization(
     console.error('updateOrganization error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {
         return { success: false, error: 'No autenticado' }
       }
       if (error.message === 'Permisos insuficientes') {
-        return { success: false, error: 'Solo administradores pueden realizar esta accion' }
+        return { success: false, error: 'Solo administradores pueden realizar esta acción' }
       }
     }
     return { success: false, error: 'Error inesperado' }
@@ -263,14 +263,14 @@ export async function updateWorkingHours(
     console.error('updateWorkingHours error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Horarios invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Horarios inválidos' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {
         return { success: false, error: 'No autenticado' }
       }
       if (error.message === 'Permisos insuficientes') {
-        return { success: false, error: 'Solo administradores pueden realizar esta accion' }
+        return { success: false, error: 'Solo administradores pueden realizar esta acción' }
       }
     }
     return { success: false, error: 'Error inesperado' }
@@ -305,7 +305,7 @@ export async function updateAppointmentDuration(
 
     if (error) {
       console.error('updateAppointmentDuration error:', error)
-      return { success: false, error: 'Error al actualizar duracion de citas' }
+      return { success: false, error: 'Error al actualizar duración de citas' }
     }
 
     revalidatePath('/settings')
@@ -318,14 +318,14 @@ export async function updateAppointmentDuration(
     console.error('updateAppointmentDuration error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Duracion invalida' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Duración inválida' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {
         return { success: false, error: 'No autenticado' }
       }
       if (error.message === 'Permisos insuficientes') {
-        return { success: false, error: 'Solo administradores pueden realizar esta accion' }
+        return { success: false, error: 'Solo administradores pueden realizar esta acción' }
       }
     }
     return { success: false, error: 'Error inesperado' }
@@ -374,14 +374,14 @@ export async function updateExtraFields(
     console.error('updateExtraFields error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Campos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Campos inválidos' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {
         return { success: false, error: 'No autenticado' }
       }
       if (error.message === 'Permisos insuficientes') {
-        return { success: false, error: 'Solo administradores pueden realizar esta accion' }
+        return { success: false, error: 'Solo administradores pueden realizar esta acción' }
       }
     }
     return { success: false, error: 'Error inesperado' }
@@ -447,7 +447,7 @@ export async function updateUserProfile(
     console.error('updateUserProfile error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -502,7 +502,7 @@ export async function updateProviderColor(
     console.error('updateProviderColor error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {
@@ -606,7 +606,7 @@ export async function completeOnboardingStep(
   } catch (error) {
     console.error('completeOnboardingStep error:', error)
     if (error instanceof z.ZodError) {
-      return { success: false, error: 'Paso de onboarding invalido' }
+      return { success: false, error: 'Paso de onboarding inválido' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }

@@ -225,10 +225,10 @@ export function CreateAppointmentModal({
     const dayHours = workingHours[dayKey]
 
     if (!dayHours) {
-      return 'La clinica esta cerrada este dia'
+      return 'La clínica está cerrada este día'
     }
 
-    return `Horario de atencion: ${dayHours[0]} - ${dayHours[1]}`
+    return `Horario de atención: ${dayHours[0]} - ${dayHours[1]}`
   }, [selectedDate, workingHours])
 
   // Provider options with colors
@@ -485,7 +485,7 @@ export function CreateAppointmentModal({
               <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
               <div className="text-sm">
                 <p className="font-medium text-amber-800 dark:text-amber-200">
-                  Fuera del horario de atencion
+                  Fuera del horario de atención
                 </p>
                 <p className="text-amber-700 dark:text-amber-300 mt-0.5">
                   {workingHoursMessage}

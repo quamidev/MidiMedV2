@@ -101,7 +101,7 @@ export default function PaymentCancelledPage() {
             className="mt-8 rounded-xl bg-muted/50 p-5"
           >
             <p className="text-sm text-muted-foreground">
-              Tu cuenta sigue activa con el plan actual. Puedes cambiar de plan en cualquier momento desde la configuracion.
+              Tu cuenta sigue activa con el plan actual. Puedes cambiar de plan en cualquier momento desde la configuración.
             </p>
           </motion.div>
 
@@ -115,7 +115,7 @@ export default function PaymentCancelledPage() {
             <Button asChild size="lg" className="group">
               <Link href="/settings?tab=billing">
                 <Settings className="mr-2 h-4 w-4" />
-                Ir a configuracion
+                Ir a configuración
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>

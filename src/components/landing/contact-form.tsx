@@ -30,7 +30,7 @@ import { cn } from '@/lib/utils'
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  email: z.string().email('Ingresa un correo electronico valido'),
+  email: z.string().email('Ingresa un correo electrónico válido'),
   message: z.string().optional(),
 })
 
@@ -298,7 +298,7 @@ export function ContactForm() {
               {/* Header */}
               <motion.div variants={fieldVariants} className="mb-6">
                 <h2 className="text-2xl font-semibold text-foreground">
-                  Contactanos
+                  Contáctanos
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Completa el formulario y te responderemos a la brevedad.
@@ -327,7 +327,7 @@ export function ContactForm() {
               {/* Email Field */}
               <FloatingField
                 id="email"
-                label="Correo electronico"
+                label="Correo electrónico"
                 required
                 error={errors.email?.message}
               >

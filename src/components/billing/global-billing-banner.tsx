@@ -56,8 +56,8 @@ interface BannerConfig {
 const BANNER_CONFIGS: Partial<Record<BillingStatus, BannerConfig>> = {
   TRIAL_EXPIRED: {
     icon: Clock,
-    title: 'Tu periodo de prueba ha terminado',
-    message: 'Suscribete a un plan para continuar usando MidiMed sin interrupciones.',
+    title: 'Tu período de prueba ha terminado',
+    message: 'Suscríbete a un plan para continuar usando MidiMed sin interrupciones.',
     ctaText: 'Ver planes',
     ctaHref: '/pricing',
     variant: 'warning',
@@ -65,7 +65,7 @@ const BANNER_CONFIGS: Partial<Record<BillingStatus, BannerConfig>> = {
   PAST_DUE: {
     icon: AlertTriangle,
     title: 'Pago pendiente',
-    message: 'Tu ultima factura no pudo ser procesada. Actualiza tu metodo de pago para evitar interrupciones.',
+    message: 'Tu última factura no pudo ser procesada. Actualiza tu método de pago para evitar interrupciones.',
     ctaText: 'Actualizar pago',
     ctaHref: '/settings?tab=billing',
     variant: 'error',

@@ -135,7 +135,7 @@ export function TeamTable({
               <TableHead className="font-semibold">Miembro</TableHead>
               <TableHead className="font-semibold">Rol</TableHead>
               <TableHead className="font-semibold">Color</TableHead>
-              <TableHead className="font-semibold text-right">Ultimo acceso</TableHead>
+              <TableHead className="font-semibold text-right">Último acceso</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -31,9 +31,9 @@ import type {
 
 const createPatientSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha de nacimiento invalida'),
-  sex: z.enum(['M', 'F', 'O'], { message: 'Sexo invalido' }),
-  email: z.string().email('Correo electronico invalido').optional().or(z.literal('')),
+  birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha de nacimiento inválida'),
+  sex: z.enum(['M', 'F', 'O'], { message: 'Sexo inválido' }),
+  email: z.string().email('Correo electrónico inválido').optional().or(z.literal('')),
   phone: z.string().optional(),
   address: z.string().optional(),
   allergies: z.string().optional(),
@@ -43,9 +43,9 @@ const createPatientSchema = z.object({
 const updatePatientSchema = z.object({
   first_name: z.string().min(1, 'El nombre es requerido').optional(),
   last_name: z.string().optional(),
-  birth_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha de nacimiento invalida').optional(),
-  sex: z.enum(['M', 'F', 'O'], { message: 'Sexo invalido' }).optional(),
-  email: z.string().email('Correo electronico invalido').nullable().optional(),
+  birth_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Fecha de nacimiento inválida').optional(),
+  sex: z.enum(['M', 'F', 'O'], { message: 'Sexo inválido' }).optional(),
+  email: z.string().email('Correo electrónico inválido').nullable().optional(),
   phone: z.string().nullable().optional(),
   address: z.string().nullable().optional(),
   allergies: z.string().nullable().optional(),
@@ -101,7 +101,7 @@ function getFileExtension(filename: string): string {
 // =============================================================================
 
 /**
- * Gets a paginated list of patients with optional search.
+ * Gets a páginated list of patients with optional search.
  * Search uses PostgreSQL full-text search on first_name, last_name, email, phone.
  *
  * @param params - Pagination and search parameters
@@ -145,7 +145,7 @@ export async function getPatients(params: {
       }
     }
 
-    // Apply ordering and pagination
+    // Apply ordering and págination
     query = query
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
@@ -167,7 +167,7 @@ export async function getPatients(params: {
   } catch (error) {
     console.error('getPatients error:', error)
     if (error instanceof z.ZodError) {
-      return { success: false, error: 'Parametros invalidos' }
+      return { success: false, error: 'Parámetros inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -310,7 +310,7 @@ export async function createPatient(
     console.error('createPatient error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -379,7 +379,7 @@ export async function updatePatient(
     console.error('updatePatient error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -425,7 +425,7 @@ export async function uploadPatientPhoto(
     // Validate file size (5MB max)
     const maxSize = 5 * 1024 * 1024
     if (file.size > maxSize) {
-      return { success: false, error: 'El archivo es muy grande. Maximo 5MB.' }
+      return { success: false, error: 'El archivo es muy grande. Máximo 5MB.' }
     }
 
     const { supabase, tenantId } = await getCurrentUserContext()
@@ -614,7 +614,7 @@ export async function uploadPatientFiles(
     const maxSize = 10 * 1024 * 1024
     for (const file of files) {
       if (file.size > maxSize) {
-        return { success: false, error: `El archivo "${file.name}" es muy grande. Maximo 10MB.` }
+        return { success: false, error: `El archivo "${file.name}" es muy grande. Máximo 10MB.` }
       }
     }
 

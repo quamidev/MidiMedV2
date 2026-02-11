@@ -72,7 +72,7 @@ export function ValueStripe() {
           >
             <Sparkles className="h-4 w-4 text-white" />
             <span className="text-sm font-medium text-white/90">
-              Transformacion digital para tu clinica
+              Transformación digital para tu clínica
             </span>
           </motion.div>
 
@@ -98,8 +98,8 @@ export function ValueStripe() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-xl text-lg text-white/80"
           >
-            Unete a cientos de profesionales de la salud que ya estan
-            transformando su practica con MidiMed.
+            Únete a cientos de profesionales de la salud que ya están
+            transformando su práctica con MidiMed.
           </motion.p>
 
           {/* CTA Button */}
@@ -131,7 +131,7 @@ export function ValueStripe() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-6 text-sm text-white/60"
           >
-            30 dias gratis. Sin tarjeta de credito. Cancela cuando quieras.
+            30 días gratis. Sin tarjeta de crédito. Cancela cuando quieras.
           </motion.p>
         </div>
       </div>

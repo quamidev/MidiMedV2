@@ -487,9 +487,9 @@ export function RecordCard({
             <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
               <AlertCircle className="h-6 w-6 text-destructive" />
             </div>
-            <AlertDialogTitle>Eliminar expediente medico</AlertDialogTitle>
+            <AlertDialogTitle>Eliminar expediente médico</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta accion no se puede deshacer. El expediente del{' '}
+              Esta acción no se puede deshacer. El expediente del{' '}
               {format(createdDate, "d 'de' MMMM yyyy", { locale: es })} sera
               eliminado permanentemente junto con su PDF asociado.
             </AlertDialogDescription>

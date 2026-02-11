@@ -6,6 +6,7 @@
  * Features staggered reveal animations and elevated design for recommended plan.
  *
  * Created: 2026-02-10 - MV2-046 Pricing Page
+ * Updated: 2026-02-10 - QA-011 Fixed price formatting (cents to display amount)
  */
 
 'use client'
@@ -35,8 +36,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { getPlanCatalog, createCheckoutSession } from '@/actions/billing'
-import type { PlanCatalogEntry } from '@/actions/billing'
-import type { BillingPlan } from '@/types/app'
+import type { PlanCatalogEntry, BillingPlan } from '@/types/app'
 
 // =============================================================================
 // Types
@@ -68,26 +68,26 @@ const PLAN_CONFIGS: PlanDisplayConfig[] = [
   {
     id: 'TRIAL',
     name: 'Prueba',
-    description: '30 dias gratis para explorar todas las funciones',
+    description: '30 días gratis para explorar todas las funciones',
     icon: Sparkles,
     features: [
       'Hasta 50 pacientes',
       'Calendario de citas',
-      'Expedientes medicos',
-      'Acceso completo por 30 dias',
+      'Expedientes médicos',
+      'Acceso completo por 30 días',
     ],
     ctaText: 'Empieza gratis',
     ctaVariant: 'outline',
   },
   {
     id: 'BASIC',
-    name: 'Basico',
-    description: 'Ideal para consultorios pequenos',
+    name: 'Básico',
+    description: 'Ideal para consultorios pequeños',
     icon: Zap,
     features: [
       'Hasta 200 pacientes',
       'Calendario ilimitado',
-      'Expedientes medicos',
+      'Expedientes médicos',
       'Soporte por correo',
       '1 usuario incluido',
     ],
@@ -97,19 +97,19 @@ const PLAN_CONFIGS: PlanDisplayConfig[] = [
   {
     id: 'PRO',
     name: 'Profesional',
-    description: 'Para clinicas en crecimiento',
+    description: 'Para clínicas en crecimiento',
     icon: Crown,
     features: [
       'Pacientes ilimitados',
       'Calendario ilimitado',
       'Expedientes con IA',
-      'Generacion de PDFs',
+      'Generación de PDFs',
       'Resumen de pacientes con IA',
       'Hasta 5 usuarios',
       'Soporte prioritario',
     ],
     highlighted: true,
-    badge: 'Mas popular',
+    badge: 'Más popular',
     ctaText: 'Seleccionar plan',
     ctaVariant: 'default',
   },
@@ -126,7 +126,7 @@ const PLAN_CONFIGS: PlanDisplayConfig[] = [
       'Onboarding dedicado',
       'Gerente de cuenta',
     ],
-    ctaText: 'Contactanos',
+    ctaText: 'Contáctanos',
     ctaVariant: 'secondary',
   },
 ]
@@ -198,12 +198,13 @@ export function PricingCards({
     [plans, currency]
   )
 
-  // Format price for display
+  // Format price for display (price stored in centavos)
   const formatPrice = useCallback(
     (price: number | null): string => {
       if (price === null) return '—'
       const symbol = currency === 'GTQ' ? 'Q' : '$'
-      return `${symbol}${price.toLocaleString()}`
+      const amount = price / 100
+      return `${symbol}${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     },
     [currency]
   )
@@ -410,10 +411,10 @@ interface FeatureRow {
 }
 
 const FEATURE_COMPARISON: FeatureRow[] = [
-  { feature: 'Limite de pacientes', trial: '50', basic: '200', pro: 'Ilimitado', enterprise: 'Ilimitado' },
+  { feature: 'Límite de pacientes', trial: '50', basic: '200', pro: 'Ilimitado', enterprise: 'Ilimitado' },
   { feature: 'Calendario de citas', trial: true, basic: true, pro: true, enterprise: true },
-  { feature: 'Expedientes medicos', trial: true, basic: true, pro: true, enterprise: true },
-  { feature: 'Generacion de PDFs', trial: false, basic: false, pro: true, enterprise: true },
+  { feature: 'Expedientes médicos', trial: true, basic: true, pro: true, enterprise: true },
+  { feature: 'Generación de PDFs', trial: false, basic: false, pro: true, enterprise: true },
   { feature: 'Resumen con IA', trial: false, basic: false, pro: true, enterprise: true },
   { feature: 'Usuarios incluidos', trial: '1', basic: '1', pro: '5', enterprise: 'Ilimitado' },
   { feature: 'Soporte', trial: 'Comunidad', basic: 'Email', pro: 'Prioritario', enterprise: 'Dedicado' },
@@ -430,14 +431,14 @@ export function FeatureComparison() {
       className="mt-16 overflow-x-auto"
     >
       <h3 className="mb-8 text-center text-2xl font-semibold text-foreground">
-        Comparacion de funciones
+        Comparación de funciones
       </h3>
 
       <div className="min-w-[640px] rounded-2xl border border-border bg-card overflow-hidden">
         {/* Header */}
         <div className="grid grid-cols-5 border-b border-border bg-muted/30">
-          <div className="px-6 py-4 font-medium text-foreground">Funcion</div>
-          {['Prueba', 'Basico', 'Profesional', 'Empresarial'].map((plan) => (
+          <div className="px-6 py-4 font-medium text-foreground">Función</div>
+          {['Prueba', 'Básico', 'Profesional', 'Empresarial'].map((plan) => (
             <div
               key={plan}
               className={cn(

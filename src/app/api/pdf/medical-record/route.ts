@@ -22,7 +22,7 @@ import {
  * Request body validation schema.
  */
 const requestSchema = z.object({
-  recordId: z.string().uuid('ID de expediente invalido'),
+  recordId: z.string().uuid('ID de expediente inválido'),
 })
 
 /**
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { error: validation.error.issues[0]?.message || 'Datos invalidos' },
+        { error: validation.error.issues[0]?.message || 'Datos inválidos' },
         { status: 400 }
       )
     }
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
     if (recordError || !record) {
       console.error('Record not found for PDF generation:', recordId)
       return NextResponse.json(
-        { error: 'Expediente medico no encontrado' },
+        { error: 'Expediente médico no encontrado' },
         { status: 404 }
       )
     }
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     if (tenantError || !tenant) {
       console.error('Tenant not found:', record.tenant_id)
       return NextResponse.json(
-        { error: 'Clinica no encontrada' },
+        { error: 'Clínica no encontrada' },
         { status: 404 }
       )
     }

@@ -160,7 +160,7 @@ function DeleteConfirmModal({
                     Eliminar archivo
                   </h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Esta accion no se puede deshacer. El archivo sera eliminado permanentemente.
+                    Esta acción no se puede deshacer. El archivo sera eliminado permanentemente.
                   </p>
                   <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 text-sm">
                     <File className="w-4 h-4 text-muted-foreground" />
@@ -331,7 +331,7 @@ export function FileList({
           Sin archivos
         </p>
         <p className="text-sm text-muted-foreground text-center max-w-xs">
-          Los archivos subidos para este paciente apareceran aqui
+          Los archivos subidos para este paciente aparecerán aquí
         </p>
       </motion.div>
     )

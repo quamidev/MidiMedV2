@@ -237,7 +237,7 @@ export function MedicalRecordForm({
 
             if (result.success) {
               toast.success('Cita completada exitosamente', {
-                description: 'El expediente medico ha sido creado.',
+                description: 'El expediente médico ha sido creado.',
                 icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />,
               })
               onCreated?.(result.data.medicalRecord)
@@ -269,7 +269,7 @@ export function MedicalRecordForm({
 
             if (result.success) {
               toast.success('Expediente creado exitosamente', {
-                description: 'El expediente medico ha sido guardado.',
+                description: 'El expediente médico ha sido guardado.',
                 icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />,
               })
               onCreated?.(result.data)
@@ -280,7 +280,7 @@ export function MedicalRecordForm({
               })
             }
           } else {
-            toast.error('Error de configuracion', {
+            toast.error('Error de configuración', {
               description: 'Falta el ID del paciente o cita.',
             })
           }
@@ -349,9 +349,9 @@ export function MedicalRecordForm({
 
   const modalDescription = mode === 'create'
     ? patientName
-      ? `Registra la informacion de la consulta de ${patientName}`
-      : 'Registra la informacion de la consulta medica'
-    : 'Actualiza la informacion del expediente medico'
+      ? `Registra la información de la consulta de ${patientName}`
+      : 'Registra la información de la consulta médica'
+    : 'Actualiza la información del expediente médico'
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
@@ -427,7 +427,7 @@ export function MedicalRecordForm({
                 </div>
                 <Textarea
                   id="summary"
-                  placeholder="Paciente acude por dolor abdominal de 3 dias de evolucion..."
+                  placeholder="Paciente acude por dolor abdominal de 3 días de evolución..."
                   className={cn(
                     'min-h-[120px] resize-none',
                     errors.summary && 'border-destructive'
@@ -515,13 +515,13 @@ export function MedicalRecordForm({
                       Medicamentos
                     </h3>
                     <p className="text-xs text-muted-foreground">
-                      Un medicamento por linea
+                      Un medicamento por línea
                     </p>
                   </div>
                 </div>
                 <Textarea
                   id="medications"
-                  placeholder={"Omeprazol 20mg - 1 cap cada 12h por 14 dias\nMetoclopramida 10mg - 1 tab antes de cada comida"}
+                  placeholder={"Omeprazol 20mg - 1 cap cada 12h por 14 días\nMetoclopramida 10mg - 1 tab antes de cada comida"}
                   className="min-h-[100px] resize-none font-mono text-sm"
                   {...register('medications')}
                 />
@@ -538,7 +538,7 @@ export function MedicalRecordForm({
                       Instrucciones de Seguimiento
                     </h3>
                     <p className="text-xs text-muted-foreground">
-                      Recomendaciones y proxima cita
+                      Recomendaciones y próxima cita
                     </p>
                   </div>
                 </div>
@@ -578,7 +578,7 @@ export function MedicalRecordForm({
               </div>
               <Textarea
                 id="notes"
-                placeholder="Notas privadas del medico..."
+                placeholder="Notas privadas del médico..."
                 className="min-h-[80px] resize-none"
                 {...register('notes')}
               />

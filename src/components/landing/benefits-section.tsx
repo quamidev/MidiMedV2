@@ -40,7 +40,7 @@ const benefits: Benefit[] = [
   {
     icon: Heart,
     secondaryIcon: Sparkles,
-    title: 'Mejora la atencion',
+    title: 'Mejora la atención',
     highlight: '100%',
     highlightSuffix: '',
     description: 'de los historiales disponibles al instante. Toma decisiones informadas con contexto completo.',
@@ -50,7 +50,7 @@ const benefits: Benefit[] = [
   {
     icon: Award,
     secondaryIcon: Shield,
-    title: 'Profesionaliza tu practica',
+    title: 'Profesionaliza tu práctica',
     highlight: '+',
     highlightSuffix: 'confianza',
     description: 'Proyecta una imagen moderna y organizada. Genera PDFs profesionales y comunicaciones claras.',
@@ -154,7 +154,7 @@ export function BenefitsSection() {
             ¿Por que elegir MidiMed?
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Miles de profesionales de la salud ya confian en nosotros para gestionar su practica.
+            Miles de profesionales de la salud ya confían en nosotros para gestionar su práctica.
           </p>
         </motion.div>
 

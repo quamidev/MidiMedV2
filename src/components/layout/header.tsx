@@ -9,6 +9,7 @@
  * - Backdrop blur effect
  *
  * Created: 2026-02-10 - MV2-013 Protected Layout Shell
+ * Updated: 2026-02-10 - QA-008 Replaced hardcoded notification count with real data from useNotifications
  */
 
 'use client'
@@ -20,6 +21,7 @@ import { Bell, Moon, Sun } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/use-user'
 import { useTheme } from '@/contexts/theme-context'
+import { useNotifications } from '@/hooks/use-notifications'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
@@ -35,9 +37,7 @@ function getInitials(name: string): string {
 export function Header() {
   const { user } = useUser()
   const { theme, toggleTheme } = useTheme()
-
-  // Placeholder notification count
-  const notificationCount = 3
+  const { unreadCount: notificationCount } = useNotifications({ limit: 20, enableRealtime: true })
 
   return (
     <header

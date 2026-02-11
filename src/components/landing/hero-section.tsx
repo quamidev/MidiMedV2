@@ -147,7 +147,7 @@ export function HeroSection() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
               </span>
-              Prueba gratuita de 30 dias
+              Prueba gratuita de 30 días
             </span>
           </motion.div>
 
@@ -156,7 +156,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            Gestiona tu consultorio medico{' '}
+            Gestiona tu consultorio médico{' '}
             <span className="relative">
               <span className="relative z-10 bg-gradient-to-r from-primary via-primary to-primary/70 bg-clip-text text-transparent">
                 de forma inteligente
@@ -186,8 +186,8 @@ export function HeroSection() {
             variants={itemVariants}
             className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl md:mt-8"
           >
-            La plataforma todo-en-uno para clinicas en Latinoamerica.
-            Agenda citas, gestiona expedientes y genera resumenes con IA.
+            La plataforma todo-en-uno para clínicas.
+            Agenda citas, gestiona expedientes y genera resúmenes con IA.
             Todo en un solo lugar.
           </motion.p>
 

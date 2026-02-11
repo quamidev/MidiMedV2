@@ -74,7 +74,7 @@ export default function PricingPage() {
             ) : (
               <>
                 <Button variant="ghost" asChild>
-                  <Link href="/login">Iniciar sesion</Link>
+                  <Link href="/login">Iniciar sesión</Link>
                 </Button>
                 <Button asChild>
                   <Link href="/signup">Crear cuenta</Link>
@@ -98,8 +98,8 @@ export default function PricingPage() {
             Planes y precios
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            Elige el plan que mejor se adapte a las necesidades de tu clinica.
-            Todos incluyen acceso completo durante el periodo de prueba.
+            Elige el plan que mejor se adapte a las necesidades de tu clínica.
+            Todos incluyen acceso completo durante el período de prueba.
           </p>
 
           {/* Currency Toggle */}
@@ -138,8 +138,8 @@ export default function PricingPage() {
               ¿Tienes preguntas?
             </h3>
             <p className="mx-auto mt-3 max-w-md text-muted-foreground">
-              Nuestro equipo esta listo para ayudarte a elegir el plan perfecto
-              para tu clinica.
+              Nuestro equipo está listo para ayudarte a elegir el plan perfecto
+              para tu clínica.
             </p>
             <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button variant="outline" asChild>

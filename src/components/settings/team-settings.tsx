@@ -151,10 +151,10 @@ export function TeamSettings() {
               </div>
               <div>
                 <h2 className="font-semibold text-foreground">
-                  Invitaciones pendientes
+                  Invitaciónes pendientes
                 </h2>
                 <p className="text-xs text-muted-foreground">
-                  {pendingInvites.length} invitacion{pendingInvites.length !== 1 ? 'es' : ''} sin aceptar
+                  {pendingInvites.length} invitación{pendingInvites.length !== 1 ? 'es' : ''} sin aceptar
                 </p>
               </div>
             </div>

@@ -65,7 +65,7 @@ const createPatientFormSchema = z.object({
   phone: z.string().optional(),
   email: z
     .string()
-    .email('Correo electronico invalido')
+    .email('Correo electrónico inválido')
     .optional()
     .or(z.literal('')),
   address: z.string().optional(),
@@ -185,7 +185,7 @@ export function CreatePatientModal({
             <div>
               <DialogTitle className="text-xl">Nuevo Paciente</DialogTitle>
               <DialogDescription>
-                Completa la informacion para registrar un nuevo paciente
+                Completa la información para registrar un nuevo paciente
               </DialogDescription>
             </div>
           </div>
@@ -196,7 +196,7 @@ export function CreatePatientModal({
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
               <div className="h-px flex-1 bg-border" />
-              <span>Informacion requerida</span>
+              <span>Información requerida</span>
               <div className="h-px flex-1 bg-border" />
             </div>
 
@@ -312,7 +312,7 @@ export function CreatePatientModal({
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
               <div className="h-px flex-1 bg-border" />
-              <span>Informacion adicional</span>
+              <span>Información adicional</span>
               <div className="h-px flex-1 bg-border" />
             </div>
 
@@ -321,7 +321,7 @@ export function CreatePatientModal({
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-primary" />
-                  <Label htmlFor="phone">Telefono</Label>
+                  <Label htmlFor="phone">Teléfono</Label>
                 </div>
                 <Input
                   id="phone"
@@ -334,7 +334,7 @@ export function CreatePatientModal({
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-primary" />
-                  <Label htmlFor="email">Correo electronico</Label>
+                  <Label htmlFor="email">Correo electrónico</Label>
                 </div>
                 <Input
                   id="email"
@@ -356,7 +356,7 @@ export function CreatePatientModal({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
-                <Label htmlFor="address">Direccion</Label>
+                <Label htmlFor="address">Dirección</Label>
               </div>
               <Input
                 id="address"

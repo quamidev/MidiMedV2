@@ -59,7 +59,7 @@ const FIELD_TYPE_CONFIG: Record<
     color: 'text-blue-500 bg-blue-500/10',
   },
   number: {
-    label: 'Numero',
+    label: 'Número',
     icon: Hash,
     color: 'text-emerald-500 bg-emerald-500/10',
   },
@@ -299,7 +299,7 @@ export function CustomFieldsSettings() {
         >
           <div className="border-b border-border bg-muted/30 px-6 py-4">
             <h3 className="font-semibold text-foreground">
-              Vista previa en expediente medico
+              Vista previa en expediente médico
             </h3>
             <p className="text-xs text-muted-foreground">
               Asi se veran los campos en el formulario de expediente
@@ -331,8 +331,8 @@ export function CustomFieldsSettings() {
             <AlertDialogTitle>Eliminar campo</AlertDialogTitle>
             <AlertDialogDescription>
               Estas seguro de eliminar el campo &quot;{fieldToDelete?.name}&quot;? Esta
-              accion no se puede deshacer. Los datos existentes en expedientes
-              no seran afectados, pero el campo ya no aparecera en nuevos
+              acción no se puede deshacer. Los datos existentes en expedientes
+              no seran afectados, pero el campo ya no aparecerá en nuevos
               formularios.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -365,8 +365,8 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
         Sin campos personalizados
       </h3>
       <p className="mt-1 text-sm text-muted-foreground max-w-sm mx-auto">
-        Agrega campos personalizados para capturar informacion especifica de tu
-        clinica en los expedientes medicos.
+        Agrega campos personalizados para capturar información específica de tu
+        clínica en los expedientes médicos.
       </p>
       <Button className="mt-4" onClick={onAdd}>
         <Plus className="h-4 w-4 mr-2" />

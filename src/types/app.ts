@@ -348,7 +348,7 @@ export interface MedicalRecord {
   temperature_c: number | null
   age_at_visit: number | null
 
-  // Clinical documentation
+  // Clínical documentation
   diagnosis: string | null
   prescribed_medications: string[]
   follow_up_instructions: string | null
@@ -593,6 +593,62 @@ export interface MedicalRecordWithRelations extends MedicalRecord {
 }
 
 // =============================================================================
+// Billing Types
+// =============================================================================
+
+/**
+ * Plan catalog entry from the plan_catalog table.
+ */
+export interface PlanCatalogEntry {
+  id: string
+  plan: BillingPlan
+  currency: 'GTQ' | 'USD'
+  price: number
+  active: boolean
+  recurrente_product_id: string | null
+  recurrente_price_id: string | null
+  product_name: string | null
+  product_description: string | null
+  updated_at: string
+}
+
+/**
+ * Current plan information for a tenant.
+ */
+export interface CurrentPlanInfo {
+  billing_plan: BillingPlan
+  billing_status: BillingStatus
+  trial_start_at: string
+  trial_days: number
+  purchased_at: string | null
+  paid_through: string | null
+  provider_subscription_id: string | null
+}
+
+/**
+ * Invoice record from the invoices table.
+ */
+export interface Invoice {
+  id: string
+  tenant_id: string
+  product: BillingPlan
+  amount: number
+  currency: 'GTQ' | 'USD'
+  period_start: string
+  period_end: string
+  status: 'pending' | 'paid' | 'failed' | 'cancelled'
+  provider: string
+  provider_link_id: string | null
+  provider_link_url: string | null
+  provider_payment_id: string | null
+  provider_subscription_id: string | null
+  description: string | null
+  created_at: string
+  due_at: string | null
+  paid_at: string | null
+}
+
+// =============================================================================
 // Notification Types
 // =============================================================================
 
@@ -656,7 +712,7 @@ export interface GetNotificationsParams {
   archived?: boolean
   /** Maximum number of notifications to return. */
   limit?: number
-  /** Number of notifications to skip (for pagination). */
+  /** Number of notifications to skip (for págination). */
   offset?: number
 }
 

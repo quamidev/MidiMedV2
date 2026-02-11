@@ -216,7 +216,7 @@ export default function PaymentSuccessPage() {
             transition={{ delay: 0.4 }}
             className="mt-4 text-lg text-muted-foreground"
           >
-            Tu suscripcion ha sido activada correctamente. Gracias por confiar en MidiMed.
+            Tu suscripción ha sido activada correctamente. Gracias por confiar en MidiMed.
           </motion.p>
 
           {/* Countdown */}
@@ -247,7 +247,7 @@ export default function PaymentSuccessPage() {
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/settings?tab=billing">Ver mi suscripcion</Link>
+              <Link href="/settings?tab=billing">Ver mi suscripción</Link>
             </Button>
           </motion.div>
         </motion.div>

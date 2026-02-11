@@ -22,7 +22,7 @@ import { Footer } from '@/components/landing/footer'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Navigation */}
       <LandingNav />
 

@@ -75,7 +75,7 @@ function getGreeting(hour: number): {
 } {
   if (hour >= 5 && hour < 12) {
     return {
-      text: 'Buenos dias',
+      text: 'Buenos días',
       icon: Sunrise,
       iconClass: 'text-amber-500',
     }

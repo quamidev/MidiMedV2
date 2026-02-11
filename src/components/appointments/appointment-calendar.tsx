@@ -73,19 +73,19 @@ const localizer = dateFnsLocalizer({
 
 // Spanish messages for react-big-calendar
 const messages = {
-  allDay: 'Todo el dia',
+  allDay: 'Todo el día',
   previous: 'Anterior',
   next: 'Siguiente',
   today: 'Hoy',
   month: 'Mes',
   week: 'Semana',
-  day: 'Dia',
+  day: 'Día',
   agenda: 'Agenda',
   date: 'Fecha',
   time: 'Hora',
   event: 'Evento',
   noEventsInRange: 'No hay citas en este rango.',
-  showMore: (total: number) => `+ ${total} mas`,
+  showMore: (total: number) => `+ ${total} más`,
 }
 
 // =============================================================================

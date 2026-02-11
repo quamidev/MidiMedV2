@@ -187,10 +187,10 @@ export function PatientAiSummary({
                 <Loader2 className="h-7 w-7 text-primary" />
               </motion.div>
               <p className="text-sm font-medium text-foreground">
-                Analizando historial medico...
+                Analizando historial médico...
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
-                La IA esta procesando los expedientes del paciente
+                La IA está procesando los expedientes del paciente
               </p>
             </motion.div>
           )}
@@ -268,14 +268,14 @@ export function PatientAiSummary({
                   Analisis inteligente
                 </h3>
                 <p className="mb-4 max-w-xs text-sm text-muted-foreground">
-                  La IA generara un resumen del historial medico cuando el
+                  La IA generará un resumen del historial médico cuando el
                   paciente tenga expedientes registrados.
                 </p>
 
                 <div className="flex items-center gap-2 rounded-full bg-muted px-3 py-1.5">
                   <FileText className="h-4 w-4 text-muted-foreground" />
                   <span className="text-xs font-medium text-muted-foreground">
-                    Sin expedientes aun
+                    Sin expedientes aún
                   </span>
                 </div>
               </motion.div>
@@ -309,8 +309,8 @@ export function PatientAiSummary({
                   Generar resumen con IA
                 </h3>
                 <p className="mb-4 max-w-xs text-sm text-muted-foreground">
-                  Analiza el historial medico del paciente con inteligencia
-                  artificial para obtener un resumen clinico.
+                  Analiza el historial médico del paciente con inteligencia
+                  artificial para obtener un resumen clínico.
                 </p>
 
                 <Button onClick={regenerateSummary} className="gap-1.5">

@@ -5,6 +5,7 @@
  * Features responsive design with card layout on mobile.
  *
  * Created: 2026-02-10 - MV2-047 Settings Billing Tab
+ * Updated: 2026-02-10 - QA-011 Fixed price formatting (cents to display amount)
  */
 
 'use client'
@@ -38,7 +39,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getInvoices, type Invoice } from '@/actions/billing'
+import { getInvoices } from '@/actions/billing'
+import type { Invoice } from '@/types/app'
 
 // =============================================================================
 // Types
@@ -93,7 +95,7 @@ export function InvoiceTable({ limit = 10 }: InvoiceTableProps) {
   const loadInvoices = useCallback(async () => {
     setLoading(true)
     try {
-      const result = await getInvoices(50) // Fetch more, paginate in UI
+      const result = await getInvoices(50) // Fetch more, páginate in UI
       if (result.success) {
         setInvoices(result.data)
       } else {
@@ -115,10 +117,11 @@ export function InvoiceTable({ limit = 10 }: InvoiceTableProps) {
   // Filter invoices based on show all state
   const displayedInvoices = showAll ? invoices : invoices.slice(0, limit)
 
-  // Format currency
+  // Format currency (amount stored in centavos)
   const formatAmount = useCallback((amount: number, currency: 'GTQ' | 'USD'): string => {
     const symbol = currency === 'GTQ' ? 'Q' : '$'
-    return `${symbol}${amount.toLocaleString()}`
+    const displayAmount = amount / 100
+    return `${symbol}${displayAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
   }, [])
 
   // Loading skeleton
@@ -139,7 +142,7 @@ export function InvoiceTable({ limit = 10 }: InvoiceTableProps) {
         </div>
         <h3 className="mt-4 font-semibold text-foreground">Sin facturas</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Aun no tienes facturas. Apareceran aqui cuando realices tu primer pago.
+          Aún no tienes facturas. Aparecerán aquí cuando realices tu primer pago.
         </p>
       </motion.div>
     )
@@ -172,7 +175,7 @@ export function InvoiceTable({ limit = 10 }: InvoiceTableProps) {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead>Descripcion</TableHead>
+              <TableHead>Descripción</TableHead>
               <TableHead>Fecha</TableHead>
               <TableHead>Monto</TableHead>
               <TableHead>Estado</TableHead>
@@ -324,7 +327,7 @@ export function InvoiceTable({ limit = 10 }: InvoiceTableProps) {
             ) : (
               <>
                 <ChevronDown className="mr-2 h-4 w-4" />
-                Ver todas ({invoices.length - limit} mas)
+                Ver todas ({invoices.length - limit} más)
               </>
             )}
           </Button>

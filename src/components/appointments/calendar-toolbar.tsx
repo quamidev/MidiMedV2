@@ -29,7 +29,7 @@ type CalendarToolbarProps = ToolbarProps<any, any> & {
 const VIEW_OPTIONS: { value: View; label: string; shortLabel: string }[] = [
   { value: 'month', label: 'Mes', shortLabel: 'M' },
   { value: 'week', label: 'Semana', shortLabel: 'S' },
-  { value: 'day', label: 'Dia', shortLabel: 'D' },
+  { value: 'day', label: 'Día', shortLabel: 'D' },
 ]
 
 export function CalendarToolbar({

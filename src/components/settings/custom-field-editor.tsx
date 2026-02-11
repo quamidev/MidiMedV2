@@ -90,8 +90,8 @@ const FIELD_TYPES: FieldTypeOption[] = [
   },
   {
     value: 'number',
-    label: 'Numero',
-    description: 'Valor numerico',
+    label: 'Número',
+    description: 'Valor numérico',
     icon: Hash,
   },
   {
@@ -289,8 +289,8 @@ export function CustomFieldEditor({
               </DialogTitle>
               <DialogDescription>
                 {isEditing
-                  ? 'Modifica la configuracion del campo'
-                  : 'Define un nuevo campo para expedientes medicos'}
+                  ? 'Modifica la configuración del campo'
+                  : 'Define un nuevo campo para expedientes médicos'}
               </DialogDescription>
             </div>
           </div>
@@ -440,7 +440,7 @@ export function CustomFieldEditor({
             <div>
               <p className="font-medium text-sm">Campo requerido</p>
               <p className="text-xs text-muted-foreground">
-                El usuario debera completar este campo
+                El usuario deberá completar este campo
               </p>
             </div>
             <Controller

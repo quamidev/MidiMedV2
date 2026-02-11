@@ -16,10 +16,10 @@ import { ArrowRight, Sparkles, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const benefits = [
-  '30 dias de prueba gratis',
-  'Sin tarjeta de credito',
-  'Configuracion en minutos',
-  'Soporte en espanol',
+  '30 días de prueba gratis',
+  'Sin tarjeta de crédito',
+  'Configuración en minutos',
+  'Soporte en español',
 ]
 
 export function CTASection() {
@@ -62,7 +62,7 @@ export function CTASection() {
           >
             Comienza a transformar{' '}
             <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              tu practica hoy
+              tu práctica hoy
             </span>
           </motion.h2>
 
@@ -74,8 +74,8 @@ export function CTASection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground"
           >
-            Unete a cientos de profesionales de la salud que ya estan ahorrando
-            tiempo y mejorando la atencion a sus pacientes con MidiMed.
+            Únete a cientos de profesionales de la salud que ya están ahorrando
+            tiempo y mejorando la atención a sus pacientes con MidiMed.
           </motion.p>
 
           {/* Benefits List */}

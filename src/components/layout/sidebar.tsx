@@ -10,20 +10,22 @@
  * - localStorage persistence for collapse state via SidebarContext
  *
  * Created: 2026-02-10 - MV2-013 Protected Layout Shell
+ * Updated: 2026-02-10 - QA-008 Replaced hardcoded notification count with NotificationBell component
+ * Updated: 2026-02-10 - QA-010 Fixed missing Spanish accents/tildes
+ * Updated: 2026-02-10 - QA-011 Fixed logout not redirecting to login page
  */
 
 'use client'
 
 import { useCallback } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
   Users,
   FileBarChart,
   Settings,
-  Bell,
   ChevronLeft,
   LogOut,
   Moon,
@@ -43,6 +45,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Separator } from '@/components/ui/separator'
+import { MidimedLogo } from '@/components/ui/midimed-logo'
+import { NotificationBell } from '@/components/notifications/notification-bell'
 
 interface NavItem {
   href: string
@@ -54,7 +58,7 @@ const navItems: NavItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/patients', label: 'Pacientes', icon: Users },
   { href: '/reports', label: 'Reportes', icon: FileBarChart },
-  { href: '/settings', label: 'Configuracion', icon: Settings },
+  { href: '/settings', label: 'Configuración', icon: Settings },
 ]
 
 function getInitials(name: string): string {
@@ -68,6 +72,7 @@ function getInitials(name: string): string {
 
 export function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
   const { user, tenant, signOut } = useUser()
   const { theme, toggleTheme } = useTheme()
   const { collapsed, toggleCollapsed } = useSidebar()
@@ -75,13 +80,11 @@ export function Sidebar() {
   const handleSignOut = useCallback(async () => {
     try {
       await signOut()
+      router.push('/login')
     } catch (error) {
       console.error('Failed to sign out:', error)
     }
-  }, [signOut])
-
-  // Placeholder notification count
-  const notificationCount = 3
+  }, [signOut, router])
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -105,9 +108,7 @@ export function Sidebar() {
                 transition={{ duration: 0.2 }}
                 className="flex items-center gap-2"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-                  <span className="text-lg font-bold text-primary">M</span>
-                </div>
+                <MidimedLogo variant="primary" size={32} />
                 <span className="text-lg font-semibold tracking-tight text-sidebar-foreground">
                   MidiMed
                 </span>
@@ -116,8 +117,8 @@ export function Sidebar() {
           </AnimatePresence>
 
           {collapsed && (
-            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-              <span className="text-lg font-bold text-primary">M</span>
+            <div className="mx-auto">
+              <MidimedLogo variant="primary" size={32} />
             </div>
           )}
         </div>
@@ -207,52 +208,10 @@ export function Sidebar() {
           <Separator className="bg-sidebar-border" />
 
           {/* Notification Bell */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/notifications"
-                className={cn(
-                  'relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-                  collapsed && 'justify-center px-2'
-                )}
-              >
-                <div className="relative">
-                  <Bell className="h-5 w-5" />
-                  {notificationCount > 0 && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground"
-                    >
-                      {notificationCount > 9 ? '9+' : notificationCount}
-                    </motion.span>
-                  )}
-                </div>
-                <AnimatePresence mode="wait">
-                  {!collapsed && (
-                    <motion.span
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      Notificaciones
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Link>
-            </TooltipTrigger>
-            {collapsed && (
-              <TooltipContent side="right" className="font-medium">
-                Notificaciones
-                {notificationCount > 0 && (
-                  <span className="ml-1 text-destructive">
-                    ({notificationCount})
-                  </span>
-                )}
-              </TooltipContent>
-            )}
-          </Tooltip>
+          <NotificationBell
+            showLabel
+            collapsed={collapsed}
+          />
 
           {/* Theme Toggle */}
           <Tooltip>
@@ -332,7 +291,7 @@ export function Sidebar() {
                           {user?.display_name || 'Usuario'}
                         </span>
                         <span className="truncate text-xs text-muted-foreground">
-                          {tenant?.name || 'Clinica'}
+                          {tenant?.name || 'Clínica'}
                         </span>
                       </motion.div>
                     )}
@@ -344,7 +303,7 @@ export function Sidebar() {
                   <div className="flex flex-col">
                     <span>{user?.display_name || 'Usuario'}</span>
                     <span className="text-xs text-muted-foreground">
-                      {tenant?.name || 'Clinica'}
+                      {tenant?.name || 'Clínica'}
                     </span>
                   </div>
                 </TooltipContent>
@@ -371,7 +330,7 @@ export function Sidebar() {
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.15 }}
                     >
-                      Cerrar sesion
+                      Cerrar sesión
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -379,7 +338,7 @@ export function Sidebar() {
             </TooltipTrigger>
             {collapsed && (
               <TooltipContent side="right" className="font-medium">
-                Cerrar sesion
+                Cerrar sesión
               </TooltipContent>
             )}
           </Tooltip>

@@ -14,63 +14,16 @@ import { z } from 'zod'
 
 import { createServerClient } from '@/lib/supabase/server'
 import { createCheckout } from '@/lib/recurrente/client'
-import type { ActionResult, BillingPlan, BillingStatus } from '@/types/app'
+import type {
+  ActionResult,
+  BillingPlan,
+  BillingStatus,
+  PlanCatalogEntry,
+  CurrentPlanInfo,
+  Invoice,
+} from '@/types/app'
 
-// =============================================================================
-// Types
-// =============================================================================
-
-/**
- * Plan catalog entry from the plan_catalog table.
- */
-export interface PlanCatalogEntry {
-  id: string
-  plan: BillingPlan
-  currency: 'GTQ' | 'USD'
-  price: number
-  active: boolean
-  recurrente_product_id: string | null
-  recurrente_price_id: string | null
-  product_name: string | null
-  product_description: string | null
-  updated_at: string
-}
-
-/**
- * Current plan information for a tenant.
- */
-export interface CurrentPlanInfo {
-  billing_plan: BillingPlan
-  billing_status: BillingStatus
-  trial_start_at: string
-  trial_days: number
-  purchased_at: string | null
-  paid_through: string | null
-  provider_subscription_id: string | null
-}
-
-/**
- * Invoice record from the invoices table.
- */
-export interface Invoice {
-  id: string
-  tenant_id: string
-  product: BillingPlan
-  amount: number
-  currency: 'GTQ' | 'USD'
-  period_start: string
-  period_end: string
-  status: 'pending' | 'paid' | 'failed' | 'cancelled'
-  provider: string
-  provider_link_id: string | null
-  provider_link_url: string | null
-  provider_payment_id: string | null
-  provider_subscription_id: string | null
-  description: string | null
-  created_at: string
-  due_at: string | null
-  paid_at: string | null
-}
+// Note: Types (PlanCatalogEntry, CurrentPlanInfo, Invoice) are defined in '@/types/app'
 
 /**
  * Result of creating a checkout session.
@@ -86,7 +39,7 @@ export interface CreateCheckoutResult {
 
 const createCheckoutSchema = z.object({
   planId: z.string().min(1, 'Plan ID es requerido'),
-  currency: z.enum(['GTQ', 'USD'], { message: 'Moneda invalida' }),
+  currency: z.enum(['GTQ', 'USD'], { message: 'Moneda inválida' }),
 })
 
 // =============================================================================
@@ -185,7 +138,7 @@ export async function getCurrentPlan(): Promise<ActionResult<CurrentPlanInfo>> {
 
     if (error || !tenant) {
       console.error('getCurrentPlan error:', error)
-      return { success: false, error: 'Organizacion no encontrada' }
+      return { success: false, error: 'Organización no encontrada' }
     }
 
     return {
@@ -359,7 +312,7 @@ export async function createCheckoutSession(
     console.error('createCheckoutSession error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {

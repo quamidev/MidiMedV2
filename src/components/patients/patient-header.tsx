@@ -158,7 +158,7 @@ export function PatientHeader({
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <User className="h-3.5 w-3.5" />
-                {age} anos - {sexLabel}
+                {age} años - {sexLabel}
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" />
@@ -244,7 +244,7 @@ export function PatientHeader({
                 <div className="mt-1.5 flex items-center gap-4 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1.5">
                     <User className="h-4 w-4" />
-                    {age} anos - {sexLabel}
+                    {age} años - {sexLabel}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Calendar className="h-4 w-4" />

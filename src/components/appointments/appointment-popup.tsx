@@ -202,7 +202,7 @@ function PopupContent({
   // Handle view medical record
   const handleViewRecord = useCallback(() => {
     if (!appointment.medical_record_id) return
-    toast.info('Navegando al expediente medico...')
+    toast.info('Navegando al expediente médico...')
     onOpenChange(false)
   }, [appointment, onOpenChange])
 
@@ -536,7 +536,7 @@ export function AppointmentPopup(props: AppointmentPopupProps) {
               disabled={isLoading}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isLoading ? 'Cancelando...' : 'Si, cancelar cita'}
+              {isLoading ? 'Cancelando...' : 'Sí, cancelar cita'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

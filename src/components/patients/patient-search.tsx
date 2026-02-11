@@ -26,7 +26,7 @@ interface PatientSearchProps {
 export function PatientSearch({
   onSearch,
   initialValue = '',
-  placeholder = 'Buscar por nombre, correo o telefono...',
+  placeholder = 'Buscar por nombre, correo o teléfono...',
   className,
 }: PatientSearchProps) {
   const [value, setValue] = useState(initialValue)
@@ -96,7 +96,7 @@ export function PatientSearch({
               'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1'
             )}
             type="button"
-            aria-label="Limpiar busqueda"
+            aria-label="Limpiar búsqueda"
           >
             <X className="h-3.5 w-3.5" />
           </motion.button>

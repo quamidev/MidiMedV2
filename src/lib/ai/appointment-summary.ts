@@ -20,21 +20,21 @@ import { model, MAX_RETRIES, RETRY_DELAY_MS, delay } from './config'
 export const soapSchema = z.object({
   paciente: z.object({
     nombre: z.string().describe('Nombre completo del paciente'),
-    edad: z.number().optional().describe('Edad del paciente en anos'),
+    edad: z.number().optional().describe('Edad del paciente en años'),
     sexo: z.string().describe('Sexo del paciente (Masculino/Femenino/Otro)'),
   }),
-  doctora: z.string().describe('Nombre del medico/proveedor'),
-  clinica: z.string().describe('Nombre de la clinica'),
+  doctora: z.string().describe('Nombre del médico/proveedor'),
+  clínica: z.string().describe('Nombre de la clínica'),
   visita: z.object({
     fecha: z.string().describe('Fecha de la visita en formato legible'),
     motivo: z.string().describe('Motivo de la consulta'),
     subjetivo: z
       .string()
-      .describe('Sintomas y quejas reportadas por el paciente'),
+      .describe('Síntomas y quejas reportadas por el paciente'),
     objetivo: z
       .string()
-      .describe('Hallazgos objetivos del examen clinico'),
-    evaluacion: z.string().describe('Diagnostico o evaluacion clinica'),
+      .describe('Hallazgos objetivos del examen clínico'),
+    evaluación: z.string().describe('Diagnostico o evaluación clínica'),
     plan: z.string().describe('Plan de tratamiento'),
   }),
   signosVitales: z.object({
@@ -158,23 +158,23 @@ export async function generateAppointmentSummary(
   const vitalsContext =
     vitalParts.length > 0 ? vitalParts.join('\n') : 'No registrados'
 
-  const systemPrompt = `Eres un asistente medico. Genera resumenes de consulta en formato SOAP en espanol.
-Lenguaje medico profesional. Incluye toda la informacion clinica relevante.
-Basate UNICAMENTE en la informacion proporcionada, no inventes datos.
-Si una seccion no tiene informacion, indica "No especificado" o "No registrado".`
+  const systemPrompt = `Eres un asistente médico. Genera resúmenes de consulta en formato SOAP en español.
+Lenguaje médico profesional. Incluye toda la información clínica relevante.
+Básate UNICAMENTE en la información proporcionada, no inventes datos.
+Si una sección no tiene información, indica "No especificado" o "No registrado".`
 
   const patientSex = mapSexToSpanish(patient.sex)
-  const ageText = patient.age ? `${patient.age} anos` : 'edad no registrada'
+  const ageText = patient.age ? `${patient.age} años` : 'edad no registrada'
 
-  const userPrompt = `Genera un resumen SOAP para la siguiente consulta medica:
+  const userPrompt = `Genera un resumen SOAP para la siguiente consulta médica:
 
 Paciente: ${patient.firstName} ${patient.lastName}, ${patientSex}, ${ageText}
 Doctor/a: ${provider}
-Clinica: ${clinic}
+Clínica: ${clinic}
 Fecha: ${formatDateToSpanish(appointment.scheduledStart)}
-Motivo: ${appointment.reason || 'No especificado'}
+Motivo: ${appointment.reason || 'No específicado'}
 
-Notas clinicas:
+Notas clínicas:
 Resumen: ${record.summary}
 ${record.diagnosis ? `Diagnostico: ${record.diagnosis}` : ''}
 ${record.prescribedMedications && record.prescribedMedications.length > 0 ? `Medicamentos: ${record.prescribedMedications.join(', ')}` : ''}

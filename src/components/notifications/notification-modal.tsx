@@ -143,7 +143,7 @@ export function NotificationModal({
                 No tienes notificaciones
               </p>
               <p className="text-sm text-muted-foreground mt-1 text-center">
-                Aqui apareceran las actualizaciones de tu clinica
+                Aquí aparecerán las actualizaciones de tu clínica
               </p>
             </motion.div>
           ) : (

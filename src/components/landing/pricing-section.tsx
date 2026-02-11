@@ -38,11 +38,11 @@ export function PricingSection() {
             Precios
           </span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Planes flexibles para cada clinica
+            Planes flexibles para cada clínica
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Elige el plan que mejor se adapte a las necesidades de tu practica.
-            Todos incluyen acceso completo durante el periodo de prueba.
+            Elige el plan que mejor se adapte a las necesidades de tu práctica.
+            Todos incluyen acceso completo durante el período de prueba.
           </p>
 
           {/* Currency Toggle */}

@@ -28,27 +28,27 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     quote:
-      'MidiMed ha transformado completamente la forma en que manejo mi consultorio. Antes pasaba horas en papeles, ahora todo esta organizado y a un clic de distancia. Mis pacientes notan la diferencia.',
-    name: 'Dra. Maria Elena Gonzalez',
+      'MidiMed ha transformado completamente la forma en que manejo mi consultorio. Antes pasaba horas en papeles, ahora todo está organizado y a un clic de distancia. Mis pacientes notan la diferencia.',
+    name: 'Dra. María Elena González',
     specialty: 'Medicina General',
-    clinic: 'Clinica Santa Fe',
+    clinic: 'Clínica Santa Fe',
     initials: 'MG',
     rating: 5,
   },
   {
     quote:
-      'La funcion de resumenes con IA me ahorra al menos una hora diaria en documentacion. Es como tener un asistente que entiende el lenguaje medico. Increiblemente util para un pediatra ocupado.',
+      'La función de resúmenes con IA me ahorra al menos una hora diaria en documentación. Es como tener un asistente que entiende el lenguaje médico. Increíblemente útil para un pediatra ocupado.',
     name: 'Dr. Carlos Mendoza',
-    specialty: 'Pediatria',
-    clinic: 'Centro Medico Los Alamos',
+    specialty: 'Pediatría',
+    clinic: 'Centro Médico Los Álamos',
     initials: 'CM',
     rating: 5,
   },
   {
     quote:
-      'Por fin una plataforma pensada para clinicas latinoamericanas. El soporte en espanol, los precios accesibles y la facilidad de uso hacen que valga cada quetzal invertido.',
-    name: 'Dra. Ana Patricia Rodriguez',
-    specialty: 'Ginecologia',
+      'Por fin una plataforma pensada para clínicas latinoamericanas. El soporte en español, los precios accesibles y la facilidad de uso hacen que valga cada quetzal invertido.',
+    name: 'Dra. Ana Patricia Rodríguez',
+    specialty: 'Ginecología',
     clinic: 'Hospital Privado del Sur',
     initials: 'AR',
     rating: 5,
@@ -171,7 +171,7 @@ export function TestimonialsSection() {
             Lo que dicen nuestros usuarios
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Medicos de toda Latinoamerica confian en MidiMed para gestionar su practica.
+            Médicos de toda Latinoamérica confían en MidiMed para gestionar su práctica.
           </p>
         </motion.div>
 

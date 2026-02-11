@@ -283,7 +283,7 @@ export function PatientFiles({
             <div className="flex flex-col items-center">
               <Upload className="mb-2 h-8 w-8 text-primary" />
               <p className="text-sm font-medium text-primary">
-                Suelta los archivos aqui
+                Suelta los archivos aquí
               </p>
             </div>
           ) : (
@@ -292,13 +292,13 @@ export function PatientFiles({
                 <Upload className="h-5 w-5 text-muted-foreground" />
               </div>
               <p className="mb-1 text-sm font-medium text-foreground">
-                Arrastra archivos aqui
+                Arrastra archivos aquí
               </p>
               <p className="text-xs text-muted-foreground">
-                o haz clic en el boton &quot;Subir&quot;
+                o haz clic en el botón &quot;Subir&quot;
               </p>
               <p className="mt-2 text-xs text-muted-foreground/70">
-                Maximo 10MB por archivo
+                Máximo 10MB por archivo
               </p>
             </div>
           )}
@@ -319,7 +319,7 @@ export function PatientFiles({
         ) : (
           <div className="flex flex-col items-center justify-center py-4 text-center">
             <p className="text-sm text-muted-foreground">
-              Los archivos subidos apareceran aqui
+              Los archivos subidos aparecerán aquí
             </p>
           </div>
         )}

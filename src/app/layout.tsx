@@ -3,27 +3,40 @@
  * Sets up fonts, language, and global providers.
  *
  * Created: 2026-02-10 - Initial setup
+ * Updated: 2026-02-10 - QA-012 Added global Toaster for toast notifications
  */
 
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
+import { Toaster } from 'sonner'
 
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const sourceSansPro = localFont({
+  variable: '--font-source-sans-pro',
+  src: [
+    {
+      path: '../../node_modules/@fontsource/source-sans-pro/files/source-sans-pro-latin-400-normal.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../node_modules/@fontsource/source-sans-pro/files/source-sans-pro-latin-600-normal.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../../node_modules/@fontsource/source-sans-pro/files/source-sans-pro-latin-700-normal.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
 })
 
 export const metadata: Metadata = {
-  title: 'MidiMed - Sistema de Gestion Medica',
+  title: 'MidiMed - Sistema de Gestión Médica',
   description:
-    'Plataforma de gestion medica para clinicas en Latinoamerica. Administra pacientes, citas y expedientes medicos.',
+    'Plataforma de gestión médica para clínicas. Administra pacientes, citas y expedientes médicos.',
 }
 
 export default function RootLayout({
@@ -34,9 +47,13 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sourceSansPro.variable} antialiased`}
       >
         {children}
+        <Toaster
+          position="top-right"
+          richColors
+        />
       </body>
     </html>
   )

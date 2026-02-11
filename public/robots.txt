@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /signup
+Allow: /login
+Allow: /contact
+
+# Sitemap
+Sitemap: https://midimed.tech/sitemap.xml
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /.next/
+
+# Block temporary and test files
+Disallow: /tmp/
+Disallow: /test/
+Disallow: /_test

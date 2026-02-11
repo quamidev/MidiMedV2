@@ -5,6 +5,7 @@
  * Features elegant tab switching, form validation, and loading states.
  *
  * Created: 2026-02-10 - MV2-010 Login page UI
+ * Updated: 2026-02-10 - QA-010 Fixed missing Spanish accents/tildes
  */
 
 'use client'
@@ -29,12 +30,12 @@ import { signInWithPassword, sendMagicLink } from '@/actions/auth'
 // =============================================================================
 
 const passwordSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
-  password: z.string().min(1, 'La contrasena es requerida'),
+  email: z.string().email('Correo electrónico inválido'),
+  password: z.string().min(1, 'La contraseña es requerida'),
 })
 
 const magicLinkSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
+  email: z.string().email('Correo electrónico inválido'),
 })
 
 type PasswordFormValues = z.infer<typeof passwordSchema>
@@ -85,7 +86,7 @@ export function LoginForm() {
         toast.error(result.error)
       }
     } catch {
-      toast.error('Error al iniciar sesion. Intenta de nuevo.')
+      toast.error('Error al iniciar sesión. Intenta de nuevo.')
     } finally {
       setIsLoading(false)
     }
@@ -146,7 +147,7 @@ export function LoginForm() {
             )}
           >
             <Lock className="h-4 w-4" />
-            <span>Contrasena</span>
+            <span>Contraseña</span>
           </button>
 
           <button
@@ -160,7 +161,7 @@ export function LoginForm() {
             )}
           >
             <Sparkles className="h-4 w-4" />
-            <span>Enlace magico</span>
+            <span>Enlace mágico</span>
           </button>
         </div>
       </div>
@@ -180,7 +181,7 @@ export function LoginForm() {
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-foreground/80">
-                Correo electronico
+                Correo electrónico
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
@@ -207,7 +208,7 @@ export function LoginForm() {
             {/* Password Field */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-foreground/80">
-                Contrasena
+                Contraseña
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
@@ -240,11 +241,11 @@ export function LoginForm() {
             >
               {!isLoading && (
                 <>
-                  Iniciar sesion
+                  Iniciar sesión
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </>
               )}
-              {isLoading && 'Iniciando sesion...'}
+              {isLoading && 'Iniciando sesión...'}
             </Button>
           </motion.form>
         ) : (
@@ -267,13 +268,13 @@ export function LoginForm() {
                 >
                   {/* Description */}
                   <p className="text-sm text-muted-foreground mb-6">
-                    Te enviaremos un enlace de acceso a tu correo. Sin necesidad de contrasena.
+                    Te enviaremos un enlace de acceso a tu correo. Sin necesidad de contraseña.
                   </p>
 
                   {/* Email Field */}
                   <div className="space-y-2">
                     <Label htmlFor="magic-email" className="text-foreground/80">
-                      Correo electronico
+                      Correo electrónico
                     </Label>
                     <div className="relative">
                       <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
@@ -332,7 +333,7 @@ export function LoginForm() {
                     Revisa tu correo
                   </h3>
                   <p className="text-sm text-muted-foreground mb-6">
-                    Te enviamos un enlace de acceso. Haz clic en el para iniciar sesion.
+                    Te enviamos un enlace de acceso. Haz clic en el para iniciar sesión.
                   </p>
                   <Button
                     type="button"

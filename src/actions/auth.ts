@@ -7,6 +7,7 @@
  * Uses Supabase Auth for authentication and manages tenant/user records.
  *
  * Created: 2026-02-10 - MV2-007 Authentication server actions
+ * Updated: 2026-02-10 - QA-010 Fixed missing Spanish accents/tildes
  */
 
 import { revalidatePath } from 'next/cache'
@@ -34,28 +35,28 @@ import type {
 // =============================================================================
 
 const signUpSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
-  password: z.string().min(8, 'La contrasena debe tener al menos 8 caracteres'),
+  email: z.string().email('Correo electrónico inválido'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   displayName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  clinicName: z.string().min(2, 'El nombre de la clinica debe tener al menos 2 caracteres'),
+  clinicName: z.string().min(2, 'El nombre de la clínica debe tener al menos 2 caracteres'),
   phone: z.string().optional(),
   address: z.string().optional(),
   specialties: z.array(z.string()).optional(),
 })
 
 const signInSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
-  password: z.string().min(1, 'La contrasena es requerida'),
+  email: z.string().email('Correo electrónico inválido'),
+  password: z.string().min(1, 'La contraseña es requerida'),
 })
 
 const sendMagicLinkSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
+  email: z.string().email('Correo electrónico inválido'),
 })
 
 const acceptInvitationSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
-  tempPassword: z.string().min(1, 'La contrasena temporal es requerida'),
-  newPassword: z.string().min(8, 'La nueva contrasena debe tener al menos 8 caracteres'),
+  email: z.string().email('Correo electrónico inválido'),
+  tempPassword: z.string().min(1, 'La contraseña temporal es requerida'),
+  newPassword: z.string().min(8, 'La nueva contraseña debe tener al menos 8 caracteres'),
   displayName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').optional(),
 })
 
@@ -65,7 +66,7 @@ const acceptInvitationSchema = z.object({
 
 /**
  * Generates a URL-safe slug from a clinic name.
- * Example: "Clinica Gonzalez" -> "clinica-gonzalez"
+ * Example: "Clínica Gonzalez" -> "clinica-gonzalez"
  */
 function generateSlug(name: string): string {
   return name
@@ -154,7 +155,7 @@ export async function signUp(input: SignUpInput): Promise<ActionResult<SignUpRes
     if (authError || !authData.user) {
       console.error('Auth creation error:', authError)
       if (authError?.message?.includes('already registered')) {
-        return { success: false, error: 'Este correo ya esta registrado' }
+        return { success: false, error: 'Este correo ya está registrado' }
       }
       return { success: false, error: 'Error al crear la cuenta. Intenta de nuevo.' }
     }
@@ -212,7 +213,7 @@ export async function signUp(input: SignUpInput): Promise<ActionResult<SignUpRes
       console.error('Tenant creation error:', tenantError)
       // Rollback: delete auth user
       await supabaseAdmin.auth.admin.deleteUser(authUser.id)
-      return { success: false, error: 'Error al crear la organizacion. Intenta de nuevo.' }
+      return { success: false, error: 'Error al crear la organización. Intenta de nuevo.' }
     }
 
     // Step 3: Create user record
@@ -263,7 +264,7 @@ export async function signUp(input: SignUpInput): Promise<ActionResult<SignUpRes
     console.error('signUp error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado. Intenta de nuevo.' }
   }
@@ -291,9 +292,9 @@ export async function signInWithPassword(input: SignInInput): Promise<ActionResu
     if (authError || !authData.user) {
       console.error('Sign in error:', authError)
       if (authError?.message?.includes('Invalid login credentials')) {
-        return { success: false, error: 'Correo o contrasena incorrectos' }
+        return { success: false, error: 'Correo o contraseña incorrectos' }
       }
-      return { success: false, error: 'Error al iniciar sesion. Intenta de nuevo.' }
+      return { success: false, error: 'Error al iniciar sesión. Intenta de nuevo.' }
     }
 
     // Fetch user record with tenant data
@@ -317,7 +318,7 @@ export async function signInWithPassword(input: SignInInput): Promise<ActionResu
 
     if (tenantError || !tenant) {
       console.error('Tenant fetch error:', tenantError)
-      return { success: false, error: 'Organizacion no encontrada' }
+      return { success: false, error: 'Organización no encontrada' }
     }
 
     // Update last login timestamp
@@ -339,7 +340,7 @@ export async function signInWithPassword(input: SignInInput): Promise<ActionResu
     console.error('signInWithPassword error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado. Intenta de nuevo.' }
   }
@@ -398,7 +399,7 @@ export async function sendMagicLink(input: SendMagicLinkInput): Promise<ActionRe
     console.error('sendMagicLink error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado. Intenta de nuevo.' }
   }
@@ -417,7 +418,7 @@ export async function signOut(): Promise<ActionResult<void>> {
 
     if (error) {
       console.error('Sign out error:', error)
-      return { success: false, error: 'Error al cerrar sesion. Intenta de nuevo.' }
+      return { success: false, error: 'Error al cerrar sesión. Intenta de nuevo.' }
     }
 
     // Clear all Supabase auth cookies
@@ -472,7 +473,7 @@ export async function acceptInvitation(
 
     if (inviteError || !invite) {
       console.error('Invite fetch error:', inviteError)
-      return { success: false, error: 'Invitacion no encontrada o ya fue usada' }
+      return { success: false, error: 'Invitación no encontrada o ya fue usada' }
     }
 
     // Check if invitation has expired
@@ -482,12 +483,12 @@ export async function acceptInvitation(
         .from('invites')
         .update({ status: 'expired' })
         .eq('id', invite.id)
-      return { success: false, error: 'La invitacion ha expirado' }
+      return { success: false, error: 'La invitación ha expirado' }
     }
 
     // Step 2: Validate temporary password
     if (invite.temp_password !== validated.tempPassword) {
-      return { success: false, error: 'Contrasena temporal incorrecta' }
+      return { success: false, error: 'Contraseña temporal incorrecta' }
     }
 
     const now = new Date().toISOString()
@@ -506,7 +507,7 @@ export async function acceptInvitation(
     if (authError || !authData.user) {
       console.error('Auth creation error:', authError)
       if (authError?.message?.includes('already registered')) {
-        return { success: false, error: 'Este correo ya esta registrado' }
+        return { success: false, error: 'Este correo ya está registrado' }
       }
       return { success: false, error: 'Error al crear la cuenta. Intenta de nuevo.' }
     }
@@ -555,7 +556,7 @@ export async function acceptInvitation(
 
     if (tenantError || !tenant) {
       console.error('Tenant fetch error:', tenantError)
-      return { success: false, error: 'Organizacion no encontrada' }
+      return { success: false, error: 'Organización no encontrada' }
     }
 
     // Sign in the user
@@ -578,7 +579,7 @@ export async function acceptInvitation(
     console.error('acceptInvitation error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     return { success: false, error: 'Error inesperado. Intenta de nuevo.' }
   }

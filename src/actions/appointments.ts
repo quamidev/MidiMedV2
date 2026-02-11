@@ -26,23 +26,15 @@ import type {
   MedicalRecord,
 } from '@/types/app'
 
-// Re-export types for convenience
-export type {
-  AppointmentWithRelations,
-  CreateAppointmentInput,
-  UpdateAppointmentInput,
-  CompleteAppointmentInput,
-  CompleteAppointmentResult,
-  GetAppointmentsParams,
-}
+// Note: Types should be imported directly from '@/types/app', not re-exported from server action files
 
 // =============================================================================
 // Validation Schemas
 // =============================================================================
 
 const getAppointmentsSchema = z.object({
-  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}/, 'Fecha de inicio invalida'),
-  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}/, 'Fecha de fin invalida'),
+  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}/, 'Fecha de inicio inválida'),
+  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}/, 'Fecha de fin inválida'),
   patientId: z.string().uuid().optional(),
   providerId: z.string().uuid().optional(),
   patientIds: z.array(z.string().uuid()).optional(),
@@ -51,8 +43,8 @@ const getAppointmentsSchema = z.object({
 })
 
 const createAppointmentSchema = z.object({
-  patientId: z.string().uuid('ID de paciente invalido'),
-  providerId: z.string().uuid('ID de proveedor invalido'),
+  patientId: z.string().uuid('ID de paciente inválido'),
+  providerId: z.string().uuid('ID de proveedor inválido'),
   scheduledStart: z.string().min(1, 'Fecha de inicio requerida'),
   scheduledEnd: z.string().min(1, 'Fecha de fin requerida'),
   reason: z.string().optional(),
@@ -263,7 +255,7 @@ export async function getAppointments(
     console.error('getAppointments error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Parametros invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Parámetros inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -481,7 +473,7 @@ export async function createAppointment(
     console.error('createAppointment error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -637,7 +629,7 @@ export async function updateAppointment(
     console.error('updateAppointment error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }
@@ -793,7 +785,7 @@ export async function reactivateAppointment(
     }
 
     if (overlapping && overlapping.length > 0) {
-      return { success: false, error: 'El horario ya no esta disponible' }
+      return { success: false, error: 'El horario ya no está disponible' }
     }
 
     const now = new Date().toISOString()
@@ -937,7 +929,7 @@ export async function completeAppointment(
 
     if (recordError || !medicalRecord) {
       console.error('completeAppointment medical record error:', recordError)
-      return { success: false, error: 'Error al crear el expediente medico' }
+      return { success: false, error: 'Error al crear el expediente médico' }
     }
 
     // Step 2: Update appointment status and link medical record
@@ -976,7 +968,7 @@ export async function completeAppointment(
       supabase,
       tenantId,
       'Cita completada',
-      `La cita con ${patientName} fue completada. Se creo un nuevo expediente medico.`,
+      `La cita con ${patientName} fue completada. Se creó un nuevo expediente médico.`,
       'appointment_completed',
       {
         appointment_id: appointmentId,
@@ -999,7 +991,7 @@ export async function completeAppointment(
     console.error('completeAppointment error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error && error.message === 'No autenticado') {
       return { success: false, error: 'No autenticado' }

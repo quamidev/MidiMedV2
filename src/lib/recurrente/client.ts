@@ -201,7 +201,7 @@ export async function getSubscription(
 
       return {
         success: false,
-        error: `Error al obtener suscripcion: ${response.status}`,
+        error: `Error al obtener suscripción: ${response.status}`,
       }
     }
 

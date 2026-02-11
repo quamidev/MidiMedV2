@@ -23,8 +23,8 @@ import type { ActionResult, User, Invite, UserRole } from '@/types/app'
 // =============================================================================
 
 const inviteUserSchema = z.object({
-  email: z.string().email('Correo electronico invalido'),
-  role: z.enum(['admin', 'provider', 'staff'], { message: 'Rol invalido' }),
+  email: z.string().email('Correo electrónico inválido'),
+  role: z.enum(['admin', 'provider', 'staff'], { message: 'Rol inválido' }),
   displayName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
 })
 
@@ -192,7 +192,7 @@ export async function inviteUser(
       .single()
 
     if (existingUser) {
-      return { success: false, error: 'Este usuario ya pertenece a la organizacion' }
+      return { success: false, error: 'Este usuario ya pertenece a la organización' }
     }
 
     // Check if there's already a pending invite for this email
@@ -205,7 +205,7 @@ export async function inviteUser(
       .single()
 
     if (existingInvite) {
-      return { success: false, error: 'Ya existe una invitacion pendiente para este correo' }
+      return { success: false, error: 'Ya existe una invitación pendiente para este correo' }
     }
 
     // Generate temporary password
@@ -228,7 +228,7 @@ export async function inviteUser(
     if (authError || !authData.user) {
       console.error('inviteUser auth error:', authError)
       if (authError?.message?.includes('already registered')) {
-        return { success: false, error: 'Este correo ya esta registrado en el sistema' }
+        return { success: false, error: 'Este correo ya está registrado en el sistema' }
       }
       return { success: false, error: 'Error al crear usuario. Intenta de nuevo.' }
     }
@@ -256,7 +256,7 @@ export async function inviteUser(
       console.error('inviteUser invite error:', inviteError)
       // Rollback: delete auth user
       await supabaseAdmin.auth.admin.deleteUser(authData.user.id)
-      return { success: false, error: 'Error al crear invitacion. Intenta de nuevo.' }
+      return { success: false, error: 'Error al crear invitación. Intenta de nuevo.' }
     }
 
     revalidatePath('/settings')
@@ -272,7 +272,7 @@ export async function inviteUser(
     console.error('inviteUser error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
-      return { success: false, error: zodError.issues[0]?.message ?? 'Datos invalidos' }
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
     }
     if (error instanceof Error) {
       if (error.message === 'No autenticado') {
@@ -308,7 +308,7 @@ export async function getPendingInvites(): Promise<ActionResult<Invite[]>> {
 
     if (error) {
       console.error('getPendingInvites error:', error)
-      return { success: false, error: 'Error al obtener invitaciones' }
+      return { success: false, error: 'Error al obtener invitaciónes' }
     }
 
     return {
@@ -322,7 +322,7 @@ export async function getPendingInvites(): Promise<ActionResult<Invite[]>> {
         return { success: false, error: 'No autenticado' }
       }
       if (error.message === 'Permisos insuficientes') {
-        return { success: false, error: 'Solo administradores pueden ver invitaciones' }
+        return { success: false, error: 'Solo administradores pueden ver invitaciónes' }
       }
     }
     return { success: false, error: 'Error inesperado' }

@@ -8,16 +8,21 @@
  * Created: 2026-02-10 - MV2-014 Dashboard Page Shell
  * Updated: 2026-02-10 - MV2-022 Integrated appointment calendar
  * Updated: 2026-02-10 - MV2-057 Added onboarding card for new users
+ * Updated: 2026-02-10 - QA-009 Unified page layout with consistent padding/max-width
  */
 
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Calendar, Users, Activity } from 'lucide-react'
+import { toast } from 'sonner'
+import { format, startOfWeek, endOfWeek } from 'date-fns'
 import type { SlotInfo } from 'react-big-calendar'
 
 import { useUser } from '@/contexts/user-context'
 import { cn } from '@/lib/utils'
+import { getAppointments } from '@/actions/appointments'
+import { getPatients } from '@/actions/patients'
 import {
   DashboardHeader,
   DashboardHeaderSkeleton,
@@ -70,24 +75,48 @@ function CalendarLoadingSkeleton() {
  * Quick stats cards for desktop view
  */
 function QuickStats({ isLoading = false }: { isLoading?: boolean }) {
+  const [todayCount, setTodayCount] = useState<number | null>(null)
+  const [weekCount, setWeekCount] = useState<number | null>(null)
+  const [patientCount, setPatientCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (isLoading) return
+
+    const today = format(new Date(), 'yyyy-MM-dd')
+    const weekStart = format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+    const weekEnd = format(endOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+
+    getAppointments({ startDate: today, endDate: today }).then((res) => {
+      if (res.success) setTodayCount(res.data.length)
+    })
+
+    getAppointments({ startDate: weekStart, endDate: weekEnd }).then((res) => {
+      if (res.success) setWeekCount(res.data.length)
+    })
+
+    getPatients({ page: 1, limit: 1 }).then((res) => {
+      if (res.success) setPatientCount(res.data.total)
+    })
+  }, [isLoading])
+
   const stats = [
     {
       label: 'Citas hoy',
-      value: '0',
+      value: todayCount !== null ? String(todayCount) : '--',
       icon: Calendar,
       color: 'text-primary',
       bgColor: 'bg-primary/10',
     },
     {
       label: 'Pacientes activos',
-      value: '--',
+      value: patientCount !== null ? String(patientCount) : '--',
       icon: Users,
       color: 'text-emerald-500',
       bgColor: 'bg-emerald-500/10',
     },
     {
       label: 'Esta semana',
-      value: '--',
+      value: weekCount !== null ? String(weekCount) : '--',
       icon: Activity,
       color: 'text-amber-500',
       bgColor: 'bg-amber-500/10',
@@ -163,26 +192,22 @@ export default function DashboardPage() {
 
   const isLoading = loading || dataLoading
 
-  const handleEventClick = useCallback((appointment: AppointmentWithRelations) => {
-    // TODO: Open appointment detail modal in future ticket
-    console.log('Selected appointment:', appointment)
+  const handleEventClick = useCallback((_appointment: AppointmentWithRelations) => {
+    toast.info('Detalle de cita disponible próximamente')
   }, [])
 
-  const handleSlotSelect = useCallback((slotInfo: SlotInfo) => {
-    // TODO: Open create appointment modal in future ticket
-    console.log('Selected slot:', slotInfo)
+  const handleSlotSelect = useCallback((_slotInfo: SlotInfo) => {
+    toast.info('Crear cita desde el calendario disponible próximamente')
   }, [])
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="mx-auto max-w-6xl space-y-6">
       {/* Mobile View */}
       <div className="md:hidden">
         {isLoading || !user ? (
           <>
             <DashboardHeaderSkeleton />
-            <div className="px-4 pb-20">
-              <CalendarLoadingSkeleton />
-            </div>
+            <CalendarLoadingSkeleton />
           </>
         ) : (
           <>
@@ -190,7 +215,7 @@ export default function DashboardPage() {
               displayName={user.display_name}
               appointmentCount={0}
             />
-            <div className="space-y-4 px-4 pb-20">
+            <div className="space-y-4">
               {/* Onboarding card for new users */}
               {!onboardingComplete && <OnboardingCard />}
 
@@ -205,47 +230,45 @@ export default function DashboardPage() {
       </div>
 
       {/* Desktop View */}
-      <div className="hidden md:block">
-        <div className="mx-auto max-w-6xl space-y-6 p-6">
-          {/* Welcome header for desktop */}
-          {isLoading || !user ? (
-            <div className="animate-pulse">
-              <div className="h-8 w-64 rounded-lg bg-muted" />
-              <div className="mt-2 h-5 w-40 rounded bg-muted" />
-            </div>
-          ) : (
-            <div>
-              <h1 className="text-2xl font-semibold text-foreground">
-                Bienvenido,{' '}
-                <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  {user.display_name.split(' ')[0]}
-                </span>
-              </h1>
-              <p className="mt-1 text-muted-foreground">
-                Panel de control de tu clinica
-              </p>
-            </div>
-          )}
+      <div className="hidden md:block space-y-6">
+        {/* Welcome header for desktop */}
+        {isLoading || !user ? (
+          <div className="animate-pulse">
+            <div className="h-8 w-64 rounded-lg bg-muted" />
+            <div className="mt-2 h-5 w-40 rounded bg-muted" />
+          </div>
+        ) : (
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground">
+              Bienvenido,{' '}
+              <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                {user.display_name.split(' ')[0]}
+              </span>
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Panel de control de tu clínica
+            </p>
+          </div>
+        )}
 
-          {/* Onboarding card for new users */}
-          {!isLoading && !onboardingComplete && (
-            <OnboardingCard className="max-w-2xl" />
-          )}
+        {/* Onboarding card for new users */}
+        {!isLoading && !onboardingComplete && (
+          <OnboardingCard className="max-w-2xl" />
+        )}
 
-          {/* Quick stats */}
-          <QuickStats isLoading={isLoading} />
+        {/* Quick stats */}
+        <QuickStats isLoading={isLoading} />
 
-          {/* Calendar */}
-          {isLoading ? (
-            <CalendarLoadingSkeleton />
-          ) : (
-            <AppointmentCalendar
-              onEventClick={handleEventClick}
-              onSlotSelect={handleSlotSelect}
-              initialView="month"
-            />
-          )}
-        </div>
+        {/* Calendar */}
+        {isLoading ? (
+          <CalendarLoadingSkeleton />
+        ) : (
+          <AppointmentCalendar
+            onEventClick={handleEventClick}
+            onSlotSelect={handleSlotSelect}
+            initialView="month"
+          />
+        )}
       </div>
     </div>
   )

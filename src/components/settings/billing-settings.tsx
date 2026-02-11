@@ -5,6 +5,7 @@
  * and invoice history. Admin-only access.
  *
  * Created: 2026-02-10 - MV2-047 Settings Billing Tab
+ * Updated: 2026-02-10 - QA-011 Fixed price formatting (cents to display amount)
  */
 
 'use client'
@@ -30,8 +31,8 @@ import { CurrentPlanCard } from '@/components/billing/current-plan-card'
 import { InvoiceTable } from '@/components/billing/invoice-table'
 import { CheckoutModal } from '@/components/billing/checkout-modal'
 import { CurrencyToggle } from '@/components/billing/currency-toggle'
-import { getPlanCatalog, type PlanCatalogEntry } from '@/actions/billing'
-import type { BillingPlan } from '@/types/app'
+import { getPlanCatalog } from '@/actions/billing'
+import type { PlanCatalogEntry, BillingPlan } from '@/types/app'
 
 // =============================================================================
 // Types
@@ -53,7 +54,7 @@ interface UpgradePlan {
 const UPGRADE_PLANS: Omit<UpgradePlan, 'price'>[] = [
   {
     id: 'BASIC',
-    name: 'Basico',
+    name: 'Básico',
     icon: Zap,
     features: [
       'Hasta 200 pacientes',
@@ -147,12 +148,13 @@ export function BillingSettings() {
     })
   }, [tenant, upgradePlans])
 
-  // Format price
+  // Format price (price stored in centavos)
   const formatPrice = useCallback(
     (price: number | null): string => {
       if (price === null) return '—'
       const symbol = currency === 'GTQ' ? 'Q' : '$'
-      return `${symbol}${price.toLocaleString()}`
+      const amount = price / 100
+      return `${symbol}${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     },
     [currency]
   )
@@ -205,7 +207,7 @@ export function BillingSettings() {
                 Mejora tu plan
               </h3>
               <p className="text-sm text-muted-foreground">
-                Desbloquea mas funciones para tu clinica
+                Desbloquea más funciones para tu clínica
               </p>
             </div>
 

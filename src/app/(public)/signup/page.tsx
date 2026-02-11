@@ -6,13 +6,12 @@
  */
 
 import Link from 'next/link'
-import { Stethoscope } from 'lucide-react'
 
 import { SignupWizard } from '@/components/auth/signup-wizard'
 
 export const metadata = {
   title: 'Crear cuenta - MidiMed',
-  description: 'Registra tu clinica en MidiMed y comienza a gestionar tus pacientes y citas medicas.',
+  description: 'Registra tu clínica en MidiMed y comienza a gestionar tus pacientes y citas médicas.',
 }
 
 export default function SignupPage() {
@@ -37,9 +36,7 @@ export default function SignupPage() {
             href="/"
             className="inline-flex items-center gap-2 text-primary hover:opacity-80 transition-opacity"
           >
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <Stethoscope className="w-5 h-5 text-primary-foreground" />
-            </div>
+            <img src="/logoPrimary.svg" alt="MidiMed" width={36} height={36} className="shrink-0" />
             <span className="text-xl font-semibold tracking-tight">MidiMed</span>
           </Link>
         </div>
@@ -54,7 +51,7 @@ export default function SignupPage() {
               Crea tu cuenta
             </h1>
             <p className="mt-3 text-muted-foreground text-base sm:text-lg">
-              Registra tu clinica y comienza a gestionar tus pacientes con MidiMed
+              Registra tu clínica y comienza a gestionar tus pacientes con MidiMed
             </p>
           </div>
 
@@ -66,7 +63,7 @@ export default function SignupPage() {
           {/* Footer text */}
           <p className="text-center text-xs text-muted-foreground mt-8 max-w-md mx-auto">
             Al crear una cuenta, aceptas nuestros{' '}
-            <Link href="/terminos" className="text-primary hover:underline">
+            <Link href="/términos" className="text-primary hover:underline">
               Terminos de servicio
             </Link>{' '}
             y{' '}

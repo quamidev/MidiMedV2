@@ -5,6 +5,7 @@
  * feature summary, and checkout initiation.
  *
  * Created: 2026-02-10 - MV2-047 Settings Billing Tab
+ * Updated: 2026-02-10 - QA-011 Fixed price formatting (cents to display amount)
  */
 
 'use client'
@@ -75,8 +76,9 @@ export function CheckoutModal({
   const [loading, setLoading] = useState(false)
   const Icon = PLAN_ICONS[plan]
 
-  // Format price
-  const formattedPrice = `${currency === 'GTQ' ? 'Q' : '$'}${price.toLocaleString()}`
+  // Format price (price stored in centavos)
+  const displayAmount = price / 100
+  const formattedPrice = `${currency === 'GTQ' ? 'Q' : '$'}${displayAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
   // Handle checkout
   const handleCheckout = useCallback(async () => {
@@ -116,10 +118,10 @@ export function CheckoutModal({
             >
               <Icon className="h-5 w-5" />
             </div>
-            Confirmar suscripcion
+            Confirmar suscripción
           </DialogTitle>
           <DialogDescription>
-            Estas a punto de suscribirte al plan {planName}
+            Estás a punto de suscribirte al plan {planName}
           </DialogDescription>
         </DialogHeader>
 

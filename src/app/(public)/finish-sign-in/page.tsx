@@ -36,7 +36,7 @@ function FinishSignInContent() {
       // Validate required params
       if (!tokenHash || !type) {
         setState('error')
-        setErrorMessage('Enlace invalido. Por favor solicita un nuevo enlace de acceso.')
+        setErrorMessage('Enlace inválido. Por favor solicita un nuevo enlace de acceso.')
         return
       }
 
@@ -63,7 +63,7 @@ function FinishSignInContent() {
           if (error.message.includes('expired')) {
             setErrorMessage('El enlace ha expirado. Por favor solicita uno nuevo.')
           } else if (error.message.includes('invalid')) {
-            setErrorMessage('El enlace es invalido. Por favor solicita uno nuevo.')
+            setErrorMessage('El enlace es inválido. Por favor solicita uno nuevo.')
           } else {
             setErrorMessage('Error al verificar el enlace. Por favor intenta de nuevo.')
           }
@@ -352,7 +352,7 @@ function FinishSignInContent() {
                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
                   />
                 </svg>
-                Volver al inicio de sesion
+                Volver al inicio de sesión
               </motion.button>
             </motion.div>
           )}

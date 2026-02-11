@@ -112,12 +112,12 @@ export function PatientRecordsTimeline({
           </motion.div>
           <div className="flex-1">
             <h2 className="text-sm font-semibold text-foreground md:text-base">
-              Historial medico
+              Historial médico
             </h2>
             <p className="text-xs text-muted-foreground">
               {hasRecords
                 ? `${records.length} registro${records.length !== 1 ? 's' : ''}`
-                : 'Sin registros aun'}
+                : 'Sin registros aún'}
             </p>
           </div>
           {hasRecords && (

@@ -3,6 +3,7 @@
  * 4 steps: Personal Info -> Clinic Info -> Review -> Password
  *
  * Created: 2026-02-10 - MV2-011 Signup wizard UI
+ * Updated: 2026-02-10 - QA-010 Fixed missing Spanish accents/tildes
  */
 
 'use client'
@@ -42,22 +43,22 @@ import { Checkbox } from '@/components/ui/checkbox'
 
 const SPECIALTIES = [
   'Medicina General',
-  'Pediatria',
-  'Ginecologia',
-  'Cardiologia',
-  'Dermatologia',
-  'Oftalmologia',
-  'Traumatologia',
-  'Nutricion',
-  'Psicologia',
-  'Odontologia',
+  'Pediatría',
+  'Ginecología',
+  'Cardiología',
+  'Dermatología',
+  'Oftalmología',
+  'Traumatología',
+  'Nutrición',
+  'Psicología',
+  'Odontología',
 ] as const
 
 const STEPS = [
   { id: 1, title: 'Datos personales', icon: User },
-  { id: 2, title: 'Clinica', icon: Building2 },
+  { id: 2, title: 'Clínica', icon: Building2 },
   { id: 3, title: 'Revisar', icon: ClipboardCheck },
-  { id: 4, title: 'Contrasena', icon: Lock },
+  { id: 4, title: 'Contraseña', icon: Lock },
 ] as const
 
 // =============================================================================
@@ -73,13 +74,13 @@ const signupSchema = z.object({
   email: z
     .string()
     .min(1, 'El correo es requerido')
-    .email('Correo electronico invalido'),
+    .email('Correo electrónico inválido'),
   phone: z.string().optional(),
 
   // Step 2: Clinic Info
   clinicName: z
     .string()
-    .min(2, 'El nombre de la clinica debe tener al menos 2 caracteres')
+    .min(2, 'El nombre de la clínica debe tener al menos 2 caracteres')
     .max(100, 'El nombre es muy largo'),
   address: z.string().optional(),
   specialties: z.array(z.string()).optional(),
@@ -87,10 +88,10 @@ const signupSchema = z.object({
   // Step 4: Password
   password: z
     .string()
-    .min(6, 'La contrasena debe tener al menos 6 caracteres'),
-  confirmPassword: z.string().min(1, 'Confirma tu contrasena'),
+    .min(6, 'La contraseña debe tener al menos 6 caracteres'),
+  confirmPassword: z.string().min(1, 'Confirma tu contraseña'),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: 'Las contrasenas no coinciden',
+  message: 'Las contraseñas no coinciden',
   path: ['confirmPassword'],
 })
 
@@ -116,7 +117,7 @@ function PersonalInfoStep({ form }: StepProps) {
         </div>
         <Input
           id="displayName"
-          placeholder="Dr. Juan Perez"
+          placeholder="Dr. Juan Pérez"
           error={!!errors.displayName}
           {...register('displayName')}
         />
@@ -128,7 +129,7 @@ function PersonalInfoStep({ form }: StepProps) {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Mail className="h-4 w-4 text-primary" />
-          <Label htmlFor="email">Correo electronico *</Label>
+          <Label htmlFor="email">Correo electrónico *</Label>
         </div>
         <Input
           id="email"
@@ -145,7 +146,7 @@ function PersonalInfoStep({ form }: StepProps) {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Phone className="h-4 w-4 text-primary" />
-          <Label htmlFor="phone">Telefono (opcional)</Label>
+          <Label htmlFor="phone">Teléfono (opcional)</Label>
         </div>
         <Input
           id="phone"
@@ -176,11 +177,11 @@ function ClinicInfoStep({ form }: StepProps) {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Building2 className="h-4 w-4 text-primary" />
-          <Label htmlFor="clinicName">Nombre de la clinica *</Label>
+          <Label htmlFor="clinicName">Nombre de la clínica *</Label>
         </div>
         <Input
           id="clinicName"
-          placeholder="Clinica Medica Central"
+          placeholder="Clínica Médica Central"
           error={!!errors.clinicName}
           {...register('clinicName')}
         />
@@ -192,7 +193,7 @@ function ClinicInfoStep({ form }: StepProps) {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 text-primary" />
-          <Label htmlFor="address">Direccion (opcional)</Label>
+          <Label htmlFor="address">Dirección (opcional)</Label>
         </div>
         <Input
           id="address"
@@ -207,7 +208,7 @@ function ClinicInfoStep({ form }: StepProps) {
           <Label>Especialidades (opcional)</Label>
         </div>
         <p className="text-sm text-muted-foreground">
-          Selecciona las especialidades que ofrece tu clinica
+          Selecciona las especialidades que ofrece tu clínica
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {SPECIALTIES.map((specialty) => (
@@ -245,15 +246,15 @@ function ReviewStep({ form }: StepProps) {
       items: [
         { label: 'Nombre', value: data.displayName },
         { label: 'Correo', value: data.email },
-        { label: 'Telefono', value: data.phone || 'No especificado' },
+        { label: 'Teléfono', value: data.phone || 'No específicado' },
       ],
     },
     {
-      title: 'Clinica',
+      title: 'Clínica',
       icon: Building2,
       items: [
-        { label: 'Nombre de la clinica', value: data.clinicName },
-        { label: 'Direccion', value: data.address || 'No especificada' },
+        { label: 'Nombre de la clínica', value: data.clinicName },
+        { label: 'Dirección', value: data.address || 'No específicada' },
         {
           label: 'Especialidades',
           value: data.specialties?.length
@@ -270,7 +271,7 @@ function ReviewStep({ form }: StepProps) {
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
           <ClipboardCheck className="h-8 w-8 text-primary" />
         </div>
-        <h3 className="text-lg font-semibold">Revisa tu informacion</h3>
+        <h3 className="text-lg font-semibold">Revisa tu información</h3>
         <p className="text-sm text-muted-foreground mt-1">
           Verifica que todos los datos sean correctos antes de continuar
         </p>
@@ -302,7 +303,7 @@ function ReviewStep({ form }: StepProps) {
 
       <div className="rounded-lg bg-primary/5 border border-primary/20 p-4">
         <p className="text-sm text-center text-muted-foreground">
-          En el siguiente paso crearas tu contrasena para acceder a MidiMed
+          En el siguiente paso crearás tu contraseña para acceder a MidiMed
         </p>
       </div>
     </div>
@@ -320,19 +321,19 @@ function PasswordStep({ form }: StepProps) {
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
           <Lock className="h-8 w-8 text-primary" />
         </div>
-        <h3 className="text-lg font-semibold">Crea tu contrasena</h3>
+        <h3 className="text-lg font-semibold">Crea tu contraseña</h3>
         <p className="text-sm text-muted-foreground mt-1">
-          Elige una contrasena segura para proteger tu cuenta
+          Elige una contraseña segura para proteger tu cuenta
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Contrasena *</Label>
+        <Label htmlFor="password">Contraseña *</Label>
         <div className="relative">
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Minimo 6 caracteres"
+            placeholder="Mínimo 6 caracteres"
             error={!!errors.password}
             className="pr-12"
             {...register('password')}
@@ -351,12 +352,12 @@ function PasswordStep({ form }: StepProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword">Confirmar contrasena *</Label>
+        <Label htmlFor="confirmPassword">Confirmar contraseña *</Label>
         <div className="relative">
           <Input
             id="confirmPassword"
             type={showConfirmPassword ? 'text' : 'password'}
-            placeholder="Repite tu contrasena"
+            placeholder="Repite tu contraseña"
             error={!!errors.confirmPassword}
             className="pr-12"
             {...register('confirmPassword')}
@@ -375,7 +376,7 @@ function PasswordStep({ form }: StepProps) {
       </div>
 
       <div className="rounded-lg bg-muted/50 p-4 space-y-2">
-        <p className="text-sm font-medium">Tu contrasena debe tener:</p>
+        <p className="text-sm font-medium">Tu contraseña debe tener:</p>
         <ul className="text-sm text-muted-foreground space-y-1">
           <li className="flex items-center gap-2">
             <Check className="h-4 w-4 text-primary" />
@@ -590,7 +591,7 @@ export function SignupWizard() {
               className="flex-1"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Atras
+              Atrás
             </Button>
           )}
 
@@ -622,7 +623,7 @@ export function SignupWizard() {
           href="/login"
           className="text-primary font-medium hover:underline transition-colors"
         >
-          Inicia sesion
+          Inicia sesión
         </a>
       </p>
     </div>

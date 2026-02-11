@@ -61,7 +61,7 @@ const PLAN_CONFIGS: Record<BillingPlan, PlanConfig> = {
     borderColor: 'border-amber-200 dark:border-amber-800',
   },
   BASIC: {
-    name: 'Basico',
+    name: 'Básico',
     icon: Zap,
     color: 'text-blue-600 dark:text-blue-400',
     bgColor: 'bg-blue-50 dark:bg-blue-950/30',
@@ -84,7 +84,7 @@ const PLAN_CONFIGS: Record<BillingPlan, PlanConfig> = {
 }
 
 const STATUS_LABELS: Record<BillingStatus, { label: string; variant: 'success' | 'warning' | 'error' }> = {
-  TRIAL_ACTIVE: { label: 'Periodo de prueba', variant: 'success' },
+  TRIAL_ACTIVE: { label: 'Período de prueba', variant: 'success' },
   TRIAL_EXPIRED: { label: 'Prueba expirada', variant: 'error' },
   PAID_ACTIVE: { label: 'Activo', variant: 'success' },
   PAST_DUE: { label: 'Pago pendiente', variant: 'warning' },
@@ -175,7 +175,7 @@ export function CurrentPlanCard({
               {formattedPaidThrough && status === 'PAID_ACTIVE' && (
                 <p className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  Proximo cobro: {formattedPaidThrough}
+                  Próximo cobro: {formattedPaidThrough}
                 </p>
               )}
               {status === 'PAST_DUE' && formattedPaidThrough && (
@@ -193,7 +193,7 @@ export function CurrentPlanCard({
           <div className="rounded-xl bg-background/80 p-4 shadow-sm">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Clock className="h-4 w-4 text-amber-500" />
-              {trialInfo.daysRemaining} dias restantes
+              {trialInfo.daysRemaining} días restantes
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
               Expira el {trialInfo.endDate}

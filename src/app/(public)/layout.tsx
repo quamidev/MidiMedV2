@@ -22,22 +22,22 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.midimed.com'
 
 export const metadata: Metadata = {
   title: {
-    default: 'MidiMed - Sistema de Gestion Medica para Clinicas',
+    default: 'MidiMed - Sistema de Gestión Médica para Clínicas',
     template: '%s | MidiMed',
   },
   description:
-    'La plataforma todo-en-uno para gestion de consultorios medicos en Latinoamerica. Agenda citas, gestiona expedientes y genera resumenes con IA. 30 dias de prueba gratis.',
+    'La plataforma todo-en-uno para gestión de consultorios médicos. Agenda citas, gestiona expedientes y genera resúmenes con IA. 30 días de prueba gratis.',
   keywords: [
-    'sistema medico',
-    'gestion clinica',
-    'expediente electronico',
-    'agenda medica',
-    'software medico Guatemala',
-    'historia clinica digital',
-    'citas medicas',
-    'consultorio medico',
-    'SaaS medico',
-    'IA medica',
+    'sistema médico',
+    'gestión clínica',
+    'expediente electrónico',
+    'agenda médica',
+    'software médico Guatemala',
+    'historia clínica digital',
+    'citas médicas',
+    'consultorio médico',
+    'SaaS médico',
+    'IA médica',
   ],
   authors: [{ name: 'MidiMed' }],
   creator: 'MidiMed',
@@ -61,23 +61,23 @@ export const metadata: Metadata = {
     locale: 'es_GT',
     url: siteUrl,
     siteName: 'MidiMed',
-    title: 'MidiMed - Sistema de Gestion Medica para Clinicas',
+    title: 'MidiMed - Sistema de Gestión Médica para Clínicas',
     description:
-      'La plataforma todo-en-uno para gestion de consultorios medicos en Latinoamerica. Agenda citas, gestiona expedientes y genera resumenes con IA.',
+      'La plataforma todo-en-uno para gestión de consultorios médicos. Agenda citas, gestiona expedientes y genera resúmenes con IA.',
     images: [
       {
         url: `${siteUrl}/images/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'MidiMed - Sistema de Gestion Medica',
+        alt: 'MidiMed - Sistema de Gestión Médica',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MidiMed - Sistema de Gestion Medica para Clinicas',
+    title: 'MidiMed - Sistema de Gestión Médica para Clínicas',
     description:
-      'La plataforma todo-en-uno para gestion de consultorios medicos en Latinoamerica. 30 dias de prueba gratis.',
+      'La plataforma todo-en-uno para gestión de consultorios médicos. 30 días de prueba gratis.',
     images: [`${siteUrl}/images/og-image.png`],
     creator: '@midimed',
   },
@@ -92,7 +92,7 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'MidiMed',
-  description: 'Sistema de gestion medica para clinicas en Latinoamerica',
+  description: 'Sistema de gestión médica para clínicas y doctores independientes',
   url: siteUrl,
   logo: `${siteUrl}/images/logo.png`,
   sameAs: [
@@ -121,18 +121,18 @@ const softwareApplicationSchema = {
   operatingSystem: 'Web',
   applicationCategory: 'HealthApplication',
   description:
-    'Plataforma de gestion medica para clinicas. Incluye agenda de citas, expedientes electronicos, generacion de PDFs y resumenes con inteligencia artificial.',
+    'Plataforma de gestión médica para clínicas. Incluye agenda de citas, expedientes electrónicos, generación de PDFs y resúmenes con inteligencia artificial.',
   offers: [
     {
       '@type': 'Offer',
       name: 'Prueba Gratuita',
       price: '0',
       priceCurrency: 'GTQ',
-      description: '30 dias de prueba gratuita con acceso completo',
+      description: '30 días de prueba gratuita con acceso completo',
     },
     {
       '@type': 'Offer',
-      name: 'Plan Basico',
+      name: 'Plan Básico',
       price: '799.99',
       priceCurrency: 'GTQ',
       priceValidUntil: '2027-12-31',
@@ -156,13 +156,13 @@ const softwareApplicationSchema = {
   },
   featureList: [
     'Calendario de citas con arrastrar y soltar',
-    'Expedientes medicos digitales',
+    'Expedientes médicos digitales',
     'Generacion de PDFs profesionales',
     'Resumenes con inteligencia artificial',
-    'Gestion de equipo multiusuario',
+    'Gestión de equipo multiusuario',
     'Notificaciones en tiempo real',
     'Reportes y analiticas',
-    'Soporte en espanol',
+    'Soporte en español',
   ],
 }
 
@@ -175,7 +175,7 @@ const faqPageSchema = {
       name: '¿Que incluye la prueba gratuita?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'La prueba gratuita de 30 dias incluye acceso completo a todas las funciones de MidiMed: calendario de citas, gestion de pacientes, expedientes medicos, generacion de PDFs, y resumenes con IA. No necesitas tarjeta de credito para comenzar.',
+        text: 'La prueba gratuita de 30 días incluye acceso completo a todas las funciones de MidiMed: calendario de citas, gestión de pacientes, expedientes médicos, generación de PDFs, y resúmenes con IA. No necesitas tarjeta de crédito para comenzar.',
       },
     },
     {
@@ -183,7 +183,7 @@ const faqPageSchema = {
       name: '¿Es seguro almacenar datos de pacientes?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Absolutamente. MidiMed utiliza encriptacion de nivel bancario (AES-256) para todos los datos en reposo y en transito. Cumplimos con las normativas de proteccion de datos de salud.',
+        text: 'Absolutamente. MidiMed utiliza encriptación de nivel bancario (AES-256) para todos los datos en reposo y en tránsito. Cumplimos con las normativas de protección de datos de salud.',
       },
     },
     {
@@ -191,15 +191,15 @@ const faqPageSchema = {
       name: '¿Cuantos usuarios puedo agregar?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Depende del plan: El plan Basico incluye 1 usuario, el plan Profesional permite hasta 5 usuarios, y el plan Empresarial ofrece usuarios ilimitados.',
+        text: 'Depende del plan: El plan Básico incluye 1 usuario, el plan Profesional permite hasta 5 usuarios, y el plan Empresarial ofrece usuarios ilimitados.',
       },
     },
     {
       '@type': 'Question',
-      name: '¿Ofrecen soporte tecnico?',
+      name: '¿Ofrecen soporte técnico?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Si, todos los planes incluyen soporte en espanol. El plan Profesional incluye soporte prioritario y el plan Empresarial cuenta con un gerente de cuenta dedicado.',
+        text: 'Sí, todos los planes incluyen soporte en español. El plan Profesional incluye soporte prioritario y el plan Empresarial cuenta con un gerente de cuenta dedicado.',
       },
     },
     {
@@ -207,15 +207,15 @@ const faqPageSchema = {
       name: '¿Puedo migrar mis datos existentes?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Si, nuestro equipo de soporte puede ayudarte a migrar datos desde hojas de calculo (Excel, Google Sheets) o desde otros sistemas de forma gratuita.',
+        text: 'Sí, nuestro equipo de soporte puede ayudarte a migrar datos desde hojas de cálculo (Excel, Google Sheets) o desde otros sistemas de forma gratuita.',
       },
     },
     {
       '@type': 'Question',
-      name: '¿Como funciona la facturacion?',
+      name: '¿Como funciona la facturación?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'La facturacion es mensual y se procesa automaticamente. Aceptamos tarjetas de credito y debito a traves de Recurrente, una pasarela de pago segura.',
+        text: 'La facturación es mensual y se procesa automáticamente. Aceptamos tarjetas de crédito y débito a través de Recurrente, una pasarela de pago segura.',
       },
     },
   ],

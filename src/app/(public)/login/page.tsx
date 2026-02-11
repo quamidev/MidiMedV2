@@ -5,34 +5,24 @@
  * Features a split-screen layout on desktop with a decorative left panel.
  *
  * Created: 2026-02-10 - MV2-010 Login page UI
+ * Updated: 2026-02-10 - QA-012 Fixed toast hidden behind decorative left panel
  */
 
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Activity, Heart, Shield, Clock } from 'lucide-react'
+import { Heart, Shield, Clock, Activity } from 'lucide-react'
 
 import { LoginForm } from '@/components/auth/login-form'
-import { Toaster } from 'sonner'
+import { RotatingWords } from '@/components/ui/rotating-words'
 
 export const metadata: Metadata = {
-  title: 'Iniciar sesion - MidiMed',
-  description: 'Inicia sesion en tu cuenta de MidiMed para administrar tu clinica.',
+  title: 'Iniciar sesión - MidiMed',
+  description: 'Inicia sesión en tu cuenta de MidiMed para administrar tu clínica.',
 }
 
 export default function LoginPage() {
   return (
     <>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: 'var(--background)',
-            border: '1px solid var(--border)',
-            color: 'var(--foreground)',
-          },
-        }}
-      />
-
       <div className="min-h-screen flex">
         {/* Left Panel - Decorative (hidden on mobile) */}
         <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden">
@@ -55,9 +45,7 @@ export default function LoginPage() {
           <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                <Activity className="h-5 w-5 text-white" />
-              </div>
+              <img src="/logo.svg" alt="MidiMed" width={40} height={40} className="shrink-0" />
               <span className="text-2xl font-bold text-white tracking-tight">
                 MidiMed
               </span>
@@ -66,12 +54,16 @@ export default function LoginPage() {
             {/* Main content */}
             <div className="max-w-lg">
               <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
-                Gestion medica{' '}
-                <span className="text-white/80">simplificada</span>
+                Gestión médica
+                <br />
+                <RotatingWords
+                  words={['simplificada', 'inteligente', 'moderna', 'eficiente', 'segura']}
+                  className="text-white/80"
+                />
               </h1>
               <p className="text-lg text-white/70 leading-relaxed mb-12">
-                Administra pacientes, citas y expedientes medicos desde una
-                plataforma intuitiva disenada para clinicas en Latinoamerica.
+                Administra pacientes, citas y expedientes médicos desde una
+                plataforma intuitiva diseñada para clínicas.
               </p>
 
               {/* Feature list */}
@@ -111,9 +103,7 @@ export default function LoginPage() {
           {/* Mobile header */}
           <div className="lg:hidden p-6 flex items-center justify-between border-b border-border/50">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Activity className="h-4.5 w-4.5 text-primary" />
-              </div>
+              <img src="/logoPrimary.svg" alt="MidiMed" width={32} height={32} className="shrink-0" />
               <span className="text-xl font-bold text-foreground tracking-tight">
                 MidiMed
               </span>
@@ -129,7 +119,7 @@ export default function LoginPage() {
                   Bienvenido de vuelta
                 </h2>
                 <p className="text-muted-foreground">
-                  Inicia sesion para acceder a tu clinica
+                  Inicia sesión para acceder a tu clínica
                 </p>
               </div>
 

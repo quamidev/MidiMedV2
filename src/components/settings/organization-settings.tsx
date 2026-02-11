@@ -6,6 +6,7 @@
  * Features form validation with Zod and optimistic updates.
  *
  * Created: 2026-02-10 - MV2-040 Settings Page with Tabs
+ * Updated: 2026-02-10 - QA-010 Fixed missing Spanish accents/tildes
  */
 
 'use client'
@@ -57,7 +58,7 @@ import { WorkingHoursForm } from './working-hours-form'
 
 const organizationSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  email: z.string().email('Correo invalido').nullable().optional(),
+  email: z.string().email('Correo inválido').nullable().optional(),
   phone: z.string().nullable().optional(),
   address: z.string().nullable().optional(),
 })
@@ -132,7 +133,7 @@ export function OrganizationSettings() {
         })
 
         if (result.success) {
-          toast.success('Organizacion actualizada')
+          toast.success('Organización actualizada')
           await refreshUser()
         } else {
           toast.error(result.error)
@@ -178,7 +179,7 @@ export function OrganizationSettings() {
         const result = await updateAppointmentDuration(parseInt(value, 10))
 
         if (result.success) {
-          toast.success('Duracion actualizada')
+          toast.success('Duración actualizada')
           await refreshUser()
         } else {
           toast.error(result.error)
@@ -234,9 +235,9 @@ export function OrganizationSettings() {
                 <Building2 className="h-4 w-4 text-primary" />
               </div>
               <div>
-                <h2 className="font-semibold text-foreground">Organizacion</h2>
+                <h2 className="font-semibold text-foreground">Organización</h2>
                 <p className="text-xs text-muted-foreground">
-                  Informacion de tu clinica
+                  Información de tu clínica
                 </p>
               </div>
             </div>
@@ -250,11 +251,11 @@ export function OrganizationSettings() {
             <div className="space-y-2">
               <Label htmlFor="org-name" className="flex items-center gap-2">
                 <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
-                Nombre de la clinica *
+                Nombre de la clínica *
               </Label>
               <Input
                 id="org-name"
-                placeholder="Clinica MediSalud"
+                placeholder="Clínica MediSalud"
                 error={!!orgForm.formState.errors.name}
                 {...orgForm.register('name')}
               />
@@ -271,7 +272,7 @@ export function OrganizationSettings() {
               <div className="space-y-2">
                 <Label htmlFor="org-email" className="flex items-center gap-2">
                   <Mail className="h-3.5 w-3.5 text-muted-foreground" />
-                  Correo electronico
+                  Correo electrónico
                 </Label>
                 <Input
                   id="org-email"
@@ -285,7 +286,7 @@ export function OrganizationSettings() {
               <div className="space-y-2">
                 <Label htmlFor="org-phone" className="flex items-center gap-2">
                   <Phone className="h-3.5 w-3.5 text-muted-foreground" />
-                  Telefono
+                  Teléfono
                 </Label>
                 <Input
                   id="org-phone"
@@ -300,7 +301,7 @@ export function OrganizationSettings() {
             <div className="space-y-2">
               <Label htmlFor="org-address" className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
-                Direccion
+                Dirección
               </Label>
               <Input
                 id="org-address"
@@ -313,7 +314,7 @@ export function OrganizationSettings() {
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
                 <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                Duracion predeterminada de citas
+                Duración predeterminada de citas
               </Label>
               <Select
                 value={String(tenant?.appointment_duration_minutes || 30)}
@@ -332,7 +333,7 @@ export function OrganizationSettings() {
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                Esta duracion se aplicara a nuevas citas por defecto
+                Esta duración se aplicará a nuevas citas por defecto
               </p>
             </div>
 
@@ -377,7 +378,7 @@ export function OrganizationSettings() {
             <div>
               <h2 className="font-semibold text-foreground">Perfil personal</h2>
               <p className="text-xs text-muted-foreground">
-                Tu informacion y preferencias
+                Tu información y preferencias
               </p>
             </div>
           </div>
@@ -397,7 +398,7 @@ export function OrganizationSettings() {
               <div className="flex gap-3">
                 <Input
                   id="display-name"
-                  placeholder="Dr. Juan Perez"
+                  placeholder="Dr. Juan Pérez"
                   className="flex-1"
                   error={!!personalForm.formState.errors.displayName}
                   {...personalForm.register('displayName')}
@@ -462,7 +463,7 @@ export function OrganizationSettings() {
                   Reiniciar tutorial
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Volver a ver la guia de inicio
+                  Volver a ver la guía de inicio
                 </p>
               </div>
             </div>

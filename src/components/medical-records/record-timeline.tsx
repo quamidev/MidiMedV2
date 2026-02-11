@@ -112,8 +112,8 @@ export function RecordTimeline({
               Sin expedientes registrados
             </h3>
             <p className="mb-5 max-w-xs text-sm text-muted-foreground">
-              Los registros de consultas, diagnosticos y tratamientos apareceran
-              aqui en una linea de tiempo.
+              Los registros de consultas, diagnósticos y tratamientos aparecerán
+              aquí en una línea de tiempo.
             </p>
 
             {onCreateNew && (

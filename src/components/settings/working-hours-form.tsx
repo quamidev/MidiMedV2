@@ -44,10 +44,10 @@ interface DayConfig {
 const DAYS: DayConfig[] = [
   { key: 'mon', label: 'Lunes', shortLabel: 'Lun' },
   { key: 'tue', label: 'Martes', shortLabel: 'Mar' },
-  { key: 'wed', label: 'Miercoles', shortLabel: 'Mie' },
+  { key: 'wed', label: 'Miércoles', shortLabel: 'Mié' },
   { key: 'thu', label: 'Jueves', shortLabel: 'Jue' },
   { key: 'fri', label: 'Viernes', shortLabel: 'Vie' },
-  { key: 'sat', label: 'Sabado', shortLabel: 'Sab' },
+  { key: 'sat', label: 'Sábado', shortLabel: 'Sáb' },
   { key: 'sun', label: 'Domingo', shortLabel: 'Dom' },
 ]
 
@@ -197,9 +197,9 @@ export function WorkingHoursForm() {
               <Clock className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <h2 className="font-semibold text-foreground">Horarios de atencion</h2>
+              <h2 className="font-semibold text-foreground">Horarios de atención</h2>
               <p className="text-xs text-muted-foreground">
-                Configura los dias y horas de trabajo
+                Configura los días y horas de trabajo
               </p>
             </div>
           </div>
@@ -325,7 +325,7 @@ export function WorkingHoursForm() {
 
         {/* Help Text */}
         <p className="mt-4 text-xs text-muted-foreground">
-          Los horarios de atencion se muestran en el calendario y ayudan a organizar las citas.
+          Los horarios de atención se muestran en el calendario y ayudan a organizar las citas.
         </p>
       </div>
     </div>

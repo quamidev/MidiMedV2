@@ -182,7 +182,7 @@ export function PatientAppointments({
           </div>
           <div className="flex-1">
             <h2 className="text-sm font-semibold text-foreground md:text-base">
-              Proximas citas
+              Próximás citas
             </h2>
             <p className="text-xs text-muted-foreground">
               {upcoming.length === 0
@@ -202,7 +202,7 @@ export function PatientAppointments({
                 Sin citas programadas
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Las proximas citas apareceran aqui
+                Las próximas citas aparecerán aquí
               </p>
             </div>
           ) : (
@@ -212,7 +212,7 @@ export function PatientAppointments({
               ))}
               {upcoming.length > 3 && (
                 <p className="py-2 text-center text-xs font-medium text-primary">
-                  +{upcoming.length - 3} citas mas
+                  +{upcoming.length - 3} citas más
                 </p>
               )}
             </div>
@@ -248,7 +248,7 @@ export function PatientAppointments({
                 Sin historial de citas
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Las citas pasadas apareceran aqui
+                Las citas pasadas aparecerán aquí
               </p>
             </div>
           ) : (

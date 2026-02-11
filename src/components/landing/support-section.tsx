@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button'
 const contactMethods = [
   {
     icon: Phone,
-    title: 'Telefono',
+    title: 'Teléfono',
     description: 'Lunes a Viernes, 9am - 6pm (Guatemala)',
     value: '+502 2234-5678',
     href: 'tel:+50222345678',
@@ -26,15 +26,15 @@ const contactMethods = [
   {
     icon: MessageCircle,
     title: 'WhatsApp',
-    description: 'Respuesta rapida en horario laboral',
+    description: 'Respuesta rápida en horario laboral',
     value: '+502 5555-1234',
     href: 'https://wa.me/50255551234?text=Hola%2C%20me%20interesa%20MidiMed',
     actionLabel: 'Enviar mensaje',
   },
   {
     icon: Mail,
-    title: 'Correo electronico',
-    description: 'Soporte tecnico y consultas',
+    title: 'Correo electrónico',
+    description: 'Soporte técnico y consultas',
     value: 'soporte@midimed.io',
     href: 'mailto:soporte@midimed.io',
     actionLabel: 'Enviar email',
@@ -67,7 +67,7 @@ export function SupportSection() {
             ¿Necesitas ayuda?
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Nuestro equipo esta listo para ayudarte. Contactanos por el medio que prefieras.
+            Nuestro equipo está listo para ayudarte. Contáctanos por el medio que prefieras.
           </p>
         </motion.div>
 
@@ -133,7 +133,7 @@ export function SupportSection() {
             </div>
             <div className="text-center sm:text-left">
               <h3 className="text-lg font-semibold text-foreground">
-                ¿Prefieres una demostracion personalizada?
+                ¿Prefieres una demostración personalizada?
               </h3>
               <p className="mt-1 text-muted-foreground">
                 Agenda una llamada de 30 minutos con nuestro equipo.

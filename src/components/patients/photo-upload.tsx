@@ -79,7 +79,7 @@ export function PhotoUpload({
       return 'Tipo de archivo no permitido. Use JPG, PNG, GIF o WebP.'
     }
     if (file.size > MAX_FILE_SIZE) {
-      return 'El archivo es muy grande. Maximo 5MB.'
+      return 'El archivo es muy grande. Máximo 5MB.'
     }
     return null
   }, [])
@@ -360,7 +360,7 @@ export function PhotoUpload({
           <AlertDialogHeader>
             <AlertDialogTitle>Eliminar foto</AlertDialogTitle>
             <AlertDialogDescription>
-              ¿Esta seguro que desea eliminar la foto del paciente? Esta accion no se puede deshacer.
+              ¿Esta seguro que desea eliminar la foto del paciente? Esta acción no se puede deshacer.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -100,13 +100,13 @@ const STEP_CONFIG: Array<{
   {
     id: 'complete_appointment',
     label: 'Completar consulta',
-    description: 'Finaliza una consulta y guarda el registro medico',
+    description: 'Finaliza una consulta y guarda el registro médico',
     icon: CheckCircle2,
   },
   {
     id: 'visit_settings',
-    label: 'Visitar configuracion',
-    description: 'Personaliza tu clinica en configuracion',
+    label: 'Visitar configuración',
+    description: 'Personaliza tu clínica en configuración',
     icon: Settings,
     href: '/settings',
   },

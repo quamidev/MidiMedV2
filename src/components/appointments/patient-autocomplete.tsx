@@ -368,7 +368,7 @@ export function PatientAutocomplete({
                 No se encontraron pacientes
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Intenta con otro termino de busqueda
+                Intenta con otro término de búsqueda
               </p>
             </div>
           ) : (

@@ -122,7 +122,7 @@ function EmptyState({ message, isCompleted = false }: EmptyStateProps) {
       </p>
       <p className="mt-1 text-xs text-muted-foreground">
         {isCompleted
-          ? 'Las citas completadas apareceran aqui'
+          ? 'Las citas completadas aparecerán aquí'
           : 'Programa una cita para comenzar'}
       </p>
     </div>
@@ -252,7 +252,7 @@ export function MobileAppointmentList({
   appointments,
   isLoading = false,
   onAppointmentClick,
-  emptyStateMessage = 'No hay citas para este dia',
+  emptyStateMessage = 'No hay citas para este día',
   className,
 }: MobileAppointmentListProps) {
   const handleCardClick = useCallback(

@@ -20,7 +20,7 @@ const features = [
     icon: Calendar,
     title: 'Agenda inteligente',
     description:
-      'Calendario visual con arrastrar y soltar. Vista por dia, semana y mes con recordatorios automaticos.',
+      'Calendario visual con arrastrar y soltar. Vista por día, semana y mes con recordatorios automáticos.',
     gradient: 'from-blue-500/20 to-cyan-500/20',
     iconBg: 'bg-blue-500/10',
     iconColor: 'text-blue-600 dark:text-blue-400',
@@ -29,7 +29,7 @@ const features = [
     icon: FileText,
     title: 'Expedientes digitales',
     description:
-      'Historiales medicos completos con signos vitales, diagnosticos, recetas y campos personalizables.',
+      'Historiales médicos completos con signos vitales, diagnósticos, recetas y campos personalizables.',
     gradient: 'from-emerald-500/20 to-teal-500/20',
     iconBg: 'bg-emerald-500/10',
     iconColor: 'text-emerald-600 dark:text-emerald-400',
@@ -38,16 +38,16 @@ const features = [
     icon: Brain,
     title: 'Asistente con IA',
     description:
-      'Resumenes automaticos de pacientes y notas SOAP generadas con inteligencia artificial.',
+      'Resúmenes automáticos de pacientes y notas SOAP generadas con inteligencia artificial.',
     gradient: 'from-violet-500/20 to-purple-500/20',
     iconBg: 'bg-violet-500/10',
     iconColor: 'text-violet-600 dark:text-violet-400',
   },
   {
     icon: BarChart3,
-    title: 'Reportes y analiticas',
+    title: 'Reportes y analíticas',
     description:
-      'Metricas de productividad, tendencias de citas y exportacion de reportes en PDF.',
+      'Métricas de productividad, tendencias de citas y exportación de reportes en PDF.',
     gradient: 'from-amber-500/20 to-orange-500/20',
     iconBg: 'bg-amber-500/10',
     iconColor: 'text-amber-600 dark:text-amber-400',
@@ -100,11 +100,10 @@ export function FeatureGrid() {
             Funcionalidades
           </span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Todo lo que necesitas para tu clinica
+            Todo lo que necesitas para tu clínica
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Herramientas poderosas disenadas especificamente para profesionales de la salud
-            en Latinoamerica.
+            Herramientas poderosas diseñadas específicamente para profesionales de la salud.
           </p>
         </motion.div>
 
@@ -163,7 +162,7 @@ export function FeatureGrid() {
 
                   {/* Learn More Link */}
                   <div className="mt-4 flex items-center text-sm font-medium text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span>Saber mas</span>
+                    <span>Saber más</span>
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>

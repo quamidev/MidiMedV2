@@ -52,12 +52,12 @@ const sections: FeatureSection[] = [
     badge: 'Agenda',
     title: 'Calendario intuitivo con arrastrar y soltar',
     description:
-      'Organiza las citas de tu clinica con un calendario visual que hace la programacion simple y eficiente.',
+      'Organiza las citas de tu clínica con un calendario visual que hace la programación simple y eficiente.',
     features: [
       'Vista diaria, semanal y mensual',
       'Arrastrar y soltar para reprogramar',
-      'Codigo de colores por proveedor',
-      'Recordatorios automaticos',
+      'Código de colores por proveedor',
+      'Recordatorios automáticos',
     ],
     icon: Calendar,
     gradient: 'from-blue-600 to-cyan-500',
@@ -70,9 +70,9 @@ const sections: FeatureSection[] = [
   {
     id: 'expedientes',
     badge: 'Expedientes',
-    title: 'Historiales medicos completos y accesibles',
+    title: 'Historiales médicos completos y accesibles',
     description:
-      'Toda la informacion de tus pacientes en un solo lugar, organizada y lista cuando la necesites.',
+      'Toda la información de tus pacientes en un solo lugar, organizada y lista cuando la necesites.',
     features: [
       'Signos vitales y mediciones',
       'Historial de consultas',
@@ -93,12 +93,12 @@ const sections: FeatureSection[] = [
     badge: 'Inteligencia Artificial',
     title: 'Resumenes automaticos con IA',
     description:
-      'Genera notas clinicas estructuradas y resumenes de pacientes en segundos con inteligencia artificial.',
+      'Genera notas clínicas estructuradas y resúmenes de pacientes en segundos con inteligencia artificial.',
     features: [
       'Notas SOAP automaticas',
       'Resumenes de historial',
-      'Lenguaje medico profesional',
-      'Ahorra horas de documentacion',
+      'Lenguaje médico profesional',
+      'Ahorra horas de documentación',
     ],
     icon: Brain,
     gradient: 'from-violet-600 to-purple-500',
@@ -110,15 +110,15 @@ const sections: FeatureSection[] = [
   },
   {
     id: 'reportes',
-    badge: 'Analiticas',
+    badge: 'Analíticas',
     title: 'Reportes que impulsan decisiones',
     description:
-      'Visualiza el rendimiento de tu practica con metricas claras y exporta reportes profesionales.',
+      'Visualiza el rendimiento de tu práctica con métricas claras y exporta reportes profesionales.',
     features: [
       'KPIs en tiempo real',
       'Tendencias de citas',
       'Pacientes frecuentes',
-      'Exportacion en PDF',
+      'Exportación en PDF',
     ],
     icon: BarChart3,
     gradient: 'from-amber-600 to-orange-500',
@@ -137,7 +137,7 @@ const sections: FeatureSection[] = [
       'Invita a tu equipo con roles personalizados y mantente sincronizado con notificaciones en tiempo real.',
     features: [
       'Roles: Admin, Proveedor, Staff',
-      'Invitaciones por correo',
+      'Invitaciónes por correo',
       'Notificaciones en vivo',
       'Calendario compartido',
     ],

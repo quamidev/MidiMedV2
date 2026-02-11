@@ -7,12 +7,13 @@
  *
  * Created: 2026-02-10 - MV2-040 Settings Page with Tabs
  * Updated: 2026-02-10 - MV2-047 Added Billing Settings tab
+ * Updated: 2026-02-10 - QA-007 Removed AnimatePresence around TabsContent to fix duplicate key warnings
  */
 
 'use client'
 
 import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   Building2,
   Users,
@@ -41,7 +42,7 @@ interface TabConfig {
 }
 
 const TABS: TabConfig[] = [
-  { id: 'organization', label: 'Organizacion', icon: Building2, adminOnly: false },
+  { id: 'organization', label: 'Organización', icon: Building2, adminOnly: false },
   { id: 'team', label: 'Usuarios', icon: Users, adminOnly: true },
   { id: 'forms', label: 'Formularios', icon: FileText, adminOnly: true },
   { id: 'billing', label: 'Planes', icon: CreditCard, adminOnly: true },
@@ -80,11 +81,11 @@ export function SettingsTabs() {
           <Settings className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            Configuracion
+          <h1 className="text-2xl font-semibold text-foreground">
+            Configuración
           </h1>
           <p className="text-sm text-muted-foreground">
-            {tenant?.name || 'Tu clinica'}
+            {tenant?.name || 'Tu clínica'}
           </p>
         </div>
       </motion.div>
@@ -121,61 +122,55 @@ export function SettingsTabs() {
         </div>
 
         {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          <TabsContent value="organization" className="mt-6">
+        <TabsContent value="organization" className="mt-6">
+          <motion.div
+            key="organization"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <OrganizationSettings />
+          </motion.div>
+        </TabsContent>
+
+        {isAdmin && (
+          <TabsContent value="team" className="mt-6">
             <motion.div
-              key="organization"
+              key="team"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <OrganizationSettings />
+              <TeamSettings />
             </motion.div>
           </TabsContent>
+        )}
 
-          {isAdmin && (
-            <TabsContent value="team" className="mt-6">
-              <motion.div
-                key="team"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                <TeamSettings />
-              </motion.div>
-            </TabsContent>
-          )}
+        {isAdmin && (
+          <TabsContent value="forms" className="mt-6">
+            <motion.div
+              key="forms"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <CustomFieldsSettings />
+            </motion.div>
+          </TabsContent>
+        )}
 
-          {isAdmin && (
-            <TabsContent value="forms" className="mt-6">
-              <motion.div
-                key="forms"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                <CustomFieldsSettings />
-              </motion.div>
-            </TabsContent>
-          )}
-
-          {isAdmin && (
-            <TabsContent value="billing" className="mt-6">
-              <motion.div
-                key="billing"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                <BillingSettings />
-              </motion.div>
-            </TabsContent>
-          )}
-        </AnimatePresence>
+        {isAdmin && (
+          <TabsContent value="billing" className="mt-6">
+            <motion.div
+              key="billing"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <BillingSettings />
+            </motion.div>
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

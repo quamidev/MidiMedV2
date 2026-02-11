@@ -91,12 +91,12 @@ export async function generatePatientSummary(
     })
     .join('\n---\n')
 
-  const systemPrompt = `Eres un asistente medico. Genera resumenes clinicos concisos en espanol.
+  const systemPrompt = `Eres un asistente médico. Genera resúmenes clínicos concisos en español.
 Enfocate en: condiciones diagnosticadas, tratamientos, procedimientos, patrones a lo largo del tiempo.
 Excluye datos demograficos (nombre, fecha de nacimiento, sexo).
-Maximo 200 palabras. Lenguaje medico profesional. Texto fluido, sin listas.`
+Máximo 200 palabras. Lenguaje médico profesional. Texto fluido, sin listas.`
 
-  const userPrompt = `Genera un resumen clinico del paciente basado en la siguiente informacion:
+  const userPrompt = `Genera un resumen clínico del paciente basado en la siguiente información:
 
 Alergias: ${patient.allergies || 'Ninguna reportada'}
 Notas generales: ${patient.notes || 'Ninguna'}

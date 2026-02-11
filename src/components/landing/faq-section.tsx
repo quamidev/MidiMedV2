@@ -22,34 +22,34 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
-    question: '¿Que incluye la prueba gratuita?',
+    question: '¿Qué incluye la prueba gratuita?',
     answer:
-      'La prueba gratuita de 30 dias incluye acceso completo a todas las funciones de MidiMed: calendario de citas, gestion de pacientes, expedientes medicos, generacion de PDFs, y resumenes con IA. No necesitas tarjeta de credito para comenzar y puedes cancelar en cualquier momento.',
+      'La prueba gratuita de 30 días incluye acceso completo a todas las funciones de MidiMed: calendario de citas, gestión de pacientes, expedientes médicos, generación de PDFs, y resúmenes con IA. No necesitas tarjeta de crédito para comenzar y puedes cancelar en cualquier momento.',
   },
   {
     question: '¿Puedo migrar mis datos existentes?',
     answer:
-      'Si, nuestro equipo de soporte puede ayudarte a migrar datos desde hojas de calculo (Excel, Google Sheets) o desde otros sistemas. El proceso es gratuito para todos los planes pagados y normalmente toma entre 1-3 dias habiles dependiendo del volumen de informacion.',
+      'Sí, nuestro equipo de soporte puede ayudarte a migrar datos desde hojas de cálculo (Excel, Google Sheets) o desde otros sistemas. El proceso es gratuito para todos los planes pagados y normalmente toma entre 1-3 días hábiles dependiendo del volumen de información.',
   },
   {
     question: '¿Es seguro almacenar datos de pacientes?',
     answer:
-      'Absolutamente. MidiMed utiliza encriptacion de nivel bancario (AES-256) para todos los datos en reposo y en transito. Cumplimos con las normativas de proteccion de datos de salud y realizamos auditorias de seguridad regularmente. Tus datos de pacientes nunca son compartidos con terceros.',
+      'Absolutamente. MidiMed utiliza encriptación de nivel bancario (AES-256) para todos los datos en reposo y en tránsito. Cumplimos con las normativas de protección de datos de salud y realizamos auditorías de seguridad regularmente. Tus datos de pacientes nunca son compartidos con terceros.',
   },
   {
-    question: '¿Cuantos usuarios puedo agregar?',
+    question: '¿Cuántos usuarios puedo agregar?',
     answer:
-      'Depende del plan: El plan Basico incluye 1 usuario, el plan Profesional permite hasta 5 usuarios, y el plan Empresarial ofrece usuarios ilimitados. Cada usuario adicional puede tener roles diferentes (Admin, Proveedor, o Staff) con permisos especificos.',
+      'Depende del plan: El plan Básico incluye 1 usuario, el plan Profesional permite hasta 5 usuarios, y el plan Empresarial ofrece usuarios ilimitados. Cada usuario adicional puede tener roles diferentes (Admin, Proveedor, o Staff) con permisos específicos.',
   },
   {
-    question: '¿Ofrecen soporte tecnico?',
+    question: '¿Ofrecen soporte técnico?',
     answer:
-      'Si, todos los planes incluyen soporte. El plan Basico tiene soporte por correo electronico con respuesta en 24 horas. El plan Profesional incluye soporte prioritario con respuesta en 4 horas y acceso a chat en vivo. El plan Empresarial cuenta con un gerente de cuenta dedicado y soporte telefonico 24/7.',
+      'Sí, todos los planes incluyen soporte. El plan Básico tiene soporte por correo electrónico con respuesta en 24 horas. El plan Profesional incluye soporte prioritario con respuesta en 4 horas y acceso a chat en vivo. El plan Empresarial cuenta con un gerente de cuenta dedicado y soporte telefónico directo.',
   },
   {
-    question: '¿Como funciona la facturacion?',
+    question: '¿Cómo funciona la facturación?',
     answer:
-      'La facturacion es mensual y se procesa automaticamente. Aceptamos tarjetas de credito y debito (Visa, Mastercard) a traves de Recurrente, una pasarela de pago segura para Latinoamerica. Puedes cambiar de plan o cancelar en cualquier momento desde tu panel de configuracion.',
+      'La facturación es mensual y se procesa automáticamente. Aceptamos tarjetas de crédito y débito (Visa, Mastercard) a través de Recurrente, una pasarela de pago segura para Latinoamérica. Puedes cambiar de plan o cancelar en cualquier momento desde tu panel de configuración.',
   },
 ]
 
@@ -143,7 +143,7 @@ export function FAQSection() {
             Preguntas frecuentes
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Encuentra respuestas a las preguntas mas comunes sobre MidiMed.
+            Encuentra respuestas a las preguntas más comunes sobre MidiMed.
           </p>
         </motion.div>
 

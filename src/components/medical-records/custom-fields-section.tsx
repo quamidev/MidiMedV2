@@ -125,7 +125,7 @@ export function CustomFieldsSection({
             Campos Personalizados
           </h3>
           <p className="text-xs text-muted-foreground">
-            Campos adicionales configurados para tu clinica
+            Campos adicionales configurados para tu clínica
           </p>
         </div>
       </div>
