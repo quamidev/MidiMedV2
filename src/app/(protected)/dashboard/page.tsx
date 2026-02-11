@@ -9,18 +9,20 @@
  * Updated: 2026-02-10 - MV2-022 Integrated appointment calendar
  * Updated: 2026-02-10 - MV2-057 Added onboarding card for new users
  * Updated: 2026-02-10 - QA-009 Unified page layout with consistent padding/max-width
+ * Updated: 2026-02-10 - Fix desktop greeting to skip title prefixes (Dr., Dra., etc.)
+ * Updated: 2026-02-10 - Wired calendar slot click to CreateAppointmentModal, event click uses built-in popup
  */
 
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
 import { Calendar, Users, Activity } from 'lucide-react'
-import { toast } from 'sonner'
 import { format, startOfWeek, endOfWeek } from 'date-fns'
 import type { SlotInfo } from 'react-big-calendar'
 
 import { useUser } from '@/contexts/user-context'
 import { cn } from '@/lib/utils'
+import { getFirstName } from '@/lib/name-utils'
 import { getAppointments } from '@/actions/appointments'
 import { getPatients } from '@/actions/patients'
 import {
@@ -28,10 +30,10 @@ import {
   DashboardHeaderSkeleton,
 } from '@/components/appointments/dashboard-header'
 import { AppointmentCalendar } from '@/components/appointments/appointment-calendar'
+import { CreateAppointmentModal } from '@/components/appointments/create-appointment-modal'
 import { OnboardingCard } from '@/components/onboarding/onboarding-card'
 import { useOnboarding } from '@/hooks/use-onboarding'
 import { Skeleton } from '@/components/ui/skeleton'
-import type { AppointmentWithRelations } from '@/types/app'
 
 /**
  * Calendar skeleton for loading state
@@ -192,12 +194,24 @@ export default function DashboardPage() {
 
   const isLoading = loading || dataLoading
 
-  const handleEventClick = useCallback((_appointment: AppointmentWithRelations) => {
-    toast.info('Detalle de cita disponible próximamente')
+  // Create Appointment modal state
+  const [createModalOpen, setCreateModalOpen] = useState(false)
+  const [selectedSlotInfo, setSelectedSlotInfo] = useState<SlotInfo | null>(null)
+  // Key to force calendar re-fetch after appointment creation
+  const [calendarRefreshKey, setCalendarRefreshKey] = useState(0)
+
+  const handleSlotSelect = useCallback((slotInfo: SlotInfo) => {
+    setSelectedSlotInfo(slotInfo)
+    setCreateModalOpen(true)
   }, [])
 
-  const handleSlotSelect = useCallback((_slotInfo: SlotInfo) => {
-    toast.info('Crear cita desde el calendario disponible próximamente')
+  const handleCreateModalClose = useCallback(() => {
+    setCreateModalOpen(false)
+    setSelectedSlotInfo(null)
+  }, [])
+
+  const handleAppointmentCreated = useCallback(() => {
+    setCalendarRefreshKey((prev) => prev + 1)
   }, [])
 
   return (
@@ -220,7 +234,7 @@ export default function DashboardPage() {
               {!onboardingComplete && <OnboardingCard />}
 
               <AppointmentCalendar
-                onEventClick={handleEventClick}
+                key={`mobile-cal-${calendarRefreshKey}`}
                 onSlotSelect={handleSlotSelect}
                 initialView="day"
               />
@@ -242,7 +256,7 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-semibold text-foreground">
               Bienvenido,{' '}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                {user.display_name.split(' ')[0]}
+                {getFirstName(user.display_name)}
               </span>
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -264,12 +278,20 @@ export default function DashboardPage() {
           <CalendarLoadingSkeleton />
         ) : (
           <AppointmentCalendar
-            onEventClick={handleEventClick}
+            key={`desktop-cal-${calendarRefreshKey}`}
             onSlotSelect={handleSlotSelect}
             initialView="month"
           />
         )}
       </div>
+
+      {/* Create Appointment Modal */}
+      <CreateAppointmentModal
+        open={createModalOpen}
+        onClose={handleCreateModalClose}
+        onCreated={handleAppointmentCreated}
+        slotInfo={selectedSlotInfo}
+      />
     </div>
   )
 }

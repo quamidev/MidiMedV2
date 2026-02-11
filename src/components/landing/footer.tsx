@@ -6,6 +6,7 @@
  *
  * Created: 2026-02-10 - MV2-053 Footer and SEO
  * Updated: 2026-02-10 - Simplified footer, removed placeholder links, added Quami credit
+ * Updated: 2026-02-10 - Improved marketing copy to emphasize AI-first positioning
  */
 
 'use client'
@@ -37,8 +38,9 @@ export function Footer() {
 
           {/* Description */}
           <p className="max-w-md text-center text-sm text-muted-foreground leading-relaxed">
-            La plataforma todo-en-uno para gestión de consultorios médicos.
-            Agenda, expedientes y reportes en un solo lugar.
+            La plataforma médica potenciada por IA para clínicas que quieren
+            trabajar de forma más inteligente. Agenda, expedientes y resúmenes
+            automáticos — todo en un solo lugar.
           </p>
 
           {/* Links */}

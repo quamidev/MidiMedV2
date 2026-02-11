@@ -6,10 +6,14 @@
  *
  * Created: 2026-02-10 - MV2-010 Login page UI
  * Updated: 2026-02-10 - MV2-053 Footer and SEO - Added comprehensive SEO metadata
+ * Updated: 2026-02-10 - Added ThemeProvider for dark/light mode toggle on landing page
+ * Updated: 2026-02-10 - Improved marketing copy to emphasize AI-first positioning
  */
 
 import type { Metadata } from 'next'
 import Script from 'next/script'
+
+import { ThemeProvider } from '@/contexts/theme-context'
 
 // Force dynamic rendering for pages that use framer-motion
 export const dynamic = 'force-dynamic'
@@ -22,14 +26,14 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.midimed.com'
 
 export const metadata: Metadata = {
   title: {
-    default: 'MidiMed - Sistema de Gestión Médica para Clínicas',
+    default: 'MidiMed - Gestión Médica Inteligente con IA',
     template: '%s | MidiMed',
   },
   description:
-    'La plataforma todo-en-uno para gestión de consultorios médicos. Agenda citas, gestiona expedientes y genera resúmenes con IA. 30 días de prueba gratis.',
+    'La plataforma médica potenciada por IA para clínicas. Agenda citas, gestiona expedientes y genera resúmenes automáticos con inteligencia artificial. Prueba gratis 30 días.',
   keywords: [
-    'sistema médico',
-    'gestión clínica',
+    'sistema médico con IA',
+    'gestión clínica inteligente',
     'expediente electrónico',
     'agenda médica',
     'software médico Guatemala',
@@ -38,6 +42,8 @@ export const metadata: Metadata = {
     'consultorio médico',
     'SaaS médico',
     'IA médica',
+    'resúmenes médicos con inteligencia artificial',
+    'plataforma médica IA',
   ],
   authors: [{ name: 'MidiMed' }],
   creator: 'MidiMed',
@@ -61,23 +67,23 @@ export const metadata: Metadata = {
     locale: 'es_GT',
     url: siteUrl,
     siteName: 'MidiMed',
-    title: 'MidiMed - Sistema de Gestión Médica para Clínicas',
+    title: 'MidiMed - Gestión Médica Inteligente con IA',
     description:
-      'La plataforma todo-en-uno para gestión de consultorios médicos. Agenda citas, gestiona expedientes y genera resúmenes con IA.',
+      'La plataforma médica potenciada por IA para clínicas. Agenda, expedientes y resúmenes automáticos con inteligencia artificial.',
     images: [
       {
         url: `${siteUrl}/images/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'MidiMed - Sistema de Gestión Médica',
+        alt: 'MidiMed - Gestión Médica Inteligente con IA',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MidiMed - Sistema de Gestión Médica para Clínicas',
+    title: 'MidiMed - Gestión Médica Inteligente con IA',
     description:
-      'La plataforma todo-en-uno para gestión de consultorios médicos. 30 días de prueba gratis.',
+      'Agenda, expedientes y resúmenes con IA para tu clínica. Prueba gratis 30 días.',
     images: [`${siteUrl}/images/og-image.png`],
     creator: '@midimed',
   },
@@ -92,7 +98,7 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'MidiMed',
-  description: 'Sistema de gestión médica para clínicas y doctores independientes',
+  description: 'Plataforma médica potenciada por IA para clínicas y doctores independientes',
   url: siteUrl,
   logo: `${siteUrl}/images/logo.png`,
   sameAs: [
@@ -121,7 +127,7 @@ const softwareApplicationSchema = {
   operatingSystem: 'Web',
   applicationCategory: 'HealthApplication',
   description:
-    'Plataforma de gestión médica para clínicas. Incluye agenda de citas, expedientes electrónicos, generación de PDFs y resúmenes con inteligencia artificial.',
+    'Plataforma médica potenciada por IA para clínicas. Agenda de citas, expedientes electrónicos, generación de PDFs y resúmenes automáticos con inteligencia artificial.',
   offers: [
     {
       '@type': 'Offer',
@@ -249,7 +255,7 @@ export default function PublicLayout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageSchema) }}
       />
 
-      {children}
+      <ThemeProvider>{children}</ThemeProvider>
     </>
   )
 }

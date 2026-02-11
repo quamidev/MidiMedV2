@@ -7,12 +7,14 @@
  * Uses Supabase for data storage and Supabase Storage for files.
  *
  * Created: 2026-02-10 - MV2-015 Patient server actions
+ * Updated: 2026-02-10 - Auto-complete onboarding step on patient creation
  */
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 import { createServerClient } from '@/lib/supabase/server'
+import { completeOnboardingStep } from '@/actions/settings'
 import type {
   ActionResult,
   Patient,
@@ -301,6 +303,9 @@ export async function createPatient(
     }
 
     revalidatePath('/patients')
+
+    // Auto-complete onboarding step (fire-and-forget, errors are non-blocking)
+    completeOnboardingStep('create_patient').catch(() => {})
 
     return {
       success: true,

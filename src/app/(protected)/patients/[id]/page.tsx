@@ -8,6 +8,7 @@
  * Created: 2026-02-10 - MV2-018 Patient Detail Page
  * Updated: 2026-02-10 - MV2-033/034 Timeline and AI summary integration
  * Updated: 2026-02-10 - QA-009 Unified page layout with consistent padding/max-width
+ * Updated: 2026-02-10 - Wire up EditPatientModal to replace placeholder toast
  */
 
 'use client'
@@ -40,7 +41,8 @@ import {
   PatientFiles,
   PatientFilesSkeleton,
 } from '@/components/patients/patient-files'
-import type { PatientWithRelations, PatientFile, MedicalRecord } from '@/types/app'
+import { EditPatientModal } from '@/components/patients/edit-patient-modal'
+import type { PatientWithRelations, PatientFile, MedicalRecord, Patient } from '@/types/app'
 
 export default function PatientDetailPage() {
   const params = useParams()
@@ -53,6 +55,7 @@ export default function PatientDetailPage() {
   const [files, setFiles] = useState<PatientFile[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [editModalOpen, setEditModalOpen] = useState(false)
   const hasLoadedRef = useRef(false)
 
   const loadPatient = useCallback(async () => {
@@ -106,7 +109,11 @@ export default function PatientDetailPage() {
   }, [authLoading, user, patientId, loadData])
 
   const handleEditClick = useCallback(() => {
-    toast.info('Edición de paciente disponible próximamente')
+    setEditModalOpen(true)
+  }, [])
+
+  const handlePatientUpdated = useCallback((updatedPatient: Patient) => {
+    setPatient((prev) => (prev ? { ...prev, ...updatedPatient } : null))
   }, [])
 
   const handlePhotoUpdated = useCallback((newUrl: string) => {
@@ -318,6 +325,14 @@ export default function PatientDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Edit Patient Modal */}
+      <EditPatientModal
+        open={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        patient={patient}
+        onUpdated={handlePatientUpdated}
+      />
     </div>
   )
 }

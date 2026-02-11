@@ -45,10 +45,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body
-        className={`${sourceSansPro.variable} antialiased`}
-      >
+    <html lang="es" suppressHydrationWarning className={sourceSansPro.variable}>
+      <body className="antialiased">
+
         {children}
         <Toaster
           position="top-right"

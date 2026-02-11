@@ -7,12 +7,14 @@
  * Uses Supabase for data storage and creates notifications for key events.
  *
  * Created: 2026-02-10 - MV2-021 Appointment server actions
+ * Updated: 2026-02-10 - Auto-complete onboarding steps on appointment creation and completion
  */
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 import { createServerClient } from '@/lib/supabase/server'
+import { completeOnboardingStep } from '@/actions/settings'
 import type {
   ActionResult,
   Appointment,
@@ -464,6 +466,9 @@ export async function createAppointment(
 
     revalidatePath('/dashboard')
     revalidatePath(`/patients/${validated.patientId}`)
+
+    // Auto-complete onboarding step (fire-and-forget, errors are non-blocking)
+    completeOnboardingStep('create_appointment').catch(() => {})
 
     return {
       success: true,
@@ -979,6 +984,9 @@ export async function completeAppointment(
 
     revalidatePath('/dashboard')
     revalidatePath(`/patients/${existingAppointment.patient_id}`)
+
+    // Auto-complete onboarding step (fire-and-forget, errors are non-blocking)
+    completeOnboardingStep('complete_appointment').catch(() => {})
 
     return {
       success: true,

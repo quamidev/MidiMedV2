@@ -5,6 +5,7 @@
  * and responsive mobile menu with slide-out panel.
  *
  * Created: 2026-02-10 - MV2-050 Landing Page Hero
+ * Updated: 2026-02-10 - Added dark/light mode toggle button
  */
 
 'use client'
@@ -12,9 +13,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/contexts/theme-context'
 import { Button } from '@/components/ui/button'
 import { MidimedLogo } from '@/components/ui/midimed-logo'
 
@@ -25,6 +27,7 @@ const navLinks = [
 ]
 
 export function LandingNav() {
+  const { theme, toggleTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -100,8 +103,25 @@ export function LandingNav() {
               ))}
             </div>
 
-            {/* Desktop Auth Buttons */}
+            {/* Desktop Theme Toggle + Auth Buttons */}
             <div className="hidden items-center gap-3 md:flex">
+              <button
+                onClick={toggleTheme}
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+              >
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: theme === 'dark' ? 60 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {theme === 'dark' ? (
+                    <Moon className="h-4 w-4" />
+                  ) : (
+                    <Sun className="h-4 w-4" />
+                  )}
+                </motion.div>
+              </button>
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/login">Iniciar sesión</Link>
               </Button>
@@ -185,8 +205,25 @@ export function LandingNav() {
                   </div>
                 </div>
 
-                {/* Auth Buttons */}
+                {/* Theme Toggle + Auth Buttons */}
                 <div className="border-t border-border p-4 space-y-3">
+                  <button
+                    onClick={toggleTheme}
+                    className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-accent"
+                  >
+                    <motion.div
+                      initial={false}
+                      animate={{ rotate: theme === 'dark' ? 60 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {theme === 'dark' ? (
+                        <Moon className="h-5 w-5" />
+                      ) : (
+                        <Sun className="h-5 w-5" />
+                      )}
+                    </motion.div>
+                    {theme === 'dark' ? 'Modo oscuro' : 'Modo claro'}
+                  </button>
                   <Button
                     variant="outline"
                     className="w-full"

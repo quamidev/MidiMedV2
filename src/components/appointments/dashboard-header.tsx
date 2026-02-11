@@ -6,6 +6,7 @@
  * subtle gradient background and smooth animations.
  *
  * Created: 2026-02-10 - MV2-014 Dashboard Page Shell
+ * Updated: 2026-02-10 - Fix getFirstName to skip title prefixes (Dr., Dra., etc.)
  */
 
 'use client'
@@ -16,6 +17,7 @@ import { es } from 'date-fns/locale'
 import { Calendar, Sun, Moon, Sunrise } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { getFirstName } from '@/lib/name-utils'
 
 interface DashboardHeaderProps {
   /** User's display name for personalized greeting */
@@ -55,13 +57,6 @@ function getGreeting(hour: number): {
       iconClass: 'text-indigo-400',
     }
   }
-}
-
-/**
- * Extracts first name from display name for a more personal greeting
- */
-function getFirstName(displayName: string): string {
-  return displayName.split(' ')[0] ?? displayName
 }
 
 export function DashboardHeader({
