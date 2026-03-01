@@ -10,6 +10,7 @@
  * - Edit: Used for standalone editing (requires existing recordId)
  *
  * Created: 2026-02-10 - MV2-029 Medical Record Form Modal
+ * Updated: 2026-02-28 - DICT-005 Integrated DictationButton and useDictation hook with plan gating
  */
 
 'use client'
@@ -34,6 +35,7 @@ import {
 
 import { cn } from '@/lib/utils'
 import { useUser } from '@/contexts/user-context'
+import { useDictation } from '@/hooks/use-dictation'
 import { completeAppointment } from '@/actions/appointments'
 import {
   createMedicalRecord,
@@ -51,6 +53,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
 import { VitalsSection } from '@/components/medical-records/vitals-section'
 import { CustomFieldsSection } from '@/components/medical-records/custom-fields-section'
+import { DictationButton } from '@/components/medical-records/dictation-button'
 import type {
   MedicalRecord,
   MedicalRecordWithRelations,
@@ -140,6 +143,21 @@ export function MedicalRecordForm({
     return tenant.extra_fields as CustomField[]
   }, [tenant?.extra_fields])
 
+  // Get custom field names for dictation
+  const customFieldNames = useMemo(() => {
+    if (!customFields || customFields.length === 0) return []
+    return customFields.map((field) => field.name)
+  }, [customFields])
+
+  // Dictation hook
+  const {
+    status: dictationStatus,
+    recordingDuration,
+    error: dictationError,
+    startRecording,
+    stopRecording,
+  } = useDictation({ customFieldNames })
+
   // Convert medications array to textarea string
   const medicationsToText = (meds?: string[]): string => {
     if (!meds || meds.length === 0) return ''
@@ -209,6 +227,99 @@ export function MedicalRecordForm({
       setCurrentSection(0)
     }
   }, [open, defaultValues, reset])
+
+  // Plan gating - check if user can use dictation
+  const canUseDictation = useMemo(() => {
+    if (!tenant) return false
+    const plan = tenant.billing_plan
+    const status = tenant.billing_status
+
+    // PRO and ENTERPRISE always have access
+    if (plan === 'PRO' || plan === 'ENTERPRISE') return true
+
+    // TRIAL users with active trial have access
+    if (status === 'TRIAL_ACTIVE') return true
+
+    // BASIC without trial cannot use
+    return false
+  }, [tenant])
+
+  // Handle dictation start with plan check
+  const handleStartDictation = useCallback(async () => {
+    if (!canUseDictation) {
+      toast.error('La dictación por IA está disponible en el plan Pro.', {
+        description: 'Actualiza tu plan para usar esta función.',
+      })
+      return
+    }
+    await startRecording()
+  }, [canUseDictation, startRecording])
+
+  // Handle dictation result - merge fields into form
+  const handleStopDictation = useCallback(async () => {
+    const fields = await stopRecording()
+
+    if (!fields) {
+      // Error already handled by hook via useEffect below
+      return
+    }
+
+    // Merge extracted fields into form (only non-null values)
+    if (fields.summary !== null) {
+      form.setValue('summary', fields.summary, { shouldDirty: true })
+    }
+
+    if (fields.vitals !== null) {
+      if (fields.vitals.heightCm !== null) {
+        form.setValue('vitals.heightCm', fields.vitals.heightCm, { shouldDirty: true })
+      }
+      if (fields.vitals.weightKg !== null) {
+        form.setValue('vitals.weightKg', fields.vitals.weightKg, { shouldDirty: true })
+      }
+      if (fields.vitals.bloodPressure !== null) {
+        form.setValue('vitals.bloodPressure', fields.vitals.bloodPressure, { shouldDirty: true })
+      }
+      if (fields.vitals.temperatureC !== null) {
+        form.setValue('vitals.temperatureC', fields.vitals.temperatureC, { shouldDirty: true })
+      }
+    }
+
+    if (fields.diagnosis !== null) {
+      form.setValue('diagnosis', fields.diagnosis, { shouldDirty: true })
+    }
+
+    if (fields.medications !== null) {
+      form.setValue('medications', fields.medications, { shouldDirty: true })
+    }
+
+    if (fields.followUpInstructions !== null) {
+      form.setValue('followUpInstructions', fields.followUpInstructions, { shouldDirty: true })
+    }
+
+    if (fields.notes !== null) {
+      form.setValue('notes', fields.notes, { shouldDirty: true })
+    }
+
+    // Handle custom fields (extras)
+    if (fields.extras !== null) {
+      for (const [key, value] of Object.entries(fields.extras)) {
+        form.setValue(`extras.${key}`, value, { shouldDirty: true })
+      }
+    }
+
+    toast.success('Dictado procesado exitosamente', {
+      description: 'Los campos han sido actualizados. Revisa antes de guardar.',
+    })
+  }, [stopRecording, form])
+
+  // Show toast when dictation error occurs
+  useEffect(() => {
+    if (dictationError) {
+      toast.error('Error en dictación', {
+        description: dictationError,
+      })
+    }
+  }, [dictationError])
 
   // Handle form submission
   const onSubmit = useCallback(
@@ -357,14 +468,22 @@ export function MedicalRecordForm({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-3xl max-h-[92vh] overflow-hidden flex flex-col">
         <DialogHeader className="flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-primary/5">
-              <Stethoscope className="h-5 w-5 text-primary" />
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-primary/5">
+                <Stethoscope className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <DialogTitle className="text-xl">{modalTitle}</DialogTitle>
+                <DialogDescription>{modalDescription}</DialogDescription>
+              </div>
             </div>
-            <div>
-              <DialogTitle className="text-xl">{modalTitle}</DialogTitle>
-              <DialogDescription>{modalDescription}</DialogDescription>
-            </div>
+            <DictationButton
+              status={dictationStatus}
+              recordingDuration={recordingDuration}
+              onStartRecording={handleStartDictation}
+              onStopRecording={handleStopDictation}
+            />
           </div>
         </DialogHeader>
 
