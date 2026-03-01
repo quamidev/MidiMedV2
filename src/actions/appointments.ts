@@ -8,6 +8,7 @@
  *
  * Created: 2026-02-10 - MV2-021 Appointment server actions
  * Updated: 2026-02-10 - Auto-complete onboarding steps on appointment creation and completion
+ * Updated: 2026-03-01 - PHASE-1-A Include reminder_24h_sent and reminder_2h_sent in appointment mappings
  */
 
 import { revalidatePath } from 'next/cache'
@@ -238,6 +239,8 @@ export async function getAppointments(
         status: apt.status as AppointmentStatus,
         reason: apt.reason,
         medical_record_id: apt.medical_record_id,
+        reminder_24h_sent: apt.reminder_24h_sent ?? false,
+        reminder_2h_sent: apt.reminder_2h_sent ?? false,
         created_by: apt.created_by,
         created_at: apt.created_at,
         updated_at: apt.updated_at,
@@ -311,6 +314,8 @@ export async function getAppointmentById(
       status: apt.status as AppointmentStatus,
       reason: apt.reason,
       medical_record_id: apt.medical_record_id,
+      reminder_24h_sent: apt.reminder_24h_sent ?? false,
+      reminder_2h_sent: apt.reminder_2h_sent ?? false,
       created_by: apt.created_by,
       created_at: apt.created_at,
       updated_at: apt.updated_at,

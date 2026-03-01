@@ -8,6 +8,7 @@
  * Updated: 2026-02-10 - MV2-021 Added appointment input/response types
  * Updated: 2026-02-10 - MV2-028 Added medical record input/response types
  * Updated: 2026-02-10 - MV2-035 Added notification types
+ * Updated: 2026-03-01 - PHASE-1-A Added reminder_24h_sent and reminder_2h_sent to Appointment
  */
 
 // =============================================================================
@@ -314,6 +315,10 @@ export interface Appointment {
   reason: string | null
 
   medical_record_id: string | null
+
+  // Reminder tracking
+  reminder_24h_sent: boolean
+  reminder_2h_sent: boolean
 
   created_by: string
   created_at: string
