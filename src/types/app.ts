@@ -8,6 +8,7 @@
  * Updated: 2026-02-10 - MV2-021 Added appointment input/response types
  * Updated: 2026-02-10 - MV2-028 Added medical record input/response types
  * Updated: 2026-02-10 - MV2-035 Added notification types
+ * Updated: 2026-02-28 - DICT-001 Added AI dictation types
  */
 
 // =============================================================================
@@ -740,3 +741,39 @@ export interface GetNotificationsResult {
   total: number
   unreadCount: number
 }
+
+// =============================================================================
+// AI Dictation Types
+// =============================================================================
+
+/**
+ * Extracted vital signs from dictation.
+ * All fields nullable - null means "not mentioned in dictation".
+ */
+export interface ExtractedVitals {
+  heightCm: number | null
+  weightKg: number | null
+  bloodPressure: string | null
+  temperatureC: number | null
+}
+
+/**
+ * Structured medical fields extracted from voice dictation.
+ * All fields nullable - null means "not mentioned, do not overwrite".
+ */
+export interface ExtractedMedicalFields {
+  summary: string | null
+  vitals: ExtractedVitals | null
+  diagnosis: string | null
+  medications: string | null // Newline-separated, matches textarea format
+  followUpInstructions: string | null
+  notes: string | null
+  extras: Record<string, string> | null // Custom field name -> value
+}
+
+/**
+ * API response from /api/ai/dictation endpoint.
+ */
+export type DictationApiResponse =
+  | { success: true; data: { transcript: string; fields: ExtractedMedicalFields } }
+  | { success: false; error: string }
