@@ -21,9 +21,11 @@ import { Calendar, Users, Activity, UserX } from 'lucide-react'
 import { format, startOfWeek, endOfWeek } from 'date-fns'
 import type { SlotInfo } from 'react-big-calendar'
 
+import { useRouter } from 'next/navigation'
 import { useUser } from '@/contexts/user-context'
 import { cn } from '@/lib/utils'
 import { getFirstName } from '@/lib/name-utils'
+import type { AppointmentWithRelations } from '@/types/app'
 import { getAppointments } from '@/actions/appointments'
 import { getPatients } from '@/actions/patients'
 import {
@@ -226,6 +228,12 @@ export default function DashboardPage() {
     setCalendarRefreshKey((prev) => prev + 1)
   }, [])
 
+  const router = useRouter()
+  const handleCompleteAppointment = useCallback((appointment: AppointmentWithRelations) => {
+    // Navigate to patient profile where the medical record form can be opened
+    router.push(`/patients/${appointment.patient_id}?completeAppointment=${appointment.id}`)
+  }, [router])
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       {/* Mobile View */}
@@ -248,6 +256,7 @@ export default function DashboardPage() {
               <AppointmentCalendar
                 key={`mobile-cal-${calendarRefreshKey}`}
                 onSlotSelect={handleSlotSelect}
+                onCompleteAppointment={handleCompleteAppointment}
                 initialView="day"
               />
             </div>
@@ -292,6 +301,7 @@ export default function DashboardPage() {
           <AppointmentCalendar
             key={`desktop-cal-${calendarRefreshKey}`}
             onSlotSelect={handleSlotSelect}
+            onCompleteAppointment={handleCompleteAppointment}
             initialView="month"
           />
         )}
