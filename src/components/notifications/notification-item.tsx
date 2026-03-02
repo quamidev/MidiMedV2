@@ -5,6 +5,7 @@
  * and relative timestamp. Supports click-to-navigate and hover states.
  *
  * Created: 2026-02-10 - MV2-037 Notification Bell and Popover
+ * Updated: 2026-03-02 - AO-007 Added no_show and rescheduled notification type mappings
  */
 
 'use client'
@@ -19,6 +20,8 @@ import {
   Users,
   CreditCard,
   Bell,
+  UserX,
+  RefreshCw,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -39,6 +42,8 @@ function getNotificationIcon(type: NotificationType) {
     appointment_created: Calendar,
     appointment_cancelled: Calendar,
     appointment_reminder: Calendar,
+    appointment_no_show: UserX,
+    appointment_rescheduled: RefreshCw,
     patient_created: User,
     medical_record_created: FileText,
     team_invite: Users,
@@ -56,6 +61,8 @@ function getIconColorClass(type: NotificationType): string {
     appointment_created: 'text-primary',
     appointment_cancelled: 'text-destructive',
     appointment_reminder: 'text-amber-500 dark:text-amber-400',
+    appointment_no_show: 'text-amber-600 dark:text-amber-400',
+    appointment_rescheduled: 'text-slate-500 dark:text-slate-400',
     patient_created: 'text-emerald-500 dark:text-emerald-400',
     medical_record_created: 'text-blue-500 dark:text-blue-400',
     team_invite: 'text-violet-500 dark:text-violet-400',

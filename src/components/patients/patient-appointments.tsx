@@ -5,6 +5,7 @@
  * Features a clean timeline-inspired design with clear status indicators.
  *
  * Created: 2026-02-10 - MV2-018 Patient Detail Page
+ * Updated: 2026-03-02 - AO-007 Added no_show and rescheduled status badges
  */
 
 'use client'
@@ -20,17 +21,17 @@ import {
   CalendarClock,
   ChevronRight,
   CalendarDays,
+  UserX,
+  RefreshCw,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import type { Appointment } from '@/types/app'
+import type { Appointment, AppointmentStatus } from '@/types/app'
 
 interface PatientAppointmentsProps {
   appointments: Appointment[]
   className?: string
 }
-
-type AppointmentStatus = 'scheduled' | 'completed' | 'cancelled'
 
 const statusConfig: Record<
   AppointmentStatus,
@@ -59,10 +60,22 @@ const statusConfig: Record<
     className: 'text-red-600 dark:text-red-400',
     bgClassName: 'bg-red-100 dark:bg-red-500/20',
   },
+  no_show: {
+    label: 'No Show',
+    icon: UserX,
+    className: 'text-amber-600 dark:text-amber-400',
+    bgClassName: 'bg-amber-100 dark:bg-amber-500/20',
+  },
+  rescheduled: {
+    label: 'Reprogramada',
+    icon: RefreshCw,
+    className: 'text-slate-600 dark:text-slate-400',
+    bgClassName: 'bg-slate-100 dark:bg-slate-500/20',
+  },
 }
 
 function AppointmentCard({ appointment }: { appointment: Appointment }) {
-  const config = statusConfig[appointment.status as AppointmentStatus]
+  const config = statusConfig[appointment.status]
   const StatusIcon = config.icon
 
   const startDate = parseISO(appointment.scheduled_start)
