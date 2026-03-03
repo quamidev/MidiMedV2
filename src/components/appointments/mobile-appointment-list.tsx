@@ -10,6 +10,7 @@
  * - Smooth reveal animations
  *
  * Created: 2026-02-10 - MV2-027 Mobile Calendar View
+ * Updated: 2026-03-02 - AO-007 Added no_show and rescheduled status icons
  */
 
 'use client'
@@ -23,6 +24,8 @@ import {
   CalendarX,
   FileText,
   CheckCircle2,
+  UserX,
+  RefreshCw,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -49,6 +52,8 @@ const statusIcons: Record<AppointmentStatus, React.ReactNode> = {
   scheduled: <Clock className="h-3.5 w-3.5" />,
   completed: <CheckCircle2 className="h-3.5 w-3.5" />,
   cancelled: <CalendarX className="h-3.5 w-3.5" />,
+  no_show: <UserX className="h-3.5 w-3.5" />,
+  rescheduled: <RefreshCw className="h-3.5 w-3.5" />,
 }
 
 // =============================================================================

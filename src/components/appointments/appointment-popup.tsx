@@ -12,6 +12,8 @@
  * - Works as both Popover (with trigger) and Dialog (controlled)
  *
  * Created: 2026-02-10 - MV2-024 Appointment Detail Popup
+ * Updated: 2026-03-02 - AO-007 Added no_show and rescheduled status badge entries
+ * Updated: 2026-03-02 - AO-005/AO-006 Added No Show and Reschedule buttons, NoShowConfirmDialog integration
  */
 
 'use client'
@@ -32,6 +34,8 @@ import {
   CheckCircle2,
   RotateCcw,
   AlertTriangle,
+  UserX,
+  RefreshCw,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -59,6 +63,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { cancelAppointment, reactivateAppointment } from '@/actions/appointments'
+import { NoShowConfirmDialog } from '@/components/appointments/no-show-confirm-dialog'
 import type { AppointmentWithRelations, AppointmentStatus } from '@/types/app'
 
 // =============================================================================
@@ -71,6 +76,7 @@ interface AppointmentPopupBaseProps {
   onOpenChange: (open: boolean) => void
   onEdit?: (appointment: AppointmentWithRelations) => void
   onComplete?: (appointment: AppointmentWithRelations) => void
+  onReschedule?: (appointment: AppointmentWithRelations) => void
   onActionComplete?: () => void
 }
 
@@ -111,6 +117,18 @@ const statusConfig: Record<
     className:
       'bg-rose-500/10 text-rose-600 dark:text-rose-400 ring-rose-500/20',
     icon: <X className="h-3 w-3" />,
+  },
+  no_show: {
+    label: 'No Show',
+    className:
+      'bg-amber-500/10 text-amber-600 dark:text-amber-400 ring-amber-500/20',
+    icon: <UserX className="h-3 w-3" />,
+  },
+  rescheduled: {
+    label: 'Reprogramada',
+    className:
+      'bg-slate-500/10 text-slate-600 dark:text-slate-400 ring-slate-500/20',
+    icon: <RefreshCw className="h-3 w-3" />,
   },
 }
 
@@ -169,8 +187,10 @@ interface PopupContentProps {
   formattedDateTime: { date: string; time: string }
   onEdit?: (appointment: AppointmentWithRelations) => void
   onComplete?: (appointment: AppointmentWithRelations) => void
+  onReschedule?: (appointment: AppointmentWithRelations) => void
   onOpenChange: (open: boolean) => void
   onShowCancelDialog: () => void
+  onShowNoShowDialog: () => void
   onReactivate: () => void
   isLoading: boolean
 }
@@ -180,8 +200,10 @@ function PopupContent({
   formattedDateTime,
   onEdit,
   onComplete,
+  onReschedule,
   onOpenChange,
   onShowCancelDialog,
+  onShowNoShowDialog,
   onReactivate,
   isLoading,
 }: PopupContentProps) {
@@ -198,6 +220,18 @@ function PopupContent({
     onOpenChange(false)
     onComplete(appointment)
   }, [appointment, onComplete, onOpenChange])
+
+  // Handle no-show button click
+  const handleShowNoShowDialog = useCallback(() => {
+    onShowNoShowDialog()
+  }, [onShowNoShowDialog])
+
+  // Handle reschedule button click
+  const handleReschedule = useCallback(() => {
+    if (!onReschedule) return
+    onOpenChange(false)
+    onReschedule(appointment)
+  }, [appointment, onReschedule, onOpenChange])
 
   // Handle view medical record
   const handleViewRecord = useCallback(() => {
@@ -300,26 +334,48 @@ function PopupContent({
         <div className="flex flex-wrap gap-2">
           {appointment.status === 'scheduled' && (
             <>
-              {onEdit && (
+              <div className="flex gap-2">
+                {onEdit && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleEdit}
+                    className="flex-1"
+                  >
+                    <Pencil className="mr-1.5 h-3.5 w-3.5" />
+                    Editar
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={handleEdit}
-                  className="flex-1"
+                  onClick={handleShowNoShowDialog}
+                  className="flex-1 text-amber-600 hover:bg-amber-500/10 hover:text-amber-600 border-amber-200 dark:border-amber-800"
                 >
-                  <Pencil className="mr-1.5 h-3.5 w-3.5" />
-                  Editar
+                  <UserX className="mr-1.5 h-3.5 w-3.5" />
+                  No Show
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onShowCancelDialog}
+                  className="flex-1 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <X className="mr-1.5 h-3.5 w-3.5" />
+                  Cancelar
+                </Button>
+              </div>
+              {onReschedule && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleReschedule}
+                  className="w-full"
+                >
+                  <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                  Reprogramar
                 </Button>
               )}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onShowCancelDialog}
-                className="flex-1 text-destructive hover:bg-destructive/10 hover:text-destructive"
-              >
-                <X className="mr-1.5 h-3.5 w-3.5" />
-                Cancelar
-              </Button>
               {onComplete && (
                 <Button
                   size="sm"
@@ -370,6 +426,25 @@ function PopupContent({
               Reactivar Cita
             </Button>
           )}
+
+          {appointment.status === 'no_show' && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onReactivate}
+              isLoading={isLoading}
+              className="w-full"
+            >
+              <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+              Reactivar Cita
+            </Button>
+          )}
+
+          {appointment.status === 'rescheduled' && (
+            <div className="text-center text-sm text-muted-foreground">
+              Esta cita fue reprogramada
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -387,6 +462,7 @@ export function AppointmentPopup(props: AppointmentPopupProps) {
     onOpenChange,
     onEdit,
     onComplete,
+    onReschedule,
     onActionComplete,
     mode = 'popover',
   } = props
@@ -394,6 +470,7 @@ export function AppointmentPopup(props: AppointmentPopupProps) {
   const children = 'children' in props ? props.children : undefined
 
   const [showCancelDialog, setShowCancelDialog] = useState(false)
+  const [showNoShowDialog, setShowNoShowDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   // Format date and time
@@ -467,8 +544,10 @@ export function AppointmentPopup(props: AppointmentPopupProps) {
     formattedDateTime,
     onEdit,
     onComplete,
+    onReschedule,
     onOpenChange,
     onShowCancelDialog: () => setShowCancelDialog(true),
+    onShowNoShowDialog: () => setShowNoShowDialog(true),
     onReactivate: handleReactivate,
     isLoading,
   }
@@ -541,6 +620,17 @@ export function AppointmentPopup(props: AppointmentPopupProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* No Show Confirmation Dialog */}
+      <NoShowConfirmDialog
+        open={showNoShowDialog}
+        onOpenChange={setShowNoShowDialog}
+        appointment={appointment}
+        onConfirm={() => {
+          onOpenChange(false)
+          onActionComplete?.()
+        }}
+      />
     </>
   )
 

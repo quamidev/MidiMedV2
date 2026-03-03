@@ -9,6 +9,8 @@
  * Updated: 2026-02-10 - MV2-028 Added medical record input/response types
  * Updated: 2026-02-10 - MV2-035 Added notification types
  * Updated: 2026-03-01 - PHASE-1-A Added reminder_24h_sent and reminder_2h_sent to Appointment
+ * Updated: 2026-03-02 - AO-002 Added no_show/rescheduled statuses, MarkNoShowInput, RescheduleAppointmentInput/Result, new NotificationTypes
+ * Updated: 2026-03-02 - AO-010 Added patient_email to AppointmentWithRelations
  */
 
 // =============================================================================
@@ -297,7 +299,7 @@ export interface Patient {
 /**
  * Appointment status types.
  */
-export type AppointmentStatus = 'scheduled' | 'completed' | 'cancelled'
+export type AppointmentStatus = 'scheduled' | 'completed' | 'cancelled' | 'no_show' | 'rescheduled'
 
 /**
  * Appointment record from the appointments table.
@@ -452,6 +454,7 @@ export interface AppointmentWithRelations extends Appointment {
   patient_name: string
   patient_first_name: string
   patient_last_name: string
+  patient_email: string | null
   provider_name: string
   provider_color: string
 }
@@ -504,6 +507,31 @@ export interface CompleteAppointmentInput {
 export interface CompleteAppointmentResult {
   appointment: Appointment
   medicalRecord: MedicalRecord
+}
+
+/**
+ * Input for marking an appointment as no-show.
+ */
+export interface MarkNoShowInput {
+  appointmentId: string
+  sendEmail: boolean
+}
+
+/**
+ * Input for rescheduling an appointment.
+ */
+export interface RescheduleAppointmentInput {
+  appointmentId: string
+  newStart: string  // ISO 8601
+  newEnd: string    // ISO 8601
+}
+
+/**
+ * Result from rescheduling an appointment.
+ */
+export interface RescheduleAppointmentResult {
+  originalAppointment: Appointment
+  newAppointment: Appointment
 }
 
 /**
@@ -666,6 +694,8 @@ export type NotificationType =
   | 'appointment_created'
   | 'appointment_cancelled'
   | 'appointment_reminder'
+  | 'appointment_no_show'
+  | 'appointment_rescheduled'
   | 'patient_created'
   | 'medical_record_created'
   | 'team_invite'

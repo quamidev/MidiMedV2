@@ -6,6 +6,7 @@
  *
  * Created: 2026-02-10 - QA Fix: Missing reports page
  * Updated: 2026-02-10 - QA-009 Unified page layout with consistent padding/max-width
+ * Updated: 2026-03-02 - AO-009 Added No-Show KPI card and no-show rate summary
  */
 
 'use client'
@@ -20,6 +21,7 @@ import {
   TrendingDown,
   FileBarChart,
   Loader2,
+  UserX,
 } from 'lucide-react'
 import { format, subDays, startOfMonth, endOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
@@ -117,6 +119,7 @@ export default function ReportsPage() {
     totalAppointments: 0,
     completedAppointments: 0,
     cancelledAppointments: 0,
+    noShowAppointments: 0,
     totalPatients: 0,
   })
 
@@ -143,11 +146,15 @@ export default function ReportsPage() {
       const cancelled = appointments.filter(
         (a) => a.status === 'cancelled'
       ).length
+      const noShow = appointments.filter(
+        (a) => a.status === 'no_show'
+      ).length
 
       setStats({
         totalAppointments: appointments.length,
         completedAppointments: completed,
         cancelledAppointments: cancelled,
+        noShowAppointments: noShow,
         totalPatients:
           patientsResult.success && patientsResult.data
             ? patientsResult.data.total || 0
@@ -186,7 +193,7 @@ export default function ReportsPage() {
 
       {/* KPI Cards */}
       <div id="reports-content" className="space-y-6">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <KpiCard
             label="Citas este mes"
             value={stats.totalAppointments}
@@ -212,6 +219,14 @@ export default function ReportsPage() {
             loading={isLoading}
           />
           <KpiCard
+            label="No-shows"
+            value={stats.noShowAppointments}
+            icon={UserX}
+            color="text-amber-500"
+            bgColor="bg-amber-500/10"
+            loading={isLoading}
+          />
+          <KpiCard
             label="Total pacientes"
             value={stats.totalPatients}
             icon={Users}
@@ -220,6 +235,23 @@ export default function ReportsPage() {
             loading={isLoading}
           />
         </div>
+
+        {/* No-show rate summary */}
+        {!isLoading && stats.totalAppointments > 0 && (
+          <div className="mt-4 rounded-lg border border-border/50 bg-card p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">
+                Tasa de no-show este mes
+              </span>
+              <span className="text-lg font-semibold text-amber-600">
+                {Math.round(
+                  (stats.noShowAppointments / stats.totalAppointments) * 100
+                )}
+                %
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Placeholder for charts */}
         <div className="grid gap-6 lg:grid-cols-2">

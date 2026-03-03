@@ -9,6 +9,10 @@
  * Created: 2026-02-10 - MV2-021 Appointment server actions
  * Updated: 2026-02-10 - Auto-complete onboarding steps on appointment creation and completion
  * Updated: 2026-03-01 - PHASE-1-A Include reminder_24h_sent and reminder_2h_sent in appointment mappings
+ * Updated: 2026-03-02 - AO-002 Added no_show/rescheduled to getAppointments Zod schema
+ * Updated: 2026-03-02 - AO-010 Added patient_email to appointment queries and mappings
+ * Updated: 2026-03-02 - AO-003 Added markNoShow server action with optional email notification
+ * Updated: 2026-03-02 - AO-004 Added rescheduleAppointment, updated reactivateAppointment and overlap checks
  */
 
 import { revalidatePath } from 'next/cache'
@@ -26,6 +30,9 @@ import type {
   CompleteAppointmentInput,
   CompleteAppointmentResult,
   GetAppointmentsParams,
+  MarkNoShowInput,
+  RescheduleAppointmentInput,
+  RescheduleAppointmentResult,
   MedicalRecord,
 } from '@/types/app'
 
@@ -42,7 +49,7 @@ const getAppointmentsSchema = z.object({
   providerId: z.string().uuid().optional(),
   patientIds: z.array(z.string().uuid()).optional(),
   providerIds: z.array(z.string().uuid()).optional(),
-  status: z.enum(['scheduled', 'completed', 'cancelled']).optional(),
+  status: z.enum(['scheduled', 'completed', 'cancelled', 'no_show', 'rescheduled']).optional(),
 })
 
 const createAppointmentSchema = z.object({
@@ -71,6 +78,17 @@ const completeAppointmentSchema = z.object({
   followUpInstructions: z.string().optional(),
   notes: z.string().optional(),
   extras: z.record(z.string(), z.unknown()).optional(),
+})
+
+const markNoShowSchema = z.object({
+  appointmentId: z.string().uuid('ID de cita inválido'),
+  sendEmail: z.boolean(),
+})
+
+const rescheduleAppointmentSchema = z.object({
+  appointmentId: z.string().uuid('ID de cita inválido'),
+  newStart: z.string().min(1, 'Fecha de inicio requerida'),
+  newEnd: z.string().min(1, 'Fecha de fin requerida'),
 })
 
 // =============================================================================
@@ -186,7 +204,7 @@ export async function getAppointments(
       .from('appointments')
       .select(`
         *,
-        patients!inner(first_name, last_name),
+        patients!inner(first_name, last_name, email),
         users!appointments_provider_id_fkey(display_name, color)
       `)
       .eq('tenant_id', tenantId)
@@ -226,7 +244,7 @@ export async function getAppointments(
 
     // Transform results to include relation names
     const appointmentsWithRelations: AppointmentWithRelations[] = (appointments || []).map((apt) => {
-      const patient = apt.patients as { first_name: string; last_name: string } | null
+      const patient = apt.patients as { first_name: string; last_name: string; email: string | null } | null
       const provider = apt.users as { display_name: string; color: string } | null
 
       return {
@@ -247,6 +265,7 @@ export async function getAppointments(
         patient_name: patient ? `${patient.first_name} ${patient.last_name}`.trim() : 'Paciente desconocido',
         patient_first_name: patient?.first_name || '',
         patient_last_name: patient?.last_name || '',
+        patient_email: patient?.email || null,
         provider_name: provider?.display_name || 'Proveedor desconocido',
         provider_color: provider?.color || '#3abdd4',
       }
@@ -289,7 +308,7 @@ export async function getAppointmentById(
       .from('appointments')
       .select(`
         *,
-        patients!inner(first_name, last_name),
+        patients!inner(first_name, last_name, email),
         users!appointments_provider_id_fkey(display_name, color)
       `)
       .eq('id', appointmentId)
@@ -301,7 +320,7 @@ export async function getAppointmentById(
       return { success: false, error: 'Cita no encontrada' }
     }
 
-    const patient = apt.patients as { first_name: string; last_name: string } | null
+    const patient = apt.patients as { first_name: string; last_name: string; email: string | null } | null
     const provider = apt.users as { display_name: string; color: string } | null
 
     const appointmentWithRelations: AppointmentWithRelations = {
@@ -322,6 +341,7 @@ export async function getAppointmentById(
       patient_name: patient ? `${patient.first_name} ${patient.last_name}`.trim() : 'Paciente desconocido',
       patient_first_name: patient?.first_name || '',
       patient_last_name: patient?.last_name || '',
+      patient_email: patient?.email || null,
       provider_name: provider?.display_name || 'Proveedor desconocido',
       provider_color: provider?.color || '#3abdd4',
     }
@@ -400,7 +420,7 @@ export async function createAppointment(
       .select('id')
       .eq('tenant_id', tenantId)
       .eq('provider_id', validated.providerId)
-      .neq('status', 'cancelled')
+      .not('status', 'in', '("cancelled","no_show","rescheduled")')
       .or(`and(scheduled_start.lt.${validated.scheduledEnd},scheduled_end.gt.${validated.scheduledStart})`)
 
     if (overlapError) {
@@ -565,7 +585,7 @@ export async function updateAppointment(
         .eq('tenant_id', tenantId)
         .eq('provider_id', checkProvider)
         .neq('id', appointmentId)
-        .neq('status', 'cancelled')
+        .not('status', 'in', '("cancelled","no_show","rescheduled")')
         .or(`and(scheduled_start.lt.${checkEnd},scheduled_end.gt.${checkStart})`)
 
       if (overlapError) {
@@ -746,8 +766,153 @@ export async function cancelAppointment(
 }
 
 /**
- * Reactivates a cancelled appointment.
- * Changes status from 'cancelled' back to 'scheduled'.
+ * Marks an appointment as no-show.
+ * Changes status from 'scheduled' to 'no_show'.
+ * Optionally sends a notification email to the patient via Resend API.
+ * Creates notification for all tenant users.
+ *
+ * @param input - Contains appointmentId and sendEmail flag
+ * @returns ActionResult with updated appointment
+ */
+export async function markNoShow(
+  input: MarkNoShowInput
+): Promise<ActionResult<Appointment>> {
+  try {
+    const validated = markNoShowSchema.parse(input)
+    const { supabase, tenantId } = await getCurrentUserContext()
+
+    // Verify appointment exists and belongs to tenant
+    const { data: existingAppointment, error: fetchError } = await supabase
+      .from('appointments')
+      .select('*, patients(first_name, last_name, email)')
+      .eq('id', validated.appointmentId)
+      .eq('tenant_id', tenantId)
+      .single()
+
+    if (fetchError || !existingAppointment) {
+      return { success: false, error: 'Cita no encontrada' }
+    }
+
+    // Only allow marking scheduled appointments as no-show
+    if (existingAppointment.status !== 'scheduled') {
+      return { success: false, error: 'Solo se pueden marcar como no show citas programadas' }
+    }
+
+    const now = new Date().toISOString()
+
+    const { data: appointment, error } = await supabase
+      .from('appointments')
+      .update({
+        status: 'no_show',
+        updated_at: now,
+      })
+      .eq('id', validated.appointmentId)
+      .eq('tenant_id', tenantId)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('markNoShow error:', error)
+      return { success: false, error: 'Error al marcar la cita como no show' }
+    }
+
+    // Send email notification if requested and patient has email
+    const patient = existingAppointment.patients as { first_name: string; last_name: string; email: string | null } | null
+    if (validated.sendEmail && patient?.email) {
+      try {
+        const resendApiKey = process.env.RESEND_API_KEY
+        if (resendApiKey) {
+          // Get tenant name for email
+          const { data: tenant } = await supabase
+            .from('tenants')
+            .select('name')
+            .eq('tenant_id', tenantId)
+            .single()
+
+          const { buildNoShowEmailHtml, buildNoShowEmailText } = await import('@/lib/email/no-show-email')
+
+          const emailParams = {
+            patientName: `${patient.first_name} ${patient.last_name}`.trim(),
+            appointmentDate: new Date(existingAppointment.scheduled_start).toLocaleDateString('es-GT', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            }),
+            appointmentTime: new Date(existingAppointment.scheduled_start).toLocaleTimeString('es-GT', {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+            clinicName: tenant?.name || 'Tu clínica',
+          }
+
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${resendApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: 'MidiMed <noreply@midimed.com>',
+              to: patient.email,
+              subject: 'Cita No Atendida - ' + (tenant?.name || 'Tu clínica'),
+              html: buildNoShowEmailHtml(emailParams),
+              text: buildNoShowEmailText(emailParams),
+            }),
+          })
+        }
+      } catch (emailError) {
+        // Email failure should not block the status change
+        console.error('Failed to send no-show email:', emailError)
+      }
+    }
+
+    // Create no-show notification
+    const patientName = patient ? `${patient.first_name} ${patient.last_name}`.trim() : 'Paciente'
+    const appointmentDate = new Date(existingAppointment.scheduled_start).toLocaleDateString('es-GT', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+
+    await createTenantNotifications(
+      supabase,
+      tenantId,
+      'Cita marcada como no show',
+      `${patientName} no asistió a la cita del ${appointmentDate}`,
+      'appointment_no_show',
+      {
+        appointment_id: validated.appointmentId,
+        patient_id: existingAppointment.patient_id,
+      }
+    )
+
+    revalidatePath('/dashboard')
+    revalidatePath(`/patients/${existingAppointment.patient_id}`)
+
+    return {
+      success: true,
+      data: appointment as Appointment,
+    }
+  } catch (error) {
+    console.error('markNoShow error:', error)
+    if (error instanceof z.ZodError) {
+      const zodError = error as z.ZodError
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
+    }
+    if (error instanceof Error && error.message === 'No autenticado') {
+      return { success: false, error: 'No autenticado' }
+    }
+    return { success: false, error: 'Error inesperado' }
+  }
+}
+
+/**
+ * Reactivates a cancelled or no-show appointment.
+ * Changes status back to 'scheduled'.
  *
  * @param appointmentId - The appointment's UUID
  * @returns ActionResult with reactivated appointment
@@ -774,9 +939,9 @@ export async function reactivateAppointment(
       return { success: false, error: 'Cita no encontrada' }
     }
 
-    // Only allow reactivating cancelled appointments
-    if (existingAppointment.status !== 'cancelled') {
-      return { success: false, error: 'Solo se pueden reactivar citas canceladas' }
+    // Only allow reactivating cancelled or no-show appointments
+    if (existingAppointment.status !== 'cancelled' && existingAppointment.status !== 'no_show') {
+      return { success: false, error: 'Solo se pueden reactivar citas canceladas o marcadas como no show' }
     }
 
     // Check if the time slot is still available
@@ -786,7 +951,7 @@ export async function reactivateAppointment(
       .eq('tenant_id', tenantId)
       .eq('provider_id', existingAppointment.provider_id)
       .neq('id', appointmentId)
-      .neq('status', 'cancelled')
+      .not('status', 'in', '("cancelled","no_show","rescheduled")')
       .or(`and(scheduled_start.lt.${existingAppointment.scheduled_end},scheduled_end.gt.${existingAppointment.scheduled_start})`)
 
     if (overlapError) {
@@ -1002,6 +1167,167 @@ export async function completeAppointment(
     }
   } catch (error) {
     console.error('completeAppointment error:', error)
+    if (error instanceof z.ZodError) {
+      const zodError = error as z.ZodError
+      return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }
+    }
+    if (error instanceof Error && error.message === 'No autenticado') {
+      return { success: false, error: 'No autenticado' }
+    }
+    return { success: false, error: 'Error inesperado' }
+  }
+}
+
+// =============================================================================
+// Reschedule Action
+// =============================================================================
+
+/**
+ * Reschedules an appointment by marking the original as 'rescheduled' and
+ * creating a new appointment with the same patient, provider, and reason
+ * but at the new requested time.
+ *
+ * @param input - Contains appointmentId, newStart, and newEnd
+ * @returns ActionResult with both original (rescheduled) and new (scheduled) appointments
+ */
+export async function rescheduleAppointment(
+  input: RescheduleAppointmentInput
+): Promise<ActionResult<RescheduleAppointmentResult>> {
+  try {
+    const validated = rescheduleAppointmentSchema.parse(input)
+    const { supabase, tenantId, userId } = await getCurrentUserContext()
+
+    // Verify original appointment exists and belongs to tenant
+    const { data: existingAppointment, error: fetchError } = await supabase
+      .from('appointments')
+      .select('*, patients(first_name, last_name)')
+      .eq('id', validated.appointmentId)
+      .eq('tenant_id', tenantId)
+      .single()
+
+    if (fetchError || !existingAppointment) {
+      return { success: false, error: 'Cita no encontrada' }
+    }
+
+    // Only allow rescheduling scheduled appointments
+    if (existingAppointment.status !== 'scheduled') {
+      return { success: false, error: 'Solo se pueden reprogramar citas programadas' }
+    }
+
+    // Validate new times
+    const newStartTime = new Date(validated.newStart)
+    const newEndTime = new Date(validated.newEnd)
+
+    if (newEndTime <= newStartTime) {
+      return { success: false, error: 'La hora de fin debe ser posterior a la hora de inicio' }
+    }
+
+    // Check for overlaps at the new time (excluding cancelled, no_show, rescheduled)
+    const { data: overlapping, error: overlapError } = await supabase
+      .from('appointments')
+      .select('id')
+      .eq('tenant_id', tenantId)
+      .eq('provider_id', existingAppointment.provider_id)
+      .neq('id', validated.appointmentId)
+      .not('status', 'in', '("cancelled","no_show","rescheduled")')
+      .or(`and(scheduled_start.lt.${validated.newEnd},scheduled_end.gt.${validated.newStart})`)
+
+    if (overlapError) {
+      console.error('Reschedule overlap check error:', overlapError)
+      return { success: false, error: 'Error al verificar disponibilidad' }
+    }
+
+    if (overlapping && overlapping.length > 0) {
+      return { success: false, error: 'El proveedor ya tiene una cita en este horario' }
+    }
+
+    const now = new Date().toISOString()
+
+    // Step 1: Mark original appointment as rescheduled
+    const { data: originalAppointment, error: updateError } = await supabase
+      .from('appointments')
+      .update({
+        status: 'rescheduled',
+        updated_at: now,
+      })
+      .eq('id', validated.appointmentId)
+      .eq('tenant_id', tenantId)
+      .select()
+      .single()
+
+    if (updateError || !originalAppointment) {
+      console.error('rescheduleAppointment update error:', updateError)
+      return { success: false, error: 'Error al reprogramar la cita' }
+    }
+
+    // Step 2: Create new appointment with same details but new times
+    const newAppointmentData = {
+      tenant_id: tenantId,
+      patient_id: existingAppointment.patient_id,
+      provider_id: existingAppointment.provider_id,
+      scheduled_start: validated.newStart,
+      scheduled_end: validated.newEnd,
+      status: 'scheduled' as const,
+      reason: existingAppointment.reason || null,
+      medical_record_id: null,
+      created_by: userId,
+      created_at: now,
+      updated_at: now,
+    }
+
+    const { data: newAppointment, error: insertError } = await supabase
+      .from('appointments')
+      .insert(newAppointmentData)
+      .select()
+      .single()
+
+    if (insertError || !newAppointment) {
+      console.error('rescheduleAppointment insert error:', insertError)
+      // Rollback: revert original appointment status back to scheduled
+      await supabase
+        .from('appointments')
+        .update({ status: 'scheduled', updated_at: now })
+        .eq('id', validated.appointmentId)
+        .eq('tenant_id', tenantId)
+      return { success: false, error: 'Error al crear la nueva cita reprogramada' }
+    }
+
+    // Create reschedule notification
+    const patient = existingAppointment.patients as { first_name: string; last_name: string } | null
+    const patientName = patient ? `${patient.first_name} ${patient.last_name}`.trim() : 'Paciente'
+    const newDate = new Date(validated.newStart).toLocaleDateString('es-GT', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+
+    await createTenantNotifications(
+      supabase,
+      tenantId,
+      'Cita reprogramada',
+      `La cita con ${patientName} fue reprogramada para ${newDate}`,
+      'appointment_rescheduled',
+      {
+        appointment_id: newAppointment.id,
+        patient_id: existingAppointment.patient_id,
+      }
+    )
+
+    revalidatePath('/dashboard')
+    revalidatePath(`/patients/${existingAppointment.patient_id}`)
+
+    return {
+      success: true,
+      data: {
+        originalAppointment: originalAppointment as Appointment,
+        newAppointment: newAppointment as Appointment,
+      },
+    }
+  } catch (error) {
+    console.error('rescheduleAppointment error:', error)
     if (error instanceof z.ZodError) {
       const zodError = error as z.ZodError
       return { success: false, error: zodError.issues[0]?.message ?? 'Datos inválidos' }

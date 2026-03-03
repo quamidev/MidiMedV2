@@ -11,18 +11,21 @@
  * Updated: 2026-02-10 - QA-009 Unified page layout with consistent padding/max-width
  * Updated: 2026-02-10 - Fix desktop greeting to skip title prefixes (Dr., Dra., etc.)
  * Updated: 2026-02-10 - Wired calendar slot click to CreateAppointmentModal, event click uses built-in popup
+ * Updated: 2026-03-02 - AO-008 Added No-shows hoy stat card
  */
 
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { Calendar, Users, Activity } from 'lucide-react'
+import { Calendar, Users, Activity, UserX } from 'lucide-react'
 import { format, startOfWeek, endOfWeek } from 'date-fns'
 import type { SlotInfo } from 'react-big-calendar'
 
+import { useRouter } from 'next/navigation'
 import { useUser } from '@/contexts/user-context'
 import { cn } from '@/lib/utils'
 import { getFirstName } from '@/lib/name-utils'
+import type { AppointmentWithRelations } from '@/types/app'
 import { getAppointments } from '@/actions/appointments'
 import { getPatients } from '@/actions/patients'
 import {
@@ -80,6 +83,7 @@ function QuickStats({ isLoading = false }: { isLoading?: boolean }) {
   const [todayCount, setTodayCount] = useState<number | null>(null)
   const [weekCount, setWeekCount] = useState<number | null>(null)
   const [patientCount, setPatientCount] = useState<number | null>(null)
+  const [noShowCount, setNoShowCount] = useState<number | null>(null)
 
   useEffect(() => {
     if (isLoading) return
@@ -89,7 +93,10 @@ function QuickStats({ isLoading = false }: { isLoading?: boolean }) {
     const weekEnd = format(endOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd')
 
     getAppointments({ startDate: today, endDate: today }).then((res) => {
-      if (res.success) setTodayCount(res.data.length)
+      if (res.success) {
+        setTodayCount(res.data.length)
+        setNoShowCount(res.data.filter((a) => a.status === 'no_show').length)
+      }
     })
 
     getAppointments({ startDate: weekStart, endDate: weekEnd }).then((res) => {
@@ -110,6 +117,13 @@ function QuickStats({ isLoading = false }: { isLoading?: boolean }) {
       bgColor: 'bg-primary/10',
     },
     {
+      label: 'No-shows hoy',
+      value: noShowCount !== null ? String(noShowCount) : '--',
+      icon: UserX,
+      color: 'text-amber-500',
+      bgColor: 'bg-amber-500/10',
+    },
+    {
       label: 'Pacientes activos',
       value: patientCount !== null ? String(patientCount) : '--',
       icon: Users,
@@ -120,15 +134,15 @@ function QuickStats({ isLoading = false }: { isLoading?: boolean }) {
       label: 'Esta semana',
       value: weekCount !== null ? String(weekCount) : '--',
       icon: Activity,
-      color: 'text-amber-500',
-      bgColor: 'bg-amber-500/10',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/10',
     },
   ]
 
   if (isLoading) {
     return (
-      <div className="grid gap-4 sm:grid-cols-3">
-        {Array.from({ length: 3 }).map((_, i) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
             className="animate-pulse rounded-xl border border-border/50 bg-card p-4"
@@ -147,7 +161,7 @@ function QuickStats({ isLoading = false }: { isLoading?: boolean }) {
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => {
         const Icon = stat.icon
         return (
@@ -214,6 +228,12 @@ export default function DashboardPage() {
     setCalendarRefreshKey((prev) => prev + 1)
   }, [])
 
+  const router = useRouter()
+  const handleCompleteAppointment = useCallback((appointment: AppointmentWithRelations) => {
+    // Navigate to patient profile where the medical record form can be opened
+    router.push(`/patients/${appointment.patient_id}?completeAppointment=${appointment.id}`)
+  }, [router])
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       {/* Mobile View */}
@@ -236,6 +256,7 @@ export default function DashboardPage() {
               <AppointmentCalendar
                 key={`mobile-cal-${calendarRefreshKey}`}
                 onSlotSelect={handleSlotSelect}
+                onCompleteAppointment={handleCompleteAppointment}
                 initialView="day"
               />
             </div>
@@ -280,6 +301,7 @@ export default function DashboardPage() {
           <AppointmentCalendar
             key={`desktop-cal-${calendarRefreshKey}`}
             onSlotSelect={handleSlotSelect}
+            onCompleteAppointment={handleCompleteAppointment}
             initialView="month"
           />
         )}
