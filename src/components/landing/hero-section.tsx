@@ -156,10 +156,10 @@ export function HeroSection() {
             variants={itemVariants}
             className="max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
           >
-            Gestiona tu consultorio médico{' '}
+            Tu clínica organizada,{' '}
             <span className="relative">
               <span className="relative z-10 bg-gradient-to-r from-primary via-primary to-primary/70 bg-clip-text text-transparent">
-                de forma inteligente
+                potenciada con IA
               </span>
               <motion.svg
                 className="absolute -bottom-2 left-0 w-full"
