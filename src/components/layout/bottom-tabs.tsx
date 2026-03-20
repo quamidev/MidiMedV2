@@ -8,6 +8,7 @@
  * - Dark mode support
  *
  * Created: 2026-02-10 - MV2-013 Protected Layout Shell
+ * Updated: 2026-03-13 - CHAT-004 Added Asistente IA navigation tab
  */
 
 'use client'
@@ -19,6 +20,7 @@ import {
   LayoutDashboard,
   Users,
   FileBarChart,
+  Bot,
   Settings,
 } from 'lucide-react'
 
@@ -34,6 +36,7 @@ const navItems: NavItem[] = [
   { href: '/dashboard', label: 'Inicio', icon: LayoutDashboard },
   { href: '/patients', label: 'Pacientes', icon: Users },
   { href: '/reports', label: 'Reportes', icon: FileBarChart },
+  { href: '/chat', label: 'Asistente', icon: Bot },
   { href: '/settings', label: 'Ajustes', icon: Settings },
 ]
 

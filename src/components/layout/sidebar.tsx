@@ -13,6 +13,7 @@
  * Updated: 2026-02-10 - QA-008 Replaced hardcoded notification count with NotificationBell component
  * Updated: 2026-02-10 - QA-010 Fixed missing Spanish accents/tildes
  * Updated: 2026-02-10 - QA-011 Fixed logout not redirecting to login page
+ * Updated: 2026-03-13 - CHAT-004 Added Asistente IA navigation tab
  */
 
 'use client'
@@ -25,6 +26,7 @@ import {
   LayoutDashboard,
   Users,
   FileBarChart,
+  Bot,
   Settings,
   ChevronLeft,
   LogOut,
@@ -58,6 +60,7 @@ const navItems: NavItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/patients', label: 'Pacientes', icon: Users },
   { href: '/reports', label: 'Reportes', icon: FileBarChart },
+  { href: '/chat', label: 'Asistente IA', icon: Bot },
   { href: '/settings', label: 'Configuración', icon: Settings },
 ]
 

@@ -8,6 +8,7 @@
  * Updated: 2026-02-10 - MV2-021 Added appointment input/response types
  * Updated: 2026-02-10 - MV2-028 Added medical record input/response types
  * Updated: 2026-02-10 - MV2-035 Added notification types
+ * Updated: 2026-03-13 - CHAT-001 Added chat conversation and message types
  */
 
 // =============================================================================
@@ -739,4 +740,38 @@ export interface GetNotificationsResult {
   notifications: Notification[]
   total: number
   unreadCount: number
+}
+
+// =============================================================================
+// Chat Types
+// =============================================================================
+
+/**
+ * Chat conversation record from the chat_conversations table.
+ * Represents a conversation session between a user and the AI assistant.
+ */
+export interface ChatConversation {
+  id: string
+  tenant_id: string
+  user_id: string
+  title: string
+  created_at: string
+  updated_at: string
+}
+
+/**
+ * Chat message role types.
+ */
+export type ChatMessageRole = 'user' | 'assistant'
+
+/**
+ * Chat message record from the chat_messages table.
+ * Represents a single message within a conversation.
+ */
+export interface ChatMessage {
+  id: string
+  conversation_id: string
+  role: ChatMessageRole
+  content: string
+  created_at: string
 }
